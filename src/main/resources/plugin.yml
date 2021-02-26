@@ -1,0 +1,10 @@
+name: Dantiao
+main: com.valorin.Main
+version: EX-10
+author: Valorin
+api-version: 1.13
+softdepend: [HolographicDisplays, PlaceholderAPI, TrHologram]
+commands:
+  dt:
+    description: 查看单挑插件帮助
+    usage: /<command>
