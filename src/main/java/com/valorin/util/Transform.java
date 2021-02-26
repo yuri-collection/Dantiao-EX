@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class Transform {
     public static InputStream yamlToStream(YamlConfiguration yml)
-            throws IOException, SerialException, SQLException {
+            throws IOException, SQLException {
         ByteArrayInputStream stream = new ByteArrayInputStream(yml
                 .saveToString().getBytes(StandardCharsets.UTF_8));
         return stream;
@@ -25,7 +25,7 @@ public class Transform {
         final String str = new String(bytes, StandardCharsets.UTF_8);
         final YamlConfiguration yml = new YamlConfiguration();
         try {
-            yml.load((Reader) new StringReader(str));
+            yml.load(new StringReader(str));
             stream.close();
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
@@ -42,16 +42,16 @@ public class Transform {
         String string = byteArrayOutputStream.toString("ISO-8859-1");
         objectOutputStream.close();
         byteArrayOutputStream.close();
-        Blob blob = new SerialBlob(string.getBytes("UTF-8"));
+        Blob blob = new SerialBlob(string.getBytes(StandardCharsets.UTF_8));
         return blob;
     }
 
     public static Object serializeToObject(Blob blob) throws IOException,
             ClassNotFoundException, SQLException {
         String string = new String(blob.getBytes(1, (int) blob.length()),
-                "UTF-8");
+                StandardCharsets.UTF_8);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-                string.getBytes("ISO-8859-1"));
+                string.getBytes(StandardCharsets.ISO_8859_1));
         ObjectInputStream objectInputStream = new ObjectInputStream(
                 byteArrayInputStream);
         Object object = objectInputStream.readObject();

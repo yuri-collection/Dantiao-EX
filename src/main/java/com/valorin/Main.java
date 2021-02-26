@@ -216,7 +216,7 @@ public class Main extends JavaPlugin {
 					.getName().split("\\.")[3];
 			try {
 				int serverVersionInt = Integer.parseInt(serverVersion
-						.split("\\_")[1]);
+						.split("_")[1]);
 				if (serverVersionInt <= 7) {
 					serverVersionType = 0;
 				}
