@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Consumer;
 
 /**
  * @author hs
@@ -33,8 +34,8 @@ public class Sign {
      */
     private final static String SECRET_KEY = "1330149306879053824";
 
-    public static void theOriginalCheck(Action action) {
-        String keyContext = null;
+    public static void theOriginalCheck(Consumer<Void> action) {
+        String keyContext;
         if (!Main.getInstance().getDataFolder().exists()) {
             Bukkit.getConsoleSender().sendMessage(
                     "§e[Dantiao-EX] §7正在尝试从jar中获取激活码...");
@@ -91,8 +92,7 @@ public class Sign {
                         if ("true".equals(verifySign)) {
                             Bukkit.getConsoleSender().sendMessage(
                                     "§e[Dantiao-EX] §aCDK验证成功");
-                            Main.signAccess = true;
-                            action.run();
+                            action.accept(null);
                         } else {
                             Bukkit.getConsoleSender()
                                     .sendMessage(
@@ -115,13 +115,4 @@ public class Sign {
                     .disablePlugin(Main.getInstance());
         }
     }
-
-    /**
-     * 正版签名验证
-     */
-
-    public static interface Action {
-        public void run();
-    }
-
 }
