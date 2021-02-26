@@ -21,7 +21,7 @@ public class TimeChecker {
 		boolean inTheTime = false;
 		if (type.size() != 0) {
 			Timetable timetable = new Timetable();
-			List<String> list = new ArrayList<String>();
+			List<String> list;
 			if (isSearching) {
 				list = timetable.getSearching();
 			} else {
@@ -29,28 +29,27 @@ public class TimeChecker {
 			}
 			for (String s : list) { // 格式 13:00-15:00
 				try {
-					String[] s1 = s.split("\\-");
+					String[] s1 = s.split("-");
 					String start = s1[0];
 					String end = s1[1];
-					int startMinutes = Integer.parseInt(start.split("\\:")[0])
-							* 60 + Integer.parseInt(start.split("\\:")[1]);
-					int endMinutes = Integer.parseInt(end.split("\\:")[0]) * 60
-							+ Integer.parseInt(end.split("\\:")[1]);
+					int startMinutes = Integer.parseInt(start.split(":")[0])
+							* 60 + Integer.parseInt(start.split(":")[1]);
+					int endMinutes = Integer.parseInt(end.split(":")[0]) * 60
+							+ Integer.parseInt(end.split(":")[1]);
 
 					if (startMinutes < endMinutes) {
 						Calendar calendar = Calendar.getInstance();
 						SimpleDateFormat formatter = new SimpleDateFormat(
 								"HH:mm");
 						String ss = formatter.format(calendar.getTime());
-						int myMinutes = Integer.parseInt(ss.split("\\:")[0])
-								* 60 + Integer.parseInt(ss.split("\\:")[1]);
+						int myMinutes = Integer.parseInt(ss.split(":")[0])
+								* 60 + Integer.parseInt(ss.split(":")[1]);
 						if (myMinutes >= startMinutes
 								&& myMinutes <= endMinutes) {
 							inTheTime = true;
 						}
 					}
-				} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-				} catch (java.lang.NumberFormatException e) {
+				} catch (Exception ignored) {
 				}
 			}
 		} else {

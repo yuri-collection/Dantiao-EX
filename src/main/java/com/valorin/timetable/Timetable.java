@@ -25,32 +25,31 @@ public class Timetable {
 	}
 
 	public Timetable() {
-		List<List<String>> rawTimetables = new ArrayList<List<String>>();
+		List<List<String>> rawTimetables = new ArrayList<>();
 		ConfigManager configManager = Main.getInstance().getConfigManager();
 		rawTimetables.add(configManager.getSearchingTimeTable());
 		rawTimetables.add(configManager.getInviteTimeTable());
 		int index = 0;
 		for (List<String> rawTimetable : rawTimetables) {
-			List<String> timetable = new ArrayList<String>();
+			List<String> timetable = new ArrayList<>();
 			boolean hasTimetable = false;
 			if (rawTimetable.size() == 0) {
 				continue;
 			}
 			for (String s : rawTimetable) { // 格式 13:00-15:00
 				try {
-					String[] s1 = s.split("\\-");
+					String[] s1 = s.split("-");
 					String start = s1[0];
 					String end = s1[1];
-					int startMinutes = Integer.parseInt(start.split("\\:")[0])
-							* 60 + Integer.parseInt(start.split("\\:")[1]);
-					int endMinutes = Integer.parseInt(end.split("\\:")[0]) * 60
-							+ Integer.parseInt(end.split("\\:")[1]);
+					int startMinutes = Integer.parseInt(start.split(":")[0])
+							* 60 + Integer.parseInt(start.split(":")[1]);
+					int endMinutes = Integer.parseInt(end.split(":")[0]) * 60
+							+ Integer.parseInt(end.split(":")[1]);
 					if (startMinutes < endMinutes) {
 						timetable.add(s);
 						hasTimetable = true;
 					}
-				} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-				} catch (java.lang.NumberFormatException e) {
+				} catch (Exception ignored) {
 				}
 			}
 			if (!hasTimetable) {

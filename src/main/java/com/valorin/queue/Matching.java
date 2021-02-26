@@ -35,7 +35,7 @@ public class Matching {
                     .replace("&o", "").replace("&m", "").replace("&n", "")
                     .replace("&k", "").replace("&l", "");
         } else {
-            this.arenaDisplayName = arenaDisplayName;
+            this.arenaDisplayName = null;
         }
         enable = false;
     }
@@ -85,9 +85,7 @@ public class Matching {
         if (isActive) {
             sm("&7已中断匹配...", Bukkit.getPlayerExact(waiter));
         }
-        if (INVStart.arenaSelects.containsKey(waiter)) {
-            INVStart.arenaSelects.remove(waiter);
-        }
+        INVStart.arenaSelects.remove(waiter);
         Main.getInstance().getMatchingHandler().removeBusyPlayer(waiter);
 
         this.waiter = null;

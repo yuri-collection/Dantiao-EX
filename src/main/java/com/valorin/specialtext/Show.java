@@ -26,13 +26,13 @@ public class Show {
 		}
 	    List<String> lore = recordItem.getItemMeta().getLore();
 	    lore.remove(lore.size() - 1);lore.remove(lore.size() - 1);lore.remove(lore.size() - 1);
-	    String n = gm("&2{player}：",player,"player",new String[]{player.getName()})+
-	    		recordItem.getItemMeta().getDisplayName();
+	    StringBuilder n = new StringBuilder(gm("&2{player}：", player, "player", new String[]{player.getName()}) +
+				recordItem.getItemMeta().getDisplayName());
 	    for (String s : lore) {
-	      n = n+"\n"+s;
+	      n.append("\n").append(s);
 	    }
 	    n.substring(2);
-	    txt.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(n).create()));
+	    txt.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(n.toString()).create()));
 	    Bukkit.spigot().broadcast(txt);
 	}
 }

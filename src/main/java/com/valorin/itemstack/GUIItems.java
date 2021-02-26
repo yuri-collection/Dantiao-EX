@@ -40,8 +40,7 @@ public class GUIItems {
 	public static ItemStack getStart(String pn) {
 		Player p = Bukkit.getPlayerExact(pn);
 		String displayname = gm("&f<[ 全服匹配 &f]>", p);
-		List<String> lore = new ArrayList<String>();
-		lore.addAll(gml(" |&e在线寻找对手|&f&l>> &a点击开始", p));
+		List<String> lore = new ArrayList<>(gml(" |&e在线寻找对手|&f&l>> &a点击开始", p));
 		lore.add("");
 		lore.add(gm("&b请选择一个竞技场(右键切换):", p));
 		List<ArenaInfo> arenaInfoList = Main.getInstance().getCacheHandler().getArenaInfo().getArenaInfoList();
@@ -59,16 +58,15 @@ public class GUIItems {
 				lore, 0, false).get();
 	}
 
-	public static ItemStack updataStart(String playerName,int second,String arenaEditName,String areneDisplayName) {
+	public static ItemStack updataStart(String playerName,int second,String arenaEditName,String arenaDisplayName) {
 		Player player = Bukkit.getPlayerExact(playerName);
 		String displayname = gm("&f<[ &7全服匹配 &f]>", player);
-		List<String> lore = new ArrayList<String>();
-		lore.addAll(gml(" |&7在线寻找对手|&f&l>> &6搜寻中..{second}s", player, "second",
-				new String[] { second + "" }));
+		List<String> lore = new ArrayList<>(gml(" |&7在线寻找对手|&f&l>> &6搜寻中..{second}s", player, "second",
+				new String[]{second + ""}));
 		if (arenaEditName == null) {
 			lore.add(gm("&7[&3*&7] &f随机竞技场", player));
 		} else {
-			lore.add(gm("&7[&3*&7] &7指定竞技场 &f[{arena}]", player, "arena", new String[]{areneDisplayName}));
+			lore.add(gm("&7[&3*&7] &7指定竞技场 &f[{arena}]", player, "arena", new String[]{arenaDisplayName}));
 		}
 		lore.add("");
 		lore.add(gm("&7再次点击此处可&c取消&7匹配", player));

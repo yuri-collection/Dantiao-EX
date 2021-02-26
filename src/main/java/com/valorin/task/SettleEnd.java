@@ -277,7 +277,7 @@ public class SettleEnd {
                 winnerExp = arena.getExp(b1);
             }
             winnerExp = winnerExp + winExpAwarded;
-            loserExp = (int) winnerExp / 3;
+            loserExp = winnerExp / 3;
 
             DanHandler dh = getInstance().getDanHandler();
 
@@ -309,12 +309,12 @@ public class SettleEnd {
                 loserExpShow = loserExp;
                 if (loserExpNow - loserExp > dh.getThreshold()) {
                     changeExp(l, loserExpNow - loserExp); // 正常扣除经验
-                    loserExpChange = 0 - loserExp;
+                    loserExpChange = -loserExp;
                 } else {
                     if (loserExpNow > dh.getThreshold()) {
                         loserExpShow = loserExpNow - dh.getThreshold();
                         changeExp(l, dh.getThreshold()); // 设置为保底经验
-                        loserExpChange = 0 - (loserExpNow - dh.getThreshold());
+                        loserExpChange = -(loserExpNow - dh.getThreshold());
                     } else {
                         loserExpShow = 0; // 不扣经验
                     }
@@ -404,10 +404,8 @@ public class SettleEnd {
             loserExpChange = winnerExpChange;
             sml("&7============================================================| |                    &b比赛结束！|          &7比赛超时！未决出胜负，判定为平局！|          &7同时获得了 &a{exp} &7经验| |&7============================================================",
                     w, "exp", new String[]{"" + drawExpAwarded});
-            if (l != null) {
-                sml("&7============================================================| |                    &b比赛结束！|          &7比赛超时！未决出胜负，判定为平局！|          &7同时获得了 &a{exp} &7经验| |&7============================================================",
-                        l, "exp", new String[]{"" + drawExpAwarded});
-            }
+            sml("&7============================================================| |                    &b比赛结束！|          &7比赛超时！未决出胜负，判定为平局！|          &7同时获得了 &a{exp} &7经验| |&7============================================================",
+                    l, "exp", new String[]{"" + drawExpAwarded});
             if (displayName == null) {
                 displayName = editName;
             } else {
