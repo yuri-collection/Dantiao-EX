@@ -1,4 +1,4 @@
-﻿package com.valorin.util;
+package com.valorin.util;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

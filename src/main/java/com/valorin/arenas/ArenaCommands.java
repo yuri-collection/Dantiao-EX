@@ -1,4 +1,4 @@
-﻿package com.valorin.arenas;
+package com.valorin.arenas;
 
 import com.valorin.Main;
 import com.valorin.caches.ArenaInfoCache;

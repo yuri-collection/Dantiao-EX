@@ -1,4 +1,4 @@
-﻿package com.valorin.stats.metrics;
+package com.valorin.stats.metrics;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

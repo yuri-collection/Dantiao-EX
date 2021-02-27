@@ -1,4 +1,4 @@
-﻿package com.valorin.arenas;
+package com.valorin.arenas;
 
 import com.valorin.api.event.ArenaEventAbs;
 import com.valorin.api.event.arena.ArenaDrawFinishEvent;
@@ -196,7 +196,34 @@ public class FinishGame {
         }
 
         Player p1 = Bukkit.getPlayerExact(arena.getp1());
+        String p1n = p1.getName();
         Player p2 = Bukkit.getPlayerExact(arena.getp2());
+        String p2n = p2.getName();
+
+        ArenaInfo arenaInfo = getInstance().getCacheHandler().getArenaInfo().get(name);
+        if (arenaInfo.isKitMode()) {
+            p1.getInventory().clear();
+            p2.getInventory().clear();
+
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(p1n)).size(); i++) {
+                p1.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(p1n)).get(i));
+            }
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(p2n)).size(); i++) {
+                p2.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(p2n)).get(i));
+            }
+            p1.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(p1n)));
+            p2.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(p2n)));
+            p1.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(p1n)));
+            p2.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(p2n)));
+            p1.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(p1n)));
+            p2.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(p2n)));
+            p1.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(p1n)));
+            p2.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(p2n)));
+            if (ViaVersion.isHasOffHandMethod()) {
+                ViaVersion.setItemInOffHand(p1, arena.getPlayerOffHandItem(arena.isp1(p1n)));
+                ViaVersion.setItemInOffHand(p2, arena.getPlayerOffHandItem(arena.isp1(p2n)));
+            }
+        }
 
         arena.setWatchersTeleport(true);
         List<String> watchers = arena.getWatchers();

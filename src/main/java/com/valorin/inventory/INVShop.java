@@ -1,4 +1,4 @@
-﻿package com.valorin.inventory;
+package com.valorin.inventory;
 
 import java.util.HashMap;
 import java.util.List;

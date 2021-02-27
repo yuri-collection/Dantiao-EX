@@ -1,4 +1,4 @@
-﻿package com.valorin;
+package com.valorin;
 
 import com.valorin.arenas.ArenaCreatorHandler;
 import com.valorin.arenas.ArenaManager;

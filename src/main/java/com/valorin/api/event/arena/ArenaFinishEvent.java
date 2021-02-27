@@ -1,10 +1,13 @@
 package com.valorin.api.event.arena;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+
 import com.valorin.api.event.ArenaEventAbs;
 import com.valorin.arenas.Arena;
-import org.bukkit.entity.Player;
 
 public class ArenaFinishEvent extends ArenaEventAbs {
+    private static final HandlerList handlers = new HandlerList();
     private Player winner;
     private Player loser;
     private Arena arena;
@@ -12,9 +15,12 @@ public class ArenaFinishEvent extends ArenaEventAbs {
     /**
      * 某场比赛在非平局情况下结束时触发，不包括管理员强行结束的情况
      *
-     * @param winner 胜利的玩家
-     * @param loser  战败的玩家
-     * @param arena  所在的竞技场
+     * @param winner
+     *            胜利的玩家
+     * @param loser
+     *            战败的玩家
+     * @param arena
+     *            所在的竞技场
      */
     public ArenaFinishEvent(Player winner, Player loser, Arena arena) {
         this.winner = winner;
@@ -32,5 +38,14 @@ public class ArenaFinishEvent extends ArenaEventAbs {
 
     public Arena getArena() {
         return arena;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

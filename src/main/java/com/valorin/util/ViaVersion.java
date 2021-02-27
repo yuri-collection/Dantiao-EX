@@ -35,34 +35,49 @@ public class ViaVersion {
             switch (type) {
                 case 1:
                     materialName = "ORANGE_STAINED_GLASS_PANE";
+                    break;
                 case 2:
                     materialName = "MAGENTA_STAINED_GLASS_PANE";
+                    break;
                 case 3:
                     materialName = "LIGHT_BLUE_STAINED_GLASS_PANE";
+                    break;
                 case 4:
                     materialName = "YELLOW_STAINED_GLASS_PANE";
+                    break;
                 case 5:
                     materialName = "LIME_STAINED_GLASS_PANE";
+                    break;
                 case 6:
                     materialName = "PINK_STAINED_GLASS_PANE";
+                    break;
                 case 7:
                     materialName = "GRAY_STAINED_GLASS_PANE";
+                    break;
                 case 8:
                     materialName = "LIGHT_GRAY_STAINED_GLASS_PANE";
+                    break;
                 case 9:
                     materialName = "CYAN_STAINED_GLASS_PANE";
+                    break;
                 case 10:
                     materialName = "PURPLE_STAINED_GLASS_PANE";
+                    break;
                 case 11:
                     materialName = "BLUE_STAINED_GLASS_PANE";
+                    break;
                 case 12:
                     materialName = "BROWN_STAINED_GLASS_PANE";
+                    break;
                 case 13:
                     materialName = "GREEN_STAINED_GLASS_PANE";
+                    break;
                 case 14:
                     materialName = "RED_STAINED_GLASS_PANE";
+                    break;
                 case 15:
                     materialName = "BLACK_STAINED_GLASS_PANE";
+                    break;
             }
             material = Material.getMaterial(materialName);
         }
@@ -103,6 +118,106 @@ public class ViaVersion {
         } else {
             return Material.getMaterial("WOODEN_SWORD");
         }
+    }
+
+    public static boolean isHelmet(Material material) {
+        boolean isHelmetPlate = false;
+        switch (material.toString()) {
+            case "LEATHER_HELMET":
+                isHelmetPlate = true;
+                break;
+            case "CHAINMAIL_HELMET":
+                isHelmetPlate = true;
+                break;
+            case "IRON_HELMET":
+                isHelmetPlate = true;
+                break;
+            case "DIAMOND_HELMET":
+                isHelmetPlate = true;
+                break;
+            case "GOLD_HELMET":
+                isHelmetPlate = true;
+                break;
+            case "GOLDEN_HELMET":
+                isHelmetPlate = true;
+                break;
+        }
+        return isHelmetPlate;
+    }
+
+    public static boolean isChestPlate(Material material) {
+        boolean isChestPlate = false;
+        switch (material.toString()) {
+            case "LEATHER_CHESTPLATE":
+                isChestPlate = true;
+                break;
+            case "CHAINMAIL_CHESTPLATE":
+                isChestPlate = true;
+                break;
+            case "IRON_CHESTPLATE":
+                isChestPlate = true;
+                break;
+            case "DIAMOND_CHESTPLATE":
+                isChestPlate = true;
+                break;
+            case "GOLD_CHESTPLATE":
+                isChestPlate = true;
+                break;
+            case "GOLDEN_CHESTPLATE":
+                isChestPlate = true;
+                break;
+        }
+        return isChestPlate;
+    }
+
+    public static boolean isLeggings(Material material) {
+        boolean isLeggings = false;
+        switch (material.toString()) {
+            case "LEATHER_LEGGINGS":
+                isLeggings = true;
+                break;
+            case "CHAINMAIL_LEGGINGS":
+                isLeggings = true;
+                break;
+            case "IRON_LEGGINGS":
+                isLeggings = true;
+                break;
+            case "DIAMOND_LEGGINGS":
+                isLeggings = true;
+                break;
+            case "GOLD_LEGGINGS":
+                isLeggings = true;
+                break;
+            case "GOLDEN_LEGGINGS":
+                isLeggings = true;
+                break;
+        }
+        return isLeggings;
+    }
+
+    public static boolean isBoots(Material material) {
+        boolean isBoots = false;
+        switch (material.toString()) {
+            case "LEATHER_BOOTS":
+                isBoots = true;
+                break;
+            case "CHAINMAIL_BOOTS":
+                isBoots = true;
+                break;
+            case "IRON_BOOTS":
+                isBoots = true;
+                break;
+            case "DIAMOND_BOOTS":
+                isBoots = true;
+                break;
+            case "GOLD_BOOTS":
+                isBoots = true;
+                break;
+            case "GOLDEN_BOOTS":
+                isBoots = true;
+                break;
+        }
+        return isBoots;
     }
 
     public static List<Player> getOnlinePlayers() {

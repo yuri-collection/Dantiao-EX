@@ -1,4 +1,4 @@
-﻿package com.valorin.teleport;
+package com.valorin.teleport;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

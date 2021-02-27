@@ -1,4 +1,4 @@
-﻿package com.valorin.commands.sub;
+package com.valorin.commands.sub;
 
 import com.valorin.commands.SubCommand;
 import com.valorin.commands.way.AdminCommand;

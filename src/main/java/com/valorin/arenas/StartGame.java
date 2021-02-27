@@ -1,4 +1,4 @@
-﻿package com.valorin.arenas;
+package com.valorin.arenas;
 
 import com.valorin.api.event.arena.ArenaStartEvent;
 import com.valorin.configuration.ConfigManager;

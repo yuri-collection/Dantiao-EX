@@ -1,4 +1,4 @@
-﻿package com.valorin.event.sign;
+package com.valorin.event.sign;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

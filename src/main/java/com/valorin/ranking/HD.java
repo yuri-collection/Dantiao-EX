@@ -1,4 +1,4 @@
-﻿package com.valorin.ranking;
+package com.valorin.ranking;
 
 import com.valorin.Main;
 import com.valorin.caches.AreaCache;

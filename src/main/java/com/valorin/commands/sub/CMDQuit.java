@@ -1,4 +1,4 @@
-﻿package com.valorin.commands.sub;
+package com.valorin.commands.sub;
 
 import com.valorin.arenas.Arena;
 import com.valorin.arenas.ArenaManager;

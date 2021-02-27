@@ -1,4 +1,4 @@
-﻿package com.valorin.request;
+package com.valorin.request;
 
 import com.valorin.Main;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-﻿package com.valorin.event;
+package com.valorin.event;
 
 import com.valorin.Main;
 import com.valorin.event.game.*;

@@ -1,4 +1,4 @@
-﻿package com.valorin.event.gui;
+package com.valorin.event.gui;
 
 import com.valorin.inventory.INVRecords;
 import com.valorin.specialtext.Show;

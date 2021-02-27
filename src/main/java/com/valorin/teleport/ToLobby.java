@@ -1,4 +1,4 @@
-﻿package com.valorin.teleport;
+package com.valorin.teleport;
 
 import java.util.HashMap;
 import java.util.Map;

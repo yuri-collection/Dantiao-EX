@@ -1,4 +1,4 @@
-﻿package com.valorin.effect;
+package com.valorin.effect;
 
 import com.valorin.Main;
 import org.bukkit.Color;

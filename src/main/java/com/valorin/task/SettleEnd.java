@@ -1,4 +1,4 @@
-﻿package com.valorin.task;
+package com.valorin.task;
 
 import com.valorin.arenas.Arena;
 import com.valorin.caches.*;

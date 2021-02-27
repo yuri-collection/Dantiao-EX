@@ -1,4 +1,4 @@
-﻿package com.valorin.papi;
+package com.valorin.papi;
 
 import com.valorin.Main;
 import com.valorin.caches.*;

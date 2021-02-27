@@ -77,11 +77,10 @@ public class EnergyCache {
     }
 
     public void load(String name) {
-        if (!map.keySet().contains(name)) {
+        if (!map.keySet().contains(name)) { //服务器开启后首次进入，精力值加满
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(),
                     () -> {
-                        double energy = Data.getEnergy(name);
-                        map.put(name, energy);
+                        map.put(name, Main.getInstance().getConfigManager().getMaxEnergy());
                     });
         }
     }
