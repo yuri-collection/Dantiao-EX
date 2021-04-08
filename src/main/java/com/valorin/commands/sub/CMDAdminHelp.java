@@ -39,6 +39,7 @@ public class CMDAdminHelp extends SubCommand implements AdminCommand {
 		sm("&b/dt game <竞技场名称> <玩家1> <玩家2> &f- &a强行开启一场比赛", p, false);
 		sm("&b/dt sendall(sa) getitem &f- &a获取一个单挑全服邀请函道具", p, false);
 		sm("&b/dt transfer(tf) <模块> &f- &a将yml文件中的数据转移到数据库中", p, false);
+		sm("&b/dt checkv(cv) &f- &a手动获取单挑插件最新版本信息（即检查更新）", p, false);
 		ClickableText.sendDocumentInfo(sender);
 		sm("", p);
 		return true;

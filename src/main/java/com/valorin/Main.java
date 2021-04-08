@@ -12,7 +12,6 @@ import com.valorin.configuration.update.ConfigUpdate;
 import com.valorin.dan.DanHandler;
 import com.valorin.data.MySQL;
 import com.valorin.event.EventRegister;
-import com.valorin.network.Sign;
 import com.valorin.papi.RegPAPI;
 import com.valorin.queue.MatchingHandler;
 import com.valorin.ranking.HD;
@@ -26,6 +25,8 @@ import com.valorin.util.ViaVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.valorin.network.Update;
+import com.valorin.task.VersionChecker;
 
 import java.lang.reflect.Method;
 
@@ -33,8 +34,8 @@ public class Main extends JavaPlugin {
     /**
      * Dantiao Plugin
      *
-     * @author Valorin（创始、初代开发、更新、维护）&Jonjs（仅1.0初代开发）
-     * @date 2018/8（Version:1.0，初代发布）2020/2（Version:2.0，二代发布，代码全部重写）
+     * @author Valorin
+     * @date 2021/4
      */
     private static String version;
     private static Main instance;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin {
     private ConfigManager configManager;
     private RegPAPI regPAPI;
     private String serverVersion;
+    private Update update;
     private int serverVersionType; // 0代表1.7 1代表1.8~1.9 2代表1.9+
 
     public static String getVersion() {
@@ -148,10 +150,11 @@ public class Main extends JavaPlugin {
         return serverVersionType;
     }
 
+    public Update getUpdate() { return update; }
+
     @Override
     public void onEnable() {
         instance = this;
-        Sign.theOriginalCheck(nil -> {
 
             ConsoleCommandSender console = Bukkit.getConsoleSender();
             version = getDescription().getVersion();
@@ -161,8 +164,9 @@ public class Main extends JavaPlugin {
             console.sendMessage("§b██║  ██║   ██║   ");
             console.sendMessage("§b██████╔╝   ██║   ");
             console.sendMessage("§b╚═════╝    ╚═╝§eEnabling...");
-            console.sendMessage("§fThis is Dantiao-EX plugin V" + version
+            console.sendMessage("§fThis is Dantiao-EX " + version
                     + " developed by Valorin");
+            console.sendMessage("§f祝您使用愉快 :D");
 
             DataFile.loadData();
             DataFile.saveAreas();
@@ -190,6 +194,7 @@ public class Main extends JavaPlugin {
                         hd = new HD();
                         danHandler = new DanHandler();
                         matchingHandler = new MatchingHandler();
+                        update = new Update();
                         commandsHandler = new CommandHandler("dt");
                         singleLineChartData = new SingleLineChartData();
                         EventRegister.registerEvents();
@@ -207,6 +212,7 @@ public class Main extends JavaPlugin {
                         }
                     });
 
+            new VersionChecker().runTaskLaterAsynchronously(instance, 200L);
             globalGameTimes = new GlobalGameTimes();
             globalGameTimes.runTaskTimerAsynchronously(instance, 200L, 36000L);
             new Stats();
@@ -229,7 +235,6 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
             ViaVersion.getAllClass();
-        });
     }
 
     @Override
@@ -246,7 +251,7 @@ public class Main extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(instance);
         ConsoleCommandSender console = Bukkit.getConsoleSender();
         console.sendMessage("§8§l[§bDantiao§8§l]");
-        console.sendMessage("§f- §7单挑插件EX已关闭，感谢你的使用");
+        console.sendMessage("§f- §7单挑插件EX已关闭，感谢你的使用:D");
         console.sendMessage("§f- §7Dantiao-EX by:Valorin");
     }
 

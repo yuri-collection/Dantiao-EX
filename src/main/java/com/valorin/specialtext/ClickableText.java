@@ -52,6 +52,7 @@ public class ClickableText {
 		return txt;
 	}
 
+
 	public static void sendWebsiteInfo(CommandSender sender) {
 		boolean isPlayer = sender instanceof Player;
 
@@ -159,6 +160,23 @@ public class ClickableText {
 			((Player) sender).spigot().sendMessage(txt);
 		} else {
 			sender.sendMessage(text + text2 + text3 + text4 + text5);
+		}
+	}
+
+	public static void sendDownloadInfo(CommandSender sender) {
+		boolean isPlayer = sender instanceof Player;
+
+		String text = "§b[点击前往下载(提取码qpgl)]";
+		if (isPlayer) {
+			TextComponent txt = new TextComponent();
+			txt.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder("\n§7前往下载最新版本\n").create()));
+			txt.setClickEvent(new ClickEvent(Action.OPEN_URL,
+					"https://pan.baidu.com/s/1ylxeVxVHXabqLOsVtqXlRA"));
+			txt.setText(text);
+			((Player) sender).spigot().sendMessage(txt);
+		} else {
+			sender.sendMessage(text);
 		}
 	}
 

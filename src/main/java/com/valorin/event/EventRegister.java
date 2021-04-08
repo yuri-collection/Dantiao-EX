@@ -21,7 +21,7 @@ public class EventRegister {
                 new CommandTypeAmountStatistics(), new CompulsoryTeleport(),
                 new ClickPlayer(), new SaveSeasonRewardItems(),
                 new InterruptSearching(), new SaveArenaKitItems(),
-                new InterruptAutoTeleport(), new DropItemInKitPVPMode()};
+                new InterruptAutoTeleport(), new DropItemInKitPVPMode(), new CheckVersion()};
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener,
                     Main.getInstance());

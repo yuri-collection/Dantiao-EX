@@ -19,9 +19,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
+import com.tripleying.qwq.MailBox.Mail.MailPlayer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -167,9 +168,9 @@ public class CMDSeason extends SubCommand implements InServerCommand,
         }
         if (args[1].equalsIgnoreCase("restart")) {
             sm("&a[v]赛季已重启！排行榜数据和段位数据正在清空，同时段位奖励正在发放", p);
-            Bukkit.getScheduler().runTaskAsynchronously(
+/*            Bukkit.getScheduler().runTaskAsynchronously(
                     Main.getInstance(),
-                    () -> {
+                    () -> {*/
                         RankingCache rankingCache = Main.getInstance()
                                 .getCacheHandler().getRanking();
                         rankingCache.setWin(new ArrayList<String>());
@@ -196,7 +197,7 @@ public class CMDSeason extends SubCommand implements InServerCommand,
                             }
                             danCache.set(playerName, 0);
                         }
-                    });
+                    /*});*/
             return true;
         }
         sendHelp(p);
@@ -211,7 +212,7 @@ public class CMDSeason extends SubCommand implements InServerCommand,
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = formatter.format(cal.getTime());
 
-        BaseFileMail fm = MailBoxAPI.createBaseFileMail("system", Main
+        BaseFileMail fm = MailBoxAPI.createBaseFileMail("player", Main
                         .getInstance().getConfigManager().getServerName(), gm("赛季结束"),
                 Data.getSeasonDanMessage(danEditName), date);
         fm.setItemList(Data.getSeasonDanItemStacks(danEditName));
@@ -230,6 +231,7 @@ public class CMDSeason extends SubCommand implements InServerCommand,
             fm.setCommandDescription(commandDescriptions);
             fm.setCommandList(commands);
         }
+        ((MailPlayer)fm).setRecipient(Arrays.asList(playerName));
         boolean success = fm.Send(Bukkit.getConsoleSender(), null);
         return success;
     }

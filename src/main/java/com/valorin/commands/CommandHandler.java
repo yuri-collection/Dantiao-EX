@@ -4,36 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.valorin.commands.sub.*;
 import org.bukkit.Bukkit;
-
-import com.valorin.commands.sub.CMDAdminHelp;
-import com.valorin.commands.sub.CMDArenaInfo;
-import com.valorin.commands.sub.CMDArenaOP;
-import com.valorin.commands.sub.CMDBlackList;
-import com.valorin.commands.sub.CMDChangeLang;
-import com.valorin.commands.sub.CMDDan;
-import com.valorin.commands.sub.CMDEnergy;
-import com.valorin.commands.sub.CMDExp;
-import com.valorin.commands.sub.CMDGame;
-import com.valorin.commands.sub.CMDLobby;
-import com.valorin.commands.sub.CMDPlayerHelp;
-import com.valorin.commands.sub.CMDPoints;
-import com.valorin.commands.sub.CMDQuit;
-import com.valorin.commands.sub.CMDRankingOP;
-import com.valorin.commands.sub.CMDRankingPlayer;
-import com.valorin.commands.sub.CMDRecords;
-import com.valorin.commands.sub.CMDReload;
-import com.valorin.commands.sub.CMDRequestAccept;
-import com.valorin.commands.sub.CMDRequestDeny;
-import com.valorin.commands.sub.CMDRequestSend;
-import com.valorin.commands.sub.CMDRequestSendAll;
-import com.valorin.commands.sub.CMDSeason;
-import com.valorin.commands.sub.CMDShop;
-import com.valorin.commands.sub.CMDStarting;
-import com.valorin.commands.sub.CMDStop;
-import com.valorin.commands.sub.CMDTimetable;
-import com.valorin.commands.sub.CMDTransfer;
-import com.valorin.commands.sub.CMDWatchGame;
 
 public class CommandHandler {
 
@@ -68,6 +40,7 @@ public class CommandHandler {
 		commands.add(new CMDRequestSendAll());
 		commands.add(new CMDTransfer());
 		commands.add(new CMDSeason());
+		commands.add(new CMDCheckVersion());
 		Bukkit.getPluginCommand(name).setExecutor(new CommandExecutor());
 	}
 

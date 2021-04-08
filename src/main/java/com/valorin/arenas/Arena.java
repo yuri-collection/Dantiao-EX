@@ -175,45 +175,47 @@ public class Arena {
             } catch (Exception e) {
             }
 
-            for (ItemStack kitItem : arenaInfo.getKit()) {
-                Material material = kitItem.getType();
-                if (ViaVersion.isHelmet(material)) {
-                    if (player1.getInventory().getItem(39) == null) {
-                        player1.getInventory().setItem(39, kitItem);
-                        player2.getInventory().setItem(39, kitItem);
-                        continue;
+            if (arenaInfo.getKit() != null) { //检测是否设有kit
+                for (ItemStack kitItem : arenaInfo.getKit()) {
+                    Material material = kitItem.getType();
+                    if (ViaVersion.isHelmet(material)) {
+                        if (player1.getInventory().getItem(39) == null) {
+                            player1.getInventory().setItem(39, kitItem);
+                            player2.getInventory().setItem(39, kitItem);
+                            continue;
+                        }
                     }
-                }
-                if (ViaVersion.isChestPlate(material)) {
-                    if (player1.getInventory().getItem(38) == null) {
-                        player1.getInventory().setItem(38, kitItem);
-                        player2.getInventory().setItem(38, kitItem);
-                        continue;
+                    if (ViaVersion.isChestPlate(material)) {
+                        if (player1.getInventory().getItem(38) == null) {
+                            player1.getInventory().setItem(38, kitItem);
+                            player2.getInventory().setItem(38, kitItem);
+                            continue;
+                        }
                     }
-                }
-                if (ViaVersion.isLeggings(material)) {
-                    if (player1.getInventory().getItem(37) == null) {
-                        player1.getInventory().setItem(37, kitItem);
-                        player2.getInventory().setItem(37, kitItem);
-                        continue;
+                    if (ViaVersion.isLeggings(material)) {
+                        if (player1.getInventory().getItem(37) == null) {
+                            player1.getInventory().setItem(37, kitItem);
+                            player2.getInventory().setItem(37, kitItem);
+                            continue;
+                        }
                     }
-                }
-                if (ViaVersion.isBoots(material)) {
-                    if (player1.getInventory().getItem(36) == null) {
-                        player1.getInventory().setItem(36, kitItem);
-                        player2.getInventory().setItem(36, kitItem);
-                        continue;
+                    if (ViaVersion.isBoots(material)) {
+                        if (player1.getInventory().getItem(36) == null) {
+                            player1.getInventory().setItem(36, kitItem);
+                            player2.getInventory().setItem(36, kitItem);
+                            continue;
+                        }
                     }
-                }
-                if (Material.getMaterial("SHIELD") != null) {
-                    if (material.toString().equals("SHIELD")) {
-                        ViaVersion.setItemInOffHand(player1, new ItemStack(Material.getMaterial("SHIELD")));
-                        ViaVersion.setItemInOffHand(player2, new ItemStack(Material.getMaterial("SHIELD")));
-                        continue;
+                    if (Material.getMaterial("SHIELD") != null) {
+                        if (material.toString().equals("SHIELD")) {
+                            ViaVersion.setItemInOffHand(player1, new ItemStack(Material.getMaterial("SHIELD")));
+                            ViaVersion.setItemInOffHand(player2, new ItemStack(Material.getMaterial("SHIELD")));
+                            continue;
+                        }
                     }
+                    player1.getInventory().addItem(kitItem);
+                    player2.getInventory().addItem(kitItem);
                 }
-                player1.getInventory().addItem(kitItem);
-                player2.getInventory().addItem(kitItem);
             }
         }
 

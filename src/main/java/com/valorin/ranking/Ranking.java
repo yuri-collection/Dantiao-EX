@@ -27,13 +27,17 @@ public class Ranking {
             int originalSize = list.size();
             list.add("");
             for (int i = (originalSize - 1); i >= 0; i--) {
-                double a = Double.valueOf(list.get(i).split("\\|")[1]);
-                if (n <= a) {// 如果小于等于比较对象，终止
-                    for (int i2 = (originalSize - 1); i2 > i; i2--) {
-                        list.set(i2 + 1, list.get(i2));
+                try {
+                    double a = Double.valueOf(list.get(i).split("\\|")[1]);
+                    if (n <= a) {// 如果小于等于比较对象，终止
+                        for (int i2 = (originalSize - 1); i2 > i; i2--) {
+                            list.set(i2 + 1, list.get(i2));
+                        }
+                        list.set(i + 1, s);
+                        return;
                     }
-                    list.set(i + 1, s);
-                    return;
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    continue;
                 }
             }
             for (int i2 = (originalSize - 1); i2 >= 0; i2--) {

@@ -96,6 +96,9 @@ public class EnergyCache {
     }
 
     public void set(String name, double energy) {
+        if (!map.containsKey(name)) {
+            map.put(name, 0.0);
+        }
         double log = map.get(name);
         map.put(name, energy);
         if (Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline()) {
