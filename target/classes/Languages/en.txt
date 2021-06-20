@@ -389,3 +389,83 @@ Searching Panel
 Inviting
 Compulsory
 &7The holograms have refleshed automatically...
+&b&l/dt season(ss) &f- &aView the help of season
+&3&lDan&b&l&oTiao &f&l>> &aAdmin Help:Season
+&b/dt season(ss) setmessage <Dan name> <Context> &f- &aSet the message for a dan,which will be sent by mail
+&b/dt season(ss) setitem <Dan name> &f- &aOpen a panel which can enable OP to set the rewards for a dan,which will be sent by mail
+&b/dt season(ss) setpoint <Dan name> <Amount> &f- &aSet the points reward for a dan,which will be sent directly
+&b/dt season(ss) enable <Dan name> &f- &aEnable the notice function for a dan,which can let player in this dan receive the message and reward you set
+&b/dt season(ss) disable <Dan name> &f- &aDisable the notice function for a dan
+&b/dt season(ss) restart &f- &aRestart the season and settle reward for every player
+&7Usage:/dt ss setmessage <Dan name> <Context>
+&c[x]This dan is not exist
+&a[v]Message set
+&7Usage:/dt ss setitem <Dan name>
+Reward Setting
+&a[v]Please put the reward you want to set in the panel
+&a[v]Reward set
+&7Usage:/dt ss setpoint <Dan name> <Amount>
+&a[v]Points set
+&7Usage:/dt ss enable <Dan name>
+&c[x]Please set message a least before you enable the notice function
+&a[v]Notice function enabled
+&7Usage:/dt ss disable <Dan name>
+&a[v]Notice function disabled
+&a[v]Season restarted and ranking data as well as dan data cleared,while the reward is settling
+Season Ended
+&fGain the reward of dan &r{dan} &f: &b{point} &fPoint(s)
+&b/dt shop(s) commands add <Page> <Row> <Column> <Way(player/op/console)> <Context> &f- &aSet a command which will be executed after purchase
+&b/dt shop(s) commands clear <Page> <Row> <Column &f- &aClear all the commands
+&b/dt shop(s) commands list <Page> <Row> <Column> &f- &aView all the commands
+&7Usage:/dt s commands list <Page> <Row> <Column>,and the glass panes at the top of bottom are not considered as one row
+&c[x]No commands
+&7Usage:/dt s commands add <Page> <Row> <Column> <Way(player/op/console)> <Context>,and the glass panes at the top of bottom are not considered as one row
+&7Usage:/dt s commands clear <Page> <Row> <Column>,and the glass panes at the top of bottom are not considered as one row
+&a[v]Commands cleared
+&b/dt shop(s) dan <Page> <Row> <Column> <Dan name> &f- &aSet a dan limitation for a good
+&b/dt shop(s) rdan <Page> <Row> <Column> &f- &aCancel the dan limitation for a good
+&7Usage:/dt s dan <Page> <Row> <Column> <Dan name>,and the glass panes at the top of bottom are not considered as one row
+&a[v]Dan limitation set
+&7Usage:dt s rdan <Page> <Row> <Column>,and the glass panes at the top of bottom are not considered as one row
+&f[&a!&f] &7Only can be purchased by the player in &r {dan} &7or upper dan
+&a[Unlock]&r
+&c[Lock]&r
+&7Unlocked after reaching dan &r{dan}
+&c[x]You can only purchase this good after reaching &r{dan} &cor upper dan
+&c[x]Some errors occurred when the arena commands used as &eOP&c were executed
+&c[x]Some errors occurred when the arena commands used as &ePlayer&c were executed
+&c[x]Some errors occurred when the arena commands used as &eConsole&c were executed
+&7[&3*&7] &fRandom Arena
+&7[&3*&7] &7Specific Arena &f[{arena}]
+&bChoose an arena(RIGHT CLICK TO SHIFT):
+&7No arena can be chosen
+Random
+&7Click here again can &ccancel &7the search
+&bSearching player for you... &6{second}&bs
+&b/dt send <Player Name> [Arena Name(Random if blank)] &f- &aInvite a player to have a 1vs1 game
+&7Usage:/dt send <Player Name> [Arena name],item "Arena name" can be blank if you want a random arena
+&f[&b&l!&f] &7He/She choose a specific arena: {arena}
+&7Search interrupted because of teleporting
+&fThe opponent: &7&l{opponent}
+&3The game is about to begin
+&a&lGAME START!
+&2The game will come to an end automatically in 5 minutes,try your best to beat your opponent in the shortest time!
+&b/dt arena(a) setkit <Arena Edit Name> &f- &aSet item kit for an arena
+&b/dt arena(a) enablekit <Arena Edit Name> &f- &aEnable the KITPVP MODE for an arena
+&b/dt arena(a) disablekit <Arena Edit Name> &f- &aDisable the KITPVP MODE for an arena
+&7Usage:/dt a setkit <Arena Edit Name>
+Kit Setting
+&a[v]Please put the item you want to set in this panel
+&a[v]Kit saved...
+&7Usage:/dt a enablekit <Arena Edit Name>
+&a[v]KITPVP MODE enabled
+&7Usage:/dt a disablekit <Arena Edit Name>
+&a[v]KITPVP MODE disabled
+&b&lTeleport...
+&fYou will leave the arena automatically in &7&l{time}&fs
+&a&lWIN
+&fIt took you &f&l{time}&fs to beat your opponent &f&l{player}
+&7Automatic teleportation cancelled
+&7Failed to get message of latest version because of timeout,it's recommended that you type /dt checkv to get it manually
+&7Failed to get message of latest version because of some unknown reasons,it's recommended that you type /dt checkv to get it manually
+&7System deduct &d{points} &7point(s) from you,and now &6{now} &7point(s) left

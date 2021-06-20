@@ -57,6 +57,9 @@ public class EnergyCache {
             @Override
             public void run() {
                 for (String name : map.keySet()) {
+                    if (!map.containsKey(name)) {
+                        map.put(name, maxEnergy);
+                    }
                     double energyNow = map.get(name);
                     if (maxEnergy - energyNow <= energyResumePerSecond) {
                         map.put(name, maxEnergy);

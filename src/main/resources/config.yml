@@ -39,7 +39,7 @@
 #
 # The version of this config.
 # 【请勿修改此项】本配置文件的版本号，用于插件检测并更新配置文件内容
-ConfigVersion: 5
+ConfigVersion: 6
 # Players with dt.admin permission will be noticed about new Dantiao version when logining
 # 是否在上线时接收更新检查信息（拥有dt.admin权限的玩家才能接收到）
 CheckVersion: true
@@ -168,6 +168,13 @@ Game:
       - SNOW_BALL
       Lore:
       - '&aTest lore'
+  Process:
+    # Whether the player who isn't OP can open a chest in the game
+    # 非OP玩家是否能在比赛中打开普通箱子
+    IsOpeningChestAllowed: true
+    # Whether the player who isn't OP can open an ender chest in the game
+    # 非OP玩家是否能在比赛中打开末影箱
+    IsOpeningEnderChestAllowed: true
   Finish:
     # When a player's winning streak times reaches this value or more than it,a congratulation message will be broadcast
     # 比赛结束后，若某玩家的连胜数达到或超过这个值，则会全服广播

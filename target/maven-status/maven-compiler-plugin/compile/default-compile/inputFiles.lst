@@ -96,6 +96,7 @@ D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\configuration\transfer\A
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\timetable\Timetable.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\commands\way\AdminCommand.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\configuration\update\Ver_5.java
+D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\configuration\update\Ver_6.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\commands\sub\CMDMainHelp.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\event\gui\RecordsGUI.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\data\MySQL.java
@@ -125,6 +126,7 @@ D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\caches\AreaCache.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\commands\sub\CMDAdminHelp.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\commands\sub\CMDPoints.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\configuration\transfer\PointTF.java
+D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\event\game\OpenChest.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\api\event\arena\ArenaStartEvent.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\configuration\DataFile.java
 D:\MCPluginProject\dantiao-ex\src\main\java\com\valorin\commands\CommandHandler.java

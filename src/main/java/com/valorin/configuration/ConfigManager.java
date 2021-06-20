@@ -314,4 +314,8 @@ public class ConfigManager {
 	public int getPointsDeductedByCompulsion() { //EX新增
 		return config.getInt("Game.Rewards.Compulsion.PointsDeducted");
 	}
+
+	public boolean isOpeningChestAllowed() { return config.getBoolean("Game.Process.IsOpeningChestAllowed"); }
+
+	public boolean isOpeningEnderChestAllowed() { return config.getBoolean("Game.Process.IsOpeningEnderChestAllowed"); }
 }

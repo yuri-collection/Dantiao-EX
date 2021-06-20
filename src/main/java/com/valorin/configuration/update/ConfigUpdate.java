@@ -88,11 +88,13 @@ public class ConfigUpdate {
 				Ver_4.execute();
 			case 4:
 				Ver_5.execute();
+			case 5:
+				Ver_6.execute();
 			}
 		}
 
 		console.sendMessage("§8§l[§bDantiao§8§l]");
-		console.sendMessage("§f- §aconfig.yml升级已完成");
+		console.sendMessage("§f- §aconfig.yml已完成自动升级");
 		console.sendMessage("§f- §aThe config.yml has updated successfully!");
 	}
 

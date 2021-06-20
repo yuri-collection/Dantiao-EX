@@ -26,6 +26,7 @@ com\valorin\ranking\type\TypeTrHologram.class
 com\valorin\event\sign\CreateSign.class
 com\valorin\commands\sub\CMDChangeLang.class
 com\valorin\commands\sub\CMDShop_Commands.class
+com\valorin\event\game\OpenChest.class
 com\valorin\caches\RankingCache.class
 com\valorin\event\game\Teleport.class
 com\valorin\commands\sub\CMDDan.class
@@ -39,6 +40,7 @@ com\valorin\dan\CustomDan.class
 com\valorin\event\game\CompulsoryTeleport.class
 com\valorin\stats\metrics\BStats$SingleLineChart.class
 com\valorin\configuration\transfer\PointShopTF.class
+com\valorin\configuration\update\Ver_6.class
 com\valorin\commands\CommandExecutor.class
 com\valorin\teleport\ToLogLocation$2.class
 com\valorin\configuration\transfer\AreaTF.class
