@@ -22,7 +22,7 @@ import static com.valorin.configuration.languagefile.MessageSender.sm;
 import static com.valorin.inventory.INVRecords.pages;
 
 public class RecordsGUI implements Listener {
-    private Map<String, Long> show = new HashMap<String, Long>();
+    private final Map<String, Long> show = new HashMap<>();
 
     @EventHandler
     public void page(InventoryClickEvent e) {

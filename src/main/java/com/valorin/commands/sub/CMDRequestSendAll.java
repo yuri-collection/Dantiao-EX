@@ -35,55 +35,54 @@ public class CMDRequestSendAll extends SubCommand implements InServerCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = (Player) sender;
-		String sn = p.getName();
+		Player playerSending = (Player) sender;
+		String playerSendingName = playerSending.getName();
 		if (args.length == 1) {
-			if (getInstance().getArenaManager().isPlayerBusy(p.getName())) {// OP比赛时输入
+			if (getInstance().getArenaManager().isPlayerBusy(playerSending.getName())) {// OP比赛时输入
 				return true;
 			}
-			List<String> blist = Main.getInstance().getCacheHandler().getBlacklist().get();
-			if (blist.contains(sn)) {
-				sm("&c[x]您已被禁赛！", p);
+			List<String> blackList = Main.getInstance().getCacheHandler().getBlacklist().get();
+			if (blackList.contains(playerSendingName)) {
+				sm("&c[x]您已被禁赛！", playerSending);
 				return true;
 			}
-			if (!TimeChecker.isInTheTime(p, false)) {
-				sm("&c[x]此时间段不开放邀请赛功能，输入/dt timetable查看", p);
+			if (!TimeChecker.isInTheTime(playerSending, false)) {
+				sm("&c[x]此时间段不开放邀请赛功能，输入/dt timetable查看", playerSending);
 				return true;
 			}
 			EnergyCache cache = Main.getInstance().getCacheHandler().getEnergy();
 			if (cache.isEnable()) {
-				if (cache.get(p.getName()) < cache.getEnergyNeeded()) {
-					sm("&c[x]你的精力值不足！请休息一会", p);
+				if (cache.get(playerSending.getName()) < cache.getEnergyNeeded()) {
+					sm("&c[x]你的精力值不足！请休息一会", playerSending);
 					return true;
 				}
 			}
-			ItemTaker ic = new ItemTaker(p, "§4 §1 §1 §4 §2 §0 §9 §1 §1 §5 §2", 1);
+			ItemTaker ic = new ItemTaker(playerSending, "§4 §1 §1 §4 §2 §0 §9 §1 §1 §5 §2", 1);
 			if (ic.getSlot() == -1) {
-				sm("&c[x]本操作需要消耗一个全服邀请函", p);
+				sm("&c[x]本操作需要消耗一个全服邀请函", playerSending);
 			} else {
-				ic.consume(p);
-				sendAll(p);
+				ic.consume(playerSending);
+				sendAll(playerSending);
 			}
-			return true;
 		} else {
 			if (!sender.hasPermission("dt.admin")) {
-				sm("&c[x]无权限！", p);
+				sm("&c[x]无权限！", playerSending);
 				return true;
 			}
 			if (args[1].equalsIgnoreCase("getitem")) {
-				new ItemGiver(p, PlayerItems.getInvitation(p));
+				new ItemGiver(playerSending, PlayerItems.getInvitation(playerSending));
 				return true;
 			}
-			return true;
 		}
+		return true;
 	}
 
-	private void sendAll(Player sender) {
-		String sn = sender.getName();
+	private void sendAll(Player playerSending) {
+		String sn = playerSending.getName();
 		TextComponent txt = ClickableText.sendInvitationToAll(sn);
 		int count = 0;
 		for (Player receiver : Bukkit.getOnlinePlayers()) {
-			if (receiver.getUniqueId().equals(sender.getUniqueId())) { // 跳过自己
+			if (receiver.getUniqueId().equals(playerSending.getUniqueId())) { // 跳过自己
 				continue;
 			}
 			String rn = receiver.getName();
@@ -119,7 +118,7 @@ public class CMDRequestSendAll extends SubCommand implements InServerCommand {
 			rh.addRequest(sn, rn, null); // 发送申请
 			count++;
 		}
-		sm("&a[v]已有{amount}个玩家收到了你的单挑请求，请等待接受", sender, "amount",
+		sm("&a[v]已有{amount}个玩家收到了你的单挑请求，请等待接受", playerSending, "amount",
 				new String[] { "" + count });
 	}
 }

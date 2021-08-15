@@ -6,6 +6,7 @@ import static com.valorin.configuration.languagefile.MessageSender.gml;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -40,7 +41,7 @@ public class GUIItems {
 	public static ItemStack getStart(String pn) {
 		Player p = Bukkit.getPlayerExact(pn);
 		String displayname = gm("&f<[ 全服匹配 &f]>", p);
-		List<String> lore = new ArrayList<>(gml(" |&e在线寻找对手|&f&l>> &a点击开始", p));
+		List<String> lore = new ArrayList<>(Objects.requireNonNull(gml(" |&e在线寻找对手|&f&l>> &a点击开始", p)));
 		lore.add("");
 		lore.add(gm("&b请选择一个竞技场(右键切换):", p));
 		List<ArenaInfo> arenaInfoList = Main.getInstance().getCacheHandler().getArenaInfo().getArenaInfoList();
@@ -58,11 +59,11 @@ public class GUIItems {
 				lore, 0, false).get();
 	}
 
-	public static ItemStack updataStart(String playerName,int second,String arenaEditName,String arenaDisplayName) {
+	public static ItemStack updateStart(String playerName,int second,String arenaEditName,String arenaDisplayName) {
 		Player player = Bukkit.getPlayerExact(playerName);
-		String displayname = gm("&f<[ &7全服匹配 &f]>", player);
-		List<String> lore = new ArrayList<>(gml(" |&7在线寻找对手|&f&l>> &6搜寻中..{second}s", player, "second",
-				new String[]{second + ""}));
+		String displayName = gm("&f<[ &7全服匹配 &f]>", player);
+		List<String> lore = new ArrayList<>(Objects.requireNonNull(gml(" |&7在线寻找对手|&f&l>> &6搜寻中..{second}s", player, "second",
+				new String[]{second + ""})));
 		if (arenaEditName == null) {
 			lore.add(gm("&7[&3*&7] &f随机竞技场", player));
 		} else {
@@ -71,15 +72,15 @@ public class GUIItems {
 		lore.add("");
 		lore.add(gm("&7再次点击此处可&c取消&7匹配", player));
 
-		return new ItemCreator(ViaVersion.getGoldenAxeMaterial(), displayname,
+		return new ItemCreator(ViaVersion.getGoldenAxeMaterial(), displayName,
 				lore, 0, true).get();
 	}
 
 	public static ItemStack getRecords(String pn, int num) {
 		Player p = Bukkit.getPlayerExact(pn);
-		String displayname = gm("&a作战编号 &2#{num}", p, "num", new String[] { ""
+		String displayName = gm("&a作战编号 &2#{num}", p, "num", new String[] { ""
 				+ num });
-		List<String> lore = new ArrayList<String>();
+		List<String> lore = new ArrayList<>();
 
 		RecordCache recordCache = Main.getInstance().getCacheHandler()
 				.getRecord();
@@ -99,7 +100,6 @@ public class GUIItems {
 		}
 
 		String server = gm("&7&m未记录&r", p);
-		;
 		if (record.getServerName() != null) {
 			server = record.getServerName().replace("&", "§");
 		}
@@ -137,7 +137,7 @@ public class GUIItems {
 			if (expChange > 0) {
 				expChangeStr = gm("获得", p) + expChange;
 			} else {
-				expChangeStr = gm("损失", p) + (0 - expChange);
+				expChangeStr = gm("损失", p) + (-expChange);
 			}
 		}
 
@@ -170,7 +170,7 @@ public class GUIItems {
 			e.printStackTrace();
 		}
 
-		return new ItemCreator(Material.PAPER, displayname, lore, 0, false)
+		return new ItemCreator(Material.PAPER, displayName, lore, 0, false)
 				.get();
 	}
 
@@ -180,24 +180,24 @@ public class GUIItems {
 		ItemStack item = good.getItemStack();
 		double price = good.getPrice();
 		String description = good.getDescription();
-		int salesVolumn = good.getSalesVolumn();
+		int salesVolume = good.getSalesVolume();
 
-		List<String> lore = new ArrayList<String>();
+		List<String> lore = new ArrayList<>();
 		lore.add("");
 		String dec = Dec.getStr(5);
 		lore.add(dec);
 		lore.add(gm("&b商品Lore &f&l>>", p));
-		boolean haslore = true;
+		boolean hasLore = true;
 		if (item.hasItemMeta()) {
 			if (item.getItemMeta().getLore() != null) {
 				lore.addAll(item.getItemMeta().getLore());
 			} else {
-				haslore = false;
+				hasLore = false;
 			}
 		} else {
-			haslore = false;
+			hasLore = false;
 		}
-		if (!haslore) {
+		if (!hasLore) {
 			lore.add(gm("&7无", p));
 		}
 		lore.add(dec);
@@ -212,7 +212,7 @@ public class GUIItems {
 		}
 
 		lore.add(gm("&6销量： &e{volumn}", p, "volumn", new String[] { ""
-				+ salesVolumn }));
+				+ salesVolume }));
 
 		lore.add(gm("&6价格： &e{price}", p, "price", new String[] { "" + price }));
 		PointCache pointCache = Main.getInstance().getCacheHandler().getPoint();
@@ -251,7 +251,7 @@ public class GUIItems {
 			}
 		}
 
-		ItemStack itemShowed = new ItemStack(item);
+		ItemStack itemShowed = item.clone();
 		ItemMeta im = itemShowed.getItemMeta();
 		im.setLore(lore);
 		itemShowed.setItemMeta(im);

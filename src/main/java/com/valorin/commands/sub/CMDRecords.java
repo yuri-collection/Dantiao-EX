@@ -19,10 +19,10 @@ public class CMDRecords extends SubCommand implements InServerCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = (Player) sender;
-		String name = p.getName();
-		INVRecords.openInv(name);
-		sm("&a[v]记录面板已打开，查看你的每一次精彩表现！", p);
+		Player player = (Player) sender;
+		String playerName = player.getName();
+		INVRecords.openInv(playerName);
+		sm("&a[v]记录面板已打开，查看你的每一次精彩表现！", player);
 		return true;
 	}
 }

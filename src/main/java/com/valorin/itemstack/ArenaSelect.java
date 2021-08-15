@@ -16,13 +16,13 @@ import com.valorin.Main;
 import com.valorin.data.encapsulation.ArenaInfo;
 
 public class ArenaSelect {
-	private BukkitTask timer;
+	private final BukkitTask timer;
 	private String arenaEditName;
-	private int firstIndex;
-	private int endIndex;
+	private final int firstIndex;
+	private final int endIndex;
 	private int nowIndex;
-	private List<String> arenaEditNameList = new ArrayList<String>();
-	private List<String> arenaDisplayNameList = new ArrayList<String>();
+	private final List<String> arenaEditNameList = new ArrayList<>();
+	private final List<String> arenaDisplayNameList = new ArrayList<>();
 
 	private int lastEditIndex;
 	private boolean color;
@@ -51,7 +51,7 @@ public class ArenaSelect {
 
 		timer = new BukkitRunnable() {
 			public void run() {
-				refrestItem(inventory, player);
+				refreshItem(inventory, player);
 			}
 		}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 	}
@@ -64,7 +64,7 @@ public class ArenaSelect {
 			nowIndex = firstIndex;
 			arenaEditName = null;
 		}
-		refrestItem(inventory, player);
+		refreshItem(inventory, player);
 	}
 
 	public void cancel() {
@@ -75,7 +75,7 @@ public class ArenaSelect {
 		return arenaEditName;
 	}
 
-	private void refrestItem(Inventory inventory, Player player) {
+	private void refreshItem(Inventory inventory, Player player) {
 		ItemStack ItemStack = inventory.getItem(13);
 		ItemMeta ItemMeta = ItemStack.getItemMeta();
 		List<String> lore = ItemMeta.getLore();

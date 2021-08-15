@@ -8,8 +8,8 @@ import com.valorin.configuration.ConfigManager;
 
 public class Timetable {
 
-	List<String> searching = new ArrayList<String>();
-	List<String> invite = new ArrayList<String>();
+	List<String> searching = new ArrayList<>();
+	List<String> invite = new ArrayList<>();
 
 	public List<String> getSearching() {
 		return searching;
@@ -20,8 +20,8 @@ public class Timetable {
 	}
 
 	public void close() {
-		searching = new ArrayList<String>();
-		invite = new ArrayList<String>();
+		searching = new ArrayList<>();
+		invite = new ArrayList<>();
 	}
 
 	public Timetable() {

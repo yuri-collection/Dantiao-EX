@@ -43,7 +43,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getArenas();
         } else {
-            List<String> arenaList = new ArrayList<String>();
+            List<String> arenaList = new ArrayList<>();
             if (!areasFile.exists()) {
                 return arenaList;
             }
@@ -52,9 +52,7 @@ public class Data {
             if (section == null) {
                 return arenaList;
             }
-            section.getKeys(false).forEach(key -> {
-                arenaList.add(key);
-            });
+            arenaList.addAll(section.getKeys(false));
             return arenaList;
         }
     }
@@ -167,10 +165,10 @@ public class Data {
                         areas.set("Arenas." + editName + ".WatchingPoint.Z",
                                 location.getZ());
                         areas.set("Arenas." + editName + ".WatchingPoint.YAW",
-                                (float) location.getYaw());
+                                location.getYaw());
                         areas.set(
                                 "Arenas." + editName + ".WatchingPoint.PITCH",
-                                (float) location.getPitch());
+                                location.getPitch());
                     }
                     saveAreas();
                 }
@@ -193,18 +191,18 @@ public class Data {
                     areas.set("Arenas." + editName + ".A.Y", pointA.getY());
                     areas.set("Arenas." + editName + ".A.Z", pointA.getZ());
                     areas.set("Arenas." + editName + ".A.YAW",
-                            (float) pointA.getYaw());
+                            pointA.getYaw());
                     areas.set("Arenas." + editName + ".A.PITCH",
-                            (float) pointA.getPitch());
+                            pointA.getPitch());
                     areas.set("Arenas." + editName + ".B.World", pointB
                             .getWorld().getName());
                     areas.set("Arenas." + editName + ".B.X", pointB.getX());
                     areas.set("Arenas." + editName + ".B.Y", pointB.getY());
                     areas.set("Arenas." + editName + ".B.Z", pointB.getZ());
                     areas.set("Arenas." + editName + ".B.YAW",
-                            (float) pointB.getYaw());
+                            pointB.getYaw());
                     areas.set("Arenas." + editName + ".B.PITCH",
-                            (float) pointB.getPitch());
+                            pointB.getPitch());
                     areas.set("Arenas." + editName + ".Name", displayName);
                     saveAreas();
                 }
@@ -244,8 +242,7 @@ public class Data {
             double x = areas.getInt(prefix + "X");
             double y = areas.getInt(prefix + "Y");
             double z = areas.getInt(prefix + "Z");
-            Location location = new Location(Bukkit.getWorld(world), x, y, z);
-            return location;
+            return new Location(Bukkit.getWorld(world), x, y, z);
         }
     }
 
@@ -285,8 +282,7 @@ public class Data {
             double x = areas.getInt(prefix + "X");
             double y = areas.getInt(prefix + "Y");
             double z = areas.getInt(prefix + "Z");
-            Location location = new Location(Bukkit.getWorld(world), x, y, z);
-            return location;
+            return new Location(Bukkit.getWorld(world), x, y, z);
         }
     }
 
@@ -338,14 +334,12 @@ public class Data {
 
     public static void setDanExp(String name, int exp, boolean isAsyn) { // 设置某玩家的段位经验
         useDatabase = danB;
-        Action action = new Action() {
-            public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setDanExp(name, exp);
-                } else {
-                    pd.set(name + ".Exp", exp);
-                    savepd();
-                }
+        Action action = () -> {
+            if (useDatabase) {
+                getInstance().getMySQL().setDanExp(name, exp);
+            } else {
+                pd.set(name + ".Exp", exp);
+                savepd();
             }
         };
         if (isAsyn) {
@@ -371,14 +365,12 @@ public class Data {
     public static void setLanguageFile(String name, String language,
                                        boolean isAsyn) { // 设置某玩家使用的语言文件
         useDatabase = languageFileB;
-        Action action = new Action() {
-            public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setLanguageFile(name, language);
-                } else {
-                    pd.set(name + ".Language", language);
-                    savepd();
-                }
+        Action action = () -> {
+            if (useDatabase) {
+                getInstance().getMySQL().setLanguageFile(name, language);
+            } else {
+                pd.set(name + ".Language", language);
+                savepd();
             }
         };
         if (isAsyn) {
@@ -404,14 +396,12 @@ public class Data {
     public static void setPoint(String name, double point, boolean isAsyn) { // 设置某玩家的单挑积分余额
         useDatabase = pointB;
 
-        Action action = new Action() {
-            public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setPoint(name, point);
-                } else {
-                    pd.set(name + ".Points", point);
-                    savepd();
-                }
+        Action action = () -> {
+            if (useDatabase) {
+                getInstance().getMySQL().setPoint(name, point);
+            } else {
+                pd.set(name + ".Points", point);
+                savepd();
             }
         };
         if (isAsyn) {
@@ -439,7 +429,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getGoodList();
         } else {
-            List<Good> list = new ArrayList<Good>();
+            List<Good> list = new ArrayList<>();
             Set<String> set = shop.getKeys(false);
             set.remove("Num");
             for (String key : set) {
@@ -753,8 +743,7 @@ public class Data {
             int wins = records.getInt(name + ".Win");
             int loses = records.getInt(name + ".Lose");
             int draws = records.getInt(name + ".Draw");
-            int totalGameTimes = wins + loses + draws;
-            return totalGameTimes;
+            return wins + loses + draws;
         }
     }
 
@@ -763,7 +752,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getRecordList(name);
         } else {
-            List<Record> recordList = new ArrayList<Record>();
+            List<Record> recordList = new ArrayList<>();
             ConfigurationSection section = records.getConfigurationSection(name
                     + ".Record");
             if (section != null) {
@@ -813,14 +802,12 @@ public class Data {
     public static void setEnergy(String name, double energy, boolean isAsyn) { // 设置某玩家的精力值
         useDatabase = energyB;
 
-        Action action = new Action() {
-            public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setEnergy(name, energy);
-                } else {
-                    pd.set(name + ".Energy", energy);
-                    savepd();
-                }
+        Action action = () -> {
+            if (useDatabase) {
+                getInstance().getMySQL().setEnergy(name, energy);
+            } else {
+                pd.set(name + ".Energy", energy);
+                savepd();
             }
         };
         if (isAsyn) {
@@ -863,7 +850,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getSeasonDanItemStacks(danEditName);
         } else {
-            List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+            List<ItemStack> itemStacks = new ArrayList<>();
             ConfigurationSection section = season
                     .getConfigurationSection(danEditName + ".ItemStacks");
             if (section != null) {
@@ -998,17 +985,15 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getArenaKit(editName);
         } else {
-            List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+            List<ItemStack> itemStacks = new ArrayList<>();
             ConfigurationSection section = areas
                     .getConfigurationSection("Arenas." + editName + ".KitItem");
             if (section == null) {
                 return itemStacks;
             }
             section.getKeys(false).forEach(
-                    key -> {
-                        itemStacks.add(areas.getItemStack("Arenas." + editName
-                                + ".KitItem." + key));
-                    });
+                    key -> itemStacks.add(areas.getItemStack("Arenas." + editName
+                            + ".KitItem." + key)));
             return itemStacks;
         }
     }
@@ -1037,7 +1022,7 @@ public class Data {
         }.runTaskAsynchronously(getInstance());
     }
 
-    public static interface Action {
-        public void run();
+    public interface Action {
+        void run();
     }
 }

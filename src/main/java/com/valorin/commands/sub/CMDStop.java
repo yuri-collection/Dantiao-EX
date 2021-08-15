@@ -18,15 +18,15 @@ public class CMDStop extends SubCommand implements AdminCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = null;
+        Player player = null;
         if (sender instanceof Player) {
-            p = (Player) sender;
+            player = (Player) sender;
         }
         if (args.length != 2) {
-            sm("&7正确格式：/dt stop <竞技场名称>", p);
+            sm("&7正确格式：/dt stop <竞技场名称>", player);
             return true;
         }
-        FinishGame.compulsoryEnd(args[1], p);
+        FinishGame.compulsoryEnd(args[1], player);
         return true;
     }
 

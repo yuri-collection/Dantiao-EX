@@ -77,7 +77,7 @@ public enum MySQLCMD {
             + "`points` INT,"
             + "`enable` INT) DEFAULT CHARACTER SET = utf8;"); //result: 0为胜利 1为失败 2为平局
 
-    private String command;
+    private final String command;
 
     MySQLCMD(String command) {
         this.command = command;

@@ -14,11 +14,9 @@ public class Ver_3 {
 
 			List<String> texts = ConfigUpdate.readTexts(configFile);
 			
-			List<String> newTexts = new ArrayList<String>();
+			List<String> newTexts = new ArrayList<>();
 
-			for (int i = 0;i < texts.size();i++) {
-				String text = texts.get(i);
-				
+			for (String text : texts) {
 				if (text.startsWith("ConfigVersion:")) {
 					newTexts.add("ConfigVersion: 3");
 					continue;
@@ -30,7 +28,7 @@ public class Ver_3 {
 					newTexts.add("    ChangeGameMode: true");
 					continue;
 				}
-				
+
 				newTexts.add(text);
 			}
 			

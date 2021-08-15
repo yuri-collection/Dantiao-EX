@@ -53,48 +53,48 @@ public class DataFile {
 	public static void saveAreas() {
 		try {
 			areas.save(areasFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void saveShop() {
 		try {
 			shop.save(shopFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void saveRecords() {
 		try {
 			records.save(recordsFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void savepd() {
 		try {
 			pd.save(pdFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void saveSymbols() {
 		try {
 			symbols.save(symbolsFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void saveBlackList() {
 		try {
 			blacklist.save(blacklistFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 
 	public static void saveRanking() {
 		try {
 			ranking.save(rankingFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 	
 	public static void saveSeason() {
 		try {
 			season.save(seasonFile);
-		} catch (Exception e) { }
+		} catch (Exception ignored) { }
 	}
 }

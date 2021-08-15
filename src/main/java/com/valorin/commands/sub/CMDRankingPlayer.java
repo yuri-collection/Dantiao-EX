@@ -23,36 +23,32 @@ public class CMDRankingPlayer extends SubCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = null;
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
+			player = (Player) sender;
 		}
 		Ranking r = getInstance().getRanking();
 		RankingCache cache = getInstance().getCacheHandler().getRanking();
 		if (args.length == 1) {
-			if (p == null) {
-				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+			if (player == null) {
+				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", null);
 				return true;
 			}
-			String playerName = p.getName();
-			sm("&6单挑排行榜信息 [right]", p, false);
-			sm("&b胜场数排名：第&d{ranking}&b名", p, "ranking",
+			String playerName = player.getName();
+			sm("&6单挑排行榜信息 [right]", player, false);
+			sm("&b胜场数排名：第&d{ranking}&b名", player, "ranking",
 					new String[] { "" + r.getWin(playerName) }, false);
-			sm("&bKD比值排名：第&d{ranking}&b名", p, "ranking",
+			sm("&bKD比值排名：第&d{ranking}&b名", player, "ranking",
 					new String[] { "" + r.getKD(playerName) }, false);
-			sm("&e查看其他人的？输入 &f/dt rank win或kd &e查看全服排名", p, false);
+			sm("&e查看其他人的？输入 &f/dt rank win或kd &e查看全服排名", player, false);
 			return true;
 		} else {
 			if (args[1].equalsIgnoreCase("win")) {
-				sm("&b[star1]单挑-胜场排行榜[star2]", p);
+				sm("&b[star1]单挑-胜场排行榜[star2]", player);
 				if (cache.getWin().size() != 0) {
-					List<String> winlist = cache.getWin();
-					int max = 0;
-					if (winlist.size() > 10) {
-						max = 10;
-					} else {
-						max = winlist.size();
-					}
+					List<String> winList = cache.getWin();
+					int max;
+					max = Math.min(winList.size(), 10);
 					for (int i = 0; i < max; i++) {
 						String color = "§b";
 						if (i == 0) {
@@ -64,40 +60,36 @@ public class CMDRankingPlayer extends SubCommand {
 						if (i == 2) {
 							color = "§b§l";
 						}
-						p.sendMessage(color + "No." + (i + 1) + " §f"
-								+ winlist.get(i).split("\\|")[0] + " §a("
-								+ winlist.get(i).split("\\|")[1] + ")");
+						player.sendMessage(color + "No." + (i + 1) + " §f"
+								+ winList.get(i).split("\\|")[0] + " §a("
+								+ winList.get(i).split("\\|")[1] + ")");
 					}
-					int rank = r.getWin(p.getName());
+					int rank = r.getWin(player.getName());
 					if (rank != 0) {
-						for (int i = 0; i < winlist.size(); i++) {
-							if (winlist.get(i).split("\\|")[0].equals(p
+						for (String s : winList) {
+							if (s.split("\\|")[0].equals(player
 									.getName())) {
 								sm("&b我的排名：&e{ranking} (胜利{amount}场)",
-										p,
+										player,
 										"ranking amount",
-										new String[] { "" + rank,
-												winlist.get(i).split("\\|")[1] });
+										new String[]{"" + rank,
+												s.split("\\|")[1]});
 							}
 						}
 					} else {
-						sm("&b我的排名：&e暂无", p);
+						sm("&b我的排名：&e暂无", player);
 					}
 				} else {
-					sm("&c该排行榜没有数据", p);
+					sm("&c该排行榜没有数据", player);
 				}
 				return true;
 			}
 			if (args[1].equalsIgnoreCase("kd")) {
-				sm("&b[star1]单挑-KD比值排行榜[star2]", p);
+				sm("&b[star1]单挑-KD比值排行榜[star2]", player);
 				if (cache.getKD().size() != 0) {
-					List<String> kdlist = cache.getKD();
-					int max = 0;
-					if (kdlist.size() > 10) {
-						max = 10;
-					} else {
-						max = kdlist.size();
-					}
+					List<String> kdList = cache.getKD();
+					int max;
+					max = Math.min(kdList.size(), 10);
 					for (int i = 0; i < max; i++) {
 						String color = "§b";
 						if (i == 0) {
@@ -109,33 +101,33 @@ public class CMDRankingPlayer extends SubCommand {
 						if (i == 2) {
 							color = "§b§l";
 						}
-						BigDecimal bg = new BigDecimal(kdlist.get(i).split(
+						BigDecimal bg = new BigDecimal(kdList.get(i).split(
 								"\\|")[1]);
 						double kd = bg.setScale(2, BigDecimal.ROUND_HALF_UP)
 								.doubleValue();
-						p.sendMessage(color + "No." + (i + 1) + " §f"
-								+ kdlist.get(i).split("\\|")[0] + " §a(" + kd
+						player.sendMessage(color + "No." + (i + 1) + " §f"
+								+ kdList.get(i).split("\\|")[0] + " §a(" + kd
 								+ ")");
 					}
-					int rank = r.getWin(p.getName());
+					int rank = r.getWin(player.getName());
 					if (rank != 0) {
-						for (int i = 0; i < kdlist.size(); i++) {
-							if (kdlist.get(i).split("\\|")[0].equals(p
+						for (String s : kdList) {
+							if (s.split("\\|")[0].equals(player
 									.getName())) {
-								BigDecimal bg = new BigDecimal(kdlist.get(i)
+								BigDecimal bg = new BigDecimal(s
 										.split("\\|")[1]);
 								double kd = bg.setScale(2,
 										BigDecimal.ROUND_HALF_UP).doubleValue();
-								sm("&b我的排名：&e{ranking} (比值{kd})", p,
-										"ranking kd", new String[] { "" + rank,
-												"" + kd });
+								sm("&b我的排名：&e{ranking} (比值{kd})", player,
+										"ranking kd", new String[]{"" + rank,
+												"" + kd});
 							}
 						}
 					} else {
-						sm("&b我的排名：&e暂无", p);
+						sm("&b我的排名：&e暂无", player);
 					}
 				} else {
-					sm("&c该排行榜没有数据", p);
+					sm("&c该排行榜没有数据", player);
 				}
 				return true;
 			}

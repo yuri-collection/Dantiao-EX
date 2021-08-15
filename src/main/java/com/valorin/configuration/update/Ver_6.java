@@ -14,16 +14,14 @@ public class Ver_6 {
 
 			List<String> texts = ConfigUpdate.readTexts(configFile);
 			
-			List<String> newTexts = new ArrayList<String>();
+			List<String> newTexts = new ArrayList<>();
 
-			for (int i = 0;i < texts.size();i++) {
-				String text = texts.get(i);
-				
+			for (String text : texts) {
 				if (text.startsWith("ConfigVersion:")) {
 					newTexts.add("ConfigVersion: 6");
 					continue;
 				}
-				if (texts.get(i).startsWith("  Finish:")) {
+				if (text.startsWith("  Finish:")) {
 					newTexts.add("  Process:");
 					newTexts.add("    # Whether the player who isn't OP can open a chest in the game");
 					newTexts.add("    # 非OP玩家是否能在比赛中打开普通箱子");

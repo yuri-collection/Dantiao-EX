@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,11 +17,21 @@ import java.util.Map;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class CompulsoryTeleport implements Listener {
-    public static Map<String, Location> players = new HashMap<String, Location>();
+    public static Map<String, Location> players = new HashMap<>();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onRespawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
+        teleportCompulsorily(p);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        teleportCompulsorily(p);
+    }
+
+    private void teleportCompulsorily(Player p) {
         String pn = p.getName();
         if (players.containsKey(pn)) {
             new BukkitRunnable() {
@@ -29,8 +40,7 @@ public class CompulsoryTeleport implements Listener {
                         public void run() {
                             if (Main.getInstance().getCacheHandler().getArea().getLobby() != null) {
                                 ToLobby.to(p, true);
-                                sm("&b已将你带回单挑大厅！", p);
-                                if (p != null && !p.isDead()) {
+                                if (!p.isDead()) {
                                     sm("&b已将你带回单挑大厅！", p);
                                 }
                             } else {

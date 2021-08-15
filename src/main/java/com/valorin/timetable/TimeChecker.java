@@ -1,13 +1,12 @@
 package com.valorin.timetable;
 
-import static com.valorin.Main.getInstance;
+import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.bukkit.entity.Player;
+import static com.valorin.Main.getInstance;
 
 public class TimeChecker {
 

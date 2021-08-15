@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PointCache {
-    private Map<String, Double> map = new HashMap<String, Double>();
-    private List<String> changeList = new ArrayList<String>();
+    private final Map<String, Double> map = new HashMap<>();
+    private final List<String> changeList = new ArrayList<>();
 
     public PointCache() {
         try {
@@ -41,7 +41,7 @@ public class PointCache {
     }
 
     public void load(String name) {
-        if (!map.keySet().contains(name)) {
+        if (!map.containsKey(name)) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(),
                     () -> {
                         double points = Data.getPoint(name);
@@ -50,10 +50,10 @@ public class PointCache {
         }
     }
 
-    public void save(boolean isAsyn) {
+    public void save(boolean isAsynchronously) {
         if (changeList.size() != 0) {
             for (String name : changeList) {
-                Data.setPoint(name, map.get(name), isAsyn);
+                Data.setPoint(name, map.get(name), isAsynchronously);
             }
             changeList.clear();
             Debug.send("竞技场积分数据已自动保存", "Points data saved automatically");

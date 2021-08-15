@@ -28,7 +28,7 @@ public class Arena {
      * 玩家1的总伤害/最大伤害 玩家2的总伤害/最大伤害 玩家1积累的经验值 玩家2积累的经验值 玩家1原来的位置 玩家2原来的位置 玩家1原来的段位
      * 玩家2原来的段位 比赛开始的方式（1为匹配赛，2为邀请赛，3为强制赛）
      */
-    private String name;
+    private final String name;
     private String p1;
     private String p2;
     private List<String> watchers;
@@ -85,7 +85,7 @@ public class Arena {
         this.p1 = p1;
         this.p2 = p2;
         this.startWay = startWay;
-        watchers = new ArrayList<String>();
+        watchers = new ArrayList<>();
         canTeleport = false;
         watchersTeleport = false;
         enable = true;
@@ -101,8 +101,8 @@ public class Arena {
             Inventory player1Inventory = player1.getInventory();
             Inventory player2Inventory = player2.getInventory();
             ItemStack air = new ItemStack(Material.AIR, 1);
-            player1InventoryItems = new ArrayList<ItemStack>();
-            player2InventoryItems = new ArrayList<ItemStack>();
+            player1InventoryItems = new ArrayList<>();
+            player2InventoryItems = new ArrayList<>();
             for (int i = 0; i < 36; i++) {
                 if (player1Inventory.getItem(i) != null) {
                     player1InventoryItems.add(player1Inventory.getItem(i));
@@ -172,7 +172,7 @@ public class Arena {
                 player2.getInventory().setItem(37, air);
                 player2.getInventory().setItem(38, air);
                 player2.getInventory().setItem(39, air);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
             if (arenaInfo.getKit() != null) { //检测是否设有kit
@@ -263,9 +263,9 @@ public class Arena {
                     }
                 } else {
                     sm("&7比赛开始倒计时 &b{time}s", player1, "time",
-                            new String[]{"" + (0 - time)});
+                            new String[]{"" + (-time)});
                     sm("&7比赛开始倒计时 &b{time}s", player2, "time",
-                            new String[]{"" + (0 - time)});
+                            new String[]{"" + (-time)});
                     player1.playSound(
                             player1.getLocation(),
                             ViaVersion.getSound("BLOCK_NOTE_BASS", "NOTE_BASS"),
@@ -288,9 +288,9 @@ public class Arena {
                         p2SubTitle = gm("&3战斗即将开始...", player2);
                     }
 
-                    ViaVersion.sendTitle(player1, "§b§l" + (0 - time),
+                    ViaVersion.sendTitle(player1, "§b§l" + (-time),
                             p1SubTitle, 0, 20, 20);
-                    ViaVersion.sendTitle(player2, "§b§l" + (0 - time),
+                    ViaVersion.sendTitle(player2, "§b§l" + (-time),
                             p2SubTitle, 0, 20, 20);
                 }
             }
@@ -363,10 +363,7 @@ public class Arena {
     }
 
     public boolean isp1(String pn) {
-        if (p1.equals(pn)) {
-            return true;
-        }
-        return false;
+        return p1.equals(pn);
     }
 
     public int getStage() {
@@ -381,7 +378,7 @@ public class Arena {
         if (countDown == 0) {
             return -6;
         } else {
-            return 0 - countDown;
+            return -countDown;
         }
     }
 

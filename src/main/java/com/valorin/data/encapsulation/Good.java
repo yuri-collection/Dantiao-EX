@@ -5,23 +5,23 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class Good {
-    private int num;
-    private ItemStack item;
-    private double price;
+    private final int num;
+    private final ItemStack item;
+    private final double price;
     private String broadcast;
     private String description;
-    private int salesVolumn;
+    private int salesVolume;
 
     private String dan;
     private List<String> commands;
 
-    public Good(int num, ItemStack item, double price, String broadcast, String description, int salesVolumn, String dan, List<String> commands) {
+    public Good(int num, ItemStack item, double price, String broadcast, String description, int salesVolume, String dan, List<String> commands) {
         this.num = num;
         this.item = item;
         this.price = price;
         this.broadcast = broadcast;
         this.description = description;
-        this.salesVolumn = salesVolumn;
+        this.salesVolume = salesVolume;
         this.dan = dan;
         this.commands = commands;
     }
@@ -70,12 +70,12 @@ public class Good {
         this.commands = commands;
     }
 
-    public int getSalesVolumn() {
-        return salesVolumn;
+    public int getSalesVolume() {
+        return salesVolume;
     }
 
-    public void updateSalesVolumn() {
-        salesVolumn++;
+    public void updateSalesVolume() {
+        salesVolume++;
     }
 
 }

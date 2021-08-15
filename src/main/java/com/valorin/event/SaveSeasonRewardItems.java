@@ -27,7 +27,7 @@ public class SaveSeasonRewardItems implements Listener {
             String danEditName = e.getView().getTitle().split("\\:")[0];
             String title = e.getView().getTitle().split("\\:")[1];
             if (title.equals(gm("请将奖励物品放进来", p))) {
-                List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+                List<ItemStack> itemStacks = new ArrayList<>();
                 for (ItemStack itemStack : inv.getContents()) {
                     if (itemStack != null) {
                         if (!itemStack.getType().equals(Material.AIR)) {

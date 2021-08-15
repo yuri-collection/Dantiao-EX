@@ -6,6 +6,7 @@ import com.valorin.configuration.ConfigManager;
 import com.valorin.dan.CustomDan;
 import com.valorin.dan.DanHandler;
 import com.valorin.ranking.Ranking;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -104,7 +105,6 @@ public class SettleEnd {
                         pointsDeductedShowed = now;
                     }
                 } else {
-                    pointCache.set(winner, 0);
                     nowShowed = 0;
                     pointsDeductedShowed = 0;
                 }

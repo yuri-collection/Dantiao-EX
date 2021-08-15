@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class RecordCache {
-    private Map<String, List<Record>> recordMap = new HashMap<String, List<Record>>();
-    private Map<String, Integer> winsMap = new HashMap<String, Integer>();
-    private Map<String, Integer> losesMap = new HashMap<String, Integer>();
-    private Map<String, Integer> drawsMap = new HashMap<String, Integer>();
-    private Map<String, Integer> winningStreakTimesMap = new HashMap<String, Integer>();
-    private Map<String, Integer> maxWinningStreakTimesMap = new HashMap<String, Integer>();
+    private final Map<String, List<Record>> recordMap = new HashMap<>();
+    private final Map<String, Integer> winsMap = new HashMap<>();
+    private final Map<String, Integer> losesMap = new HashMap<>();
+    private final Map<String, Integer> drawsMap = new HashMap<>();
+    private final Map<String, Integer> winningStreakTimesMap = new HashMap<>();
+    private final Map<String, Integer> maxWinningStreakTimesMap = new HashMap<>();
 
     private int serverTotalGameTimes = -1;
 
@@ -240,6 +240,6 @@ public class RecordCache {
     }
 
     public interface Action {
-        public void run();
+        void run();
     }
 }

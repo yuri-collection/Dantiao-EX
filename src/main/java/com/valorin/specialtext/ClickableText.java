@@ -63,7 +63,7 @@ public class ClickableText {
 		String text3 = "§f§l] [";
 		String text2 = "§bMCBBS.net";
 		String text = "§a§lWeb: §f§l[";
-		TextComponent txt7 = null, txt6 = null, txt5 = null, txt4 = null, txt3 = null, txt2 = null, txt = null;
+		TextComponent txt7, txt6, txt5, txt4, txt3, txt2, txt;
 		if (isPlayer) {
 			if (sender.hasPermission("dt.admin")) {
 				txt7 = new TextComponent();
@@ -129,7 +129,7 @@ public class ClickableText {
 		String text3 = "§e] [";
 		String text2 = "§e中文版";
 		String text = "§6文档 | Document ---------------> §e[";
-		TextComponent txt5 = null, txt4 = null, txt3 = null, txt2 = null, txt = null;
+		TextComponent txt5, txt4, txt3, txt2, txt;
 		if (isPlayer) {
 			txt5 = new TextComponent();
 			txt5.setText(text5);
@@ -185,7 +185,7 @@ public class ClickableText {
 
 		String text = "§b§lDan§3§l§otiao §c§l单挑拓展版 A DUEL PLUGIN §cBy-Valorin";
 		if (isPlayer) {
-			TextComponent txt = null;
+			TextComponent txt;
 			txt = new TextComponent();
 			txt.setText(text);
 			if (sender.hasPermission("dt.admin")) {

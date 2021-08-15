@@ -5,6 +5,7 @@ import static com.valorin.configuration.languagefile.MessageSender.gml;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ import com.valorin.util.ViaVersion;
 
 public class INVStart {
 
-	public static Map<String, ArenaSelect> arenaSelects = new HashMap<String, ArenaSelect>();
+	public static Map<String, ArenaSelect> arenaSelects = new HashMap<>();
 
 	public static void openInv(String opener_name) {
 		Player opener = Bukkit.getPlayerExact(opener_name);
@@ -49,7 +50,7 @@ public class INVStart {
 			}
 			inventory.setItem(13, GUIItems.getStart(opener_name));
 
-			int size = gml(" |&e在线寻找对手|&f&l>> &a点击开始", opener).size() + 2;
+			int size = Objects.requireNonNull(gml(" |&e在线寻找对手|&f&l>> &a点击开始", opener)).size() + 2;
 			arenaSelects.put(opener_name, new ArenaSelect(opener, Main
 					.getInstance().getCacheHandler().getArenaInfo()
 					.getArenaInfoList(), size, inventory));

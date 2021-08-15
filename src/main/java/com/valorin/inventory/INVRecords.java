@@ -63,12 +63,7 @@ public class INVRecords {
 	public static void loadItem(Inventory inv, String openerName, int page) {
 		RecordCache cache = Main.getInstance().getCacheHandler().getRecord();
 		int times = cache.getGameTimes(openerName);
-		int n;
-		if (times - ((page - 1) * 36) > 36) {
-			n = 36;
-		} else {
-			n = times - ((page - 1) * 36);
-		}
+		int n = Math.min(times - ((page - 1) * 36), 36);
 		for (int i = 0; i < n; i++) {
 
 			inv.setItem(i + 9,

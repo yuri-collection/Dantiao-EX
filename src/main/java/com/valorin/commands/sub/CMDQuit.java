@@ -22,18 +22,18 @@ public class CMDQuit extends SubCommand implements InServerCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = (Player) sender;
+        Player player = (Player) sender;
         ArenaManager ah = getInstance().getArenaManager();
-        String arenaname = ah.getPlayerOfArena(p.getName());
-        Arena a = ah.getArena(arenaname);
-        if (arenaname != null) {
-            Player theother = Bukkit.getPlayerExact(a.getTheOtherPlayer(p
+        String arenaName = ah.getPlayerOfArena(player.getName());
+        Arena a = ah.getArena(arenaName);
+        if (arenaName != null) {
+            Player theOther = Bukkit.getPlayerExact(a.getTheOtherPlayer(player
                     .getName()));
-            sm("&b对方向你认输了！", theother);
-            FinishGame.normalEnd(arenaname, getInstance().getArenaManager()
-                    .getTheOtherPlayer(p.getName()), p.getName(), false);
+            sm("&b对方向你认输了！", theOther);
+            FinishGame.normalEnd(arenaName, getInstance().getArenaManager()
+                    .getTheOtherPlayer(player.getName()), player.getName(), false);
         } else {
-            sm("&c[x]你现在不在任何一场比赛中", p);
+            sm("&c[x]你现在不在任何一场比赛中", player);
         }
         return true;
     }

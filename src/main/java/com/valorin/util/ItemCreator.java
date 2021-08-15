@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemCreator {
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
     /*
      * material必填 displayname,lore,mark选填 但要同时存在 用于背包物品
@@ -25,7 +25,7 @@ public class ItemCreator {
         }
         if (lore != null && mark != null) {
             im = itemStack.getItemMeta();
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
             list.add(mark);
             list.addAll(lore);
             im.setLore(list);
@@ -50,7 +50,6 @@ public class ItemCreator {
                        List<String> lore, int s, boolean light) {
         ItemStack itemStack = new ItemStack(material, 1, (short) s);
         ItemMeta im = itemStack.getItemMeta();
-        ;
         if (im != null) {
             if (displayName != null) {
                 im.setDisplayName(displayName);

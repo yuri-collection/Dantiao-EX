@@ -14,8 +14,8 @@ import static com.valorin.configuration.languagefile.MessageSender.gm;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class Matching {
-    private String arenaEditName; // 若为null，则说明为随机
-    private String arenaDisplayName;
+    private final String arenaEditName; // 若为null，则说明为随机
+    private final String arenaDisplayName;
     private boolean enable; // 是否正在等待中
     private String waiter;
     private BukkitTask timer;
@@ -53,7 +53,7 @@ public class Matching {
     }
 
     public void refreshItem() {
-        inventory.setItem(13, GUIItems.updataStart(waiter, time, arenaEditName,
+        inventory.setItem(13, GUIItems.updateStart(waiter, time, arenaEditName,
                 arenaDisplayName));
     }
 
@@ -71,8 +71,7 @@ public class Matching {
                     ViaVersion.sendActionBar(
                             waiterPlayer,
                             gm("&b正在为您搜寻对手... &6{second} &b秒", waiterPlayer,
-                                    "second", new String[]{time + ""}), 0,
-                            20, 60);
+                                    "second", new String[]{time + ""}));
                 }
             }
         }.runTaskTimer(Main.getInstance(), 0, 20);

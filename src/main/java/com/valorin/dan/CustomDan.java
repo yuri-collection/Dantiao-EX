@@ -1,10 +1,10 @@
 package com.valorin.dan;
 
 public class CustomDan {
-    private int num;
-    private String editName;
-    private String displayName;
-    private int exp;
+    private final int num;
+    private final String editName;
+    private final String displayName;
+    private final int exp;
 
     public CustomDan(int num, String editName, String displayName, int exp) {
         this.num = num;

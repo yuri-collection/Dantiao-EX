@@ -7,8 +7,8 @@ import java.util.List;
 
 public class ArenaManager {
 
-    public static List<Arena> arenas = new ArrayList<Arena>();
-    public static List<String> busyArenasName = new ArrayList<String>();
+    public static List<Arena> arenas = new ArrayList<>();
+    public static List<String> busyArenasName = new ArrayList<>();
 
     public ArenaManager() {
         if (Data.getArenas().size() == 0) {

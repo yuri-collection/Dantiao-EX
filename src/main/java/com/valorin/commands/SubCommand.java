@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public abstract class SubCommand {
-    private String[] names;
+    private final String[] names;
     
     public SubCommand(String...names) {
         this.names = names;

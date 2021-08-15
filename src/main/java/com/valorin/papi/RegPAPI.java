@@ -159,8 +159,7 @@ public class RegPAPI extends PlaceholderExpansion {
             if (lastRecord.getMaxDamage() == 0) {
                 return gm("&7无数据", p);
             }
-            BigDecimal bg = new BigDecimal(
-                    (lastRecord.getMaxDamage()));
+            BigDecimal bg = BigDecimal.valueOf(lastRecord.getMaxDamage());
             double value = bg.setScale(1, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
             return "" + value;
@@ -208,7 +207,7 @@ public class RegPAPI extends PlaceholderExpansion {
                 if (expChange > 0) {
                     expChangeStr = gm("获得", p) + expChange;
                 } else {
-                    expChangeStr = gm("损失", p) + (0 - expChange);
+                    expChangeStr = gm("损失", p) + (-expChange);
                 }
             }
             return expChangeStr;
@@ -260,8 +259,7 @@ public class RegPAPI extends PlaceholderExpansion {
                 int rank = -1;
                 try {
                     rank = Integer.parseInt(numberString);
-                } catch (Exception e) {
-                    rank = -1;
+                } catch (Exception ignored) {
                 }
                 if (rank == -1) {
                     return gm("&7无数据", p);
@@ -275,7 +273,7 @@ public class RegPAPI extends PlaceholderExpansion {
                 }
             } else {
                 String numberString = i.replace("winrankvalue", "");
-                int rank = -1;
+                int rank;
                 try {
                     rank = Integer.parseInt(numberString);
                 } catch (Exception e) {
@@ -299,8 +297,7 @@ public class RegPAPI extends PlaceholderExpansion {
                 int rank = -1;
                 try {
                     rank = Integer.parseInt(numberString);
-                } catch (Exception e) {
-                    rank = -1;
+                } catch (Exception ignored) {
                 }
                 if (rank == -1) {
                     return gm("&7无数据", p);
@@ -314,7 +311,7 @@ public class RegPAPI extends PlaceholderExpansion {
                 }
             } else {
                 String numberString = i.replace("kdrankvalue", "");
-                int rank = -1;
+                int rank;
                 try {
                     rank = Integer.parseInt(numberString);
                 } catch (Exception e) {
@@ -351,8 +348,7 @@ public class RegPAPI extends PlaceholderExpansion {
             int globalValue = Main.getInstance().getGlobalGameTimes()
                     .getValue();
             if (serverValue != -1 && globalValue != -1) {
-                BigDecimal bg = new BigDecimal(
-                        ((double) serverValue / (double) globalValue) * 100);
+                BigDecimal bg = BigDecimal.valueOf(((double) serverValue / (double) globalValue) * 100);
                 double value = bg.setScale(4, BigDecimal.ROUND_HALF_UP)
                         .doubleValue();
                 return "" + value + "%";
@@ -406,7 +402,8 @@ public class RegPAPI extends PlaceholderExpansion {
                 nowExpThisLevel = expNow - playerDan.getExp();
             }
         }
-        String barFormer = "", barLatter = "";
+        StringBuilder barFormer = new StringBuilder();
+        StringBuilder barLatter = new StringBuilder();
         int blockNumber;
         if (totalExpToNext == -1) {
             blockNumber = totalNumber;
@@ -414,14 +411,14 @@ public class RegPAPI extends PlaceholderExpansion {
             blockNumber = (int) (((double) nowExpThisLevel / (double) totalExpToNext) * (double) totalNumber);
         }
         for (int n = 0; n < blockNumber; n++) {
-            barFormer = barFormer + block;
+            barFormer.append(block);
         }
         for (int n = 0; n < (totalNumber - blockNumber); n++) {
-            barLatter = barLatter + block;
+            barLatter.append(block);
         }
-        List<String> bar = new ArrayList<String>();
-        bar.add(barFormer);
-        bar.add(barLatter);
+        List<String> bar = new ArrayList<>();
+        bar.add(barFormer.toString());
+        bar.add(barLatter.toString());
         return bar;
     }
 
@@ -435,11 +432,9 @@ public class RegPAPI extends PlaceholderExpansion {
         if (playerDan == null) {
             totalExpToNext = dh.getThreshold();
             nowExpThisLevel = expNow;
-            BigDecimal bg = new BigDecimal(
-                    ((double) nowExpThisLevel / (double) totalExpToNext) * 100.0);
-            double value = bg.setScale(1, BigDecimal.ROUND_HALF_UP)
+            BigDecimal bg = BigDecimal.valueOf(((double) nowExpThisLevel / (double) totalExpToNext) * 100.0);
+            return bg.setScale(1, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
-            return value;
         } else {
             int index = dh.getCustomDans().indexOf(playerDan);
             if (index == dh.getCustomDans().size() - 1) {
@@ -450,9 +445,8 @@ public class RegPAPI extends PlaceholderExpansion {
                 nowExpThisLevel = expNow - playerDan.getExp();
                 BigDecimal bg = new BigDecimal(
                         ((double) nowExpThisLevel / (double) totalExpToNext) * 100.0);
-                double value = bg.setScale(1, BigDecimal.ROUND_HALF_UP)
+                return bg.setScale(1, BigDecimal.ROUND_HALF_UP)
                         .doubleValue();
-                return value;
             }
         }
     }

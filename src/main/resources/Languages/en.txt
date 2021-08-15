@@ -469,3 +469,4 @@ Kit Setting
 &7Failed to get message of latest version because of timeout,it's recommended that you type /dt checkv to get it manually
 &7Failed to get message of latest version because of some unknown reasons,it's recommended that you type /dt checkv to get it manually
 &7System deduct &d{points} &7point(s) from you,and now &6{now} &7point(s) left
+&c[x]You are not allowed to use ender pearl before game start formally!

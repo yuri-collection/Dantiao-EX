@@ -20,10 +20,10 @@ public class PVP implements Listener {
             if (!ah.isPlayerBusy(pn)) {
                 return;
             }
-            String theother = a.getTheOtherPlayer(pn);
+            String theOther = a.getTheOtherPlayer(pn);
             if (e.getDamager() instanceof Player) {
-                if (((Player) e.getDamager()).getName().equals(theother)) {// 锁定对打双方
-                    boolean isp1 = a.isp1(theother);
+                if (((Player) e.getDamager()).getName().equals(theOther)) {// 锁定对打双方
+                    boolean isp1 = a.isp1(theOther);
                     a.addHit(isp1);
                     if (a.getHit(isp1) == 2) {
                         a.addExp(isp1, 1);

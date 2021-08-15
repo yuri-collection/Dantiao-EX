@@ -25,17 +25,17 @@ public class CMDWatchGame extends SubCommand implements InServerCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = (Player) sender;
+		Player player = (Player) sender;
 		if (args.length != 2) {
-			sm("&7正确用法：/dt watch <竞技场名称>", p);
+			sm("&7正确用法：/dt watch <竞技场名称>", player);
 			return true;
 		}
-		if (getInstance().getArenaManager().isPlayerBusy(p.getName())) {// OP比赛时输入
+		if (getInstance().getArenaManager().isPlayerBusy(player.getName())) {// OP比赛时输入
 			return true;
 		}
 		String arenaName = args[1];
 		if (!Data.getArenas().contains(arenaName)) {
-			sm("&c[x]不存在的竞技场，请检查输入", p);
+			sm("&c[x]不存在的竞技场，请检查输入", player);
 			return true;
 		}
 		ArenaManager ah = Main.getInstance().getArenaManager();
@@ -44,15 +44,15 @@ public class CMDWatchGame extends SubCommand implements InServerCommand {
 		String editName = args[1];
 		if (arena.getEnable()) {
 			if (cache.get(editName).getWatchingPoint() != null) {
-				arena.addWatcher(p.getName());
-				ToWatchingPoint.to(p, arenaName);
-				sm("&b现在正在观战竞技场&e{arena}", p, "arena",
+				arena.addWatcher(player.getName());
+				ToWatchingPoint.to(player, arenaName);
+				sm("&b现在正在观战竞技场&e{arena}", player, "arena",
 						new String[] { arenaName });
 			} else {
-				sm("&c[x]这个竞技场不允许观战！", p);
+				sm("&c[x]这个竞技场不允许观战！", player);
 			}
 		} else {
-			sm("&c[x]这个竞技场还未开始比赛，无法观战！", p);
+			sm("&c[x]这个竞技场还未开始比赛，无法观战！", player);
 		}
 		return true;
 	}

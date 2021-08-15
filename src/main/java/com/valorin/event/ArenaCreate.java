@@ -12,13 +12,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class ArenaCreate implements Listener {
     @EventHandler
     public void selectPoint(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        String creatorname = p.getName();
+        String creatorName = p.getName();
         ItemStack item = ViaVersion.getItemInMainHand(p);
         if (item == null) {
             return;
@@ -29,21 +31,21 @@ public class ArenaCreate implements Listener {
         if (!item.hasItemMeta()) {
             return;
         }
-        if (item.getItemMeta().getLore() != null) {
-            if (item.getItemMeta().getLore().get(0)
-                    .equals(PlayerItems.mark1)) {
+        List<String> lores = item.getItemMeta().getLore();
+        if (lores != null) {
+            if (lores.contains(PlayerItems.mark1)) {
                 if (!p.hasPermission("dt.admin")) {
                     sm("&c[x]无权限！", p);
                     return;
                 }
                 if (!Main.getInstance().getACS().getCreators()
-                        .contains(creatorname)) {
+                        .contains(creatorName)) {
                     sm("&c[x]请输入/dt a mode进入竞技场创建模式后再使用这个快捷创建工具！", p);
                     return;
                 }
                 e.setCancelled(true);
                 ArenaCreator ac = Main.getInstance().getACS()
-                        .getAC(creatorname);
+                        .getAC(creatorName);
                 Action action = e.getAction();
                 if (action.equals(Action.LEFT_CLICK_AIR)) {
                     if (ac.getPointB() != null) {

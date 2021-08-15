@@ -33,7 +33,6 @@ public class DantiaoAPI {
      *
      * @param p     玩家
      * @param value 值
-     * @return 玩家的单挑积分
      */
     public static void setPlayerPoints(Player p, double value) {
         getInstance().getCacheHandler().getPoint().set(p.getName(), value);
@@ -54,7 +53,6 @@ public class DantiaoAPI {
      *
      * @param p     玩家
      * @param value 值
-     * @return 玩家的段位经验
      */
     public static void setPlayerExp(Player p, int value) {
         getInstance().getCacheHandler().getDan().set(p.getName(), value);
@@ -101,10 +99,9 @@ public class DantiaoAPI {
     public static double getPlayerEnergy(Player p) {
         EnergyCache energyCache = getInstance().getCacheHandler().getEnergy();
         if (energyCache.isEnable()) {
-            BigDecimal bg = new BigDecimal(energyCache.get(p.getName()));
-            double value = bg.setScale(2, BigDecimal.ROUND_HALF_UP)
+            BigDecimal bg = BigDecimal.valueOf(energyCache.get(p.getName()));
+            return bg.setScale(2, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
-            return value;
         } else {
             return -1;
         }
@@ -113,12 +110,11 @@ public class DantiaoAPI {
     /**
      * 获取设置的最大精力值
      *
-     * @param p 玩家
      * @return -1,无限能量（精力值系统被禁用时）
      */
     public static double getMaxEnergy() {
         EnergyCache energyCache = getInstance().getCacheHandler().getEnergy();
-        if (energyCache.isEnable() == true) {
+        if (energyCache.isEnable()) {
             return energyCache.getMaxEnergy();
         } else {
             return -1;
@@ -132,7 +128,7 @@ public class DantiaoAPI {
      * @return 玩家的KD值
      */
     public static double getPlayerKD(Player p) {
-        double kd = 0;
+        double kd;
         int wins = getInstance().getCacheHandler().getRecord()
                 .getWins(p.getName());
         int loses = getInstance().getCacheHandler().getRecord()
@@ -140,11 +136,10 @@ public class DantiaoAPI {
         if ((double) loses != 0) {
             kd = (double) wins / (double) loses;
         } else {
-            kd = (double) wins;
+            kd = wins;
         }
         BigDecimal bg = new BigDecimal(kd);
-        double value = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        return value;
+        return bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     /**

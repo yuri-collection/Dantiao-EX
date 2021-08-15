@@ -20,31 +20,28 @@ public class CMDDan extends SubCommand implements InServerCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = null;
-        if (sender instanceof Player) {
-            p = (Player) sender;
-        }
+        Player player = (Player) sender;
         DanHandler dh = getInstance().getDanHandler();
         DanCache cache = getInstance().getCacheHandler().getDan();
         String danDisplayName;
-        if (dh.getPlayerDan(p.getName()) == null) {
+        if (dh.getPlayerDan(player.getName()) == null) {
             danDisplayName = getInstance().getConfigManager()
                     .getInitialDanName();
         } else {
-            danDisplayName = dh.getPlayerDan(p.getName()).getDisplayName();
+            danDisplayName = dh.getPlayerDan(player.getName()).getDisplayName();
         }
-        sm("", p);
-        sm("&b我的段位信息 [right]", p, false);
-        sm("", p);
-        sm("   &e&l> &r{dan} &e&l<", p, "dan", new String[]{danDisplayName.replace("&", "§")},
+        sm("", player);
+        sm("&b我的段位信息 [right]", player, false);
+        sm("", player);
+        sm("   &e&l> &r{dan} &e&l<", player, "dan", new String[]{danDisplayName.replace("&", "§")},
                 false);
-        sm("", p);
-        sm("&a[v]现有经验：{exp}", p, "exp",
-                new String[]{"" + cache.get(p.getName())}, false);
-        sm("&a[v]升级所差：{needexp}", p, "needexp",
-                new String[]{"" + dh.getNeedExpToLevelUp(p.getName())},
+        sm("", player);
+        sm("&a[v]现有经验：{exp}", player, "exp",
+                new String[]{"" + cache.get(player.getName())}, false);
+        sm("&a[v]升级所差：{needexp}", player, "needexp",
+                new String[]{"" + dh.getNeedExpToLevelUp(player.getName())},
                 false);
-        sm("", p);
+        sm("", player);
         return true;
     }
 }

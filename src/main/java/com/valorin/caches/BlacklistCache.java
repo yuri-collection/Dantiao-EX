@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlacklistCache {
-    private List<String> blacklist = new ArrayList<String>();
+    private List<String> blacklist = new ArrayList<>();
 
     public BlacklistCache() {
         try {

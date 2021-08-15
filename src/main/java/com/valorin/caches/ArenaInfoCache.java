@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaInfoCache {
-    private List<ArenaInfo> arenaInfoList = new ArrayList<ArenaInfo>();
+    private List<ArenaInfo> arenaInfoList = new ArrayList<>();
 
     public ArenaInfoCache() {
         try {
@@ -82,7 +82,7 @@ public class ArenaInfoCache {
         if (index != -1) {
             List<String> list = commandList;
             if (list == null) {
-                list = new ArrayList<String>();
+                list = new ArrayList<>();
             }
             arenaInfoList.get(index).setCommandList(list);
             Data.setArenaCommands(editName, list);

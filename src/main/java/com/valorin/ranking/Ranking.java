@@ -17,40 +17,38 @@ public class Ranking {
             ranking = cache.getKD();
         }
         if (ranking.size() != 0) {
-            List<String> list = ranking;
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).split("\\|")[0].equals(s.split("\\|")[0])) {
-                    list.remove(i);
+            for (int i = 0; i < ranking.size(); i++) {
+                if (ranking.get(i).split("\\|")[0].equals(s.split("\\|")[0])) {
+                    ranking.remove(i);
                 }
             }
-            double n = Double.valueOf(s.split("\\|")[1]);
-            int originalSize = list.size();
-            list.add("");
+            double n = Double.parseDouble(s.split("\\|")[1]);
+            int originalSize = ranking.size();
+            ranking.add("");
             for (int i = (originalSize - 1); i >= 0; i--) {
                 try {
-                    double a = Double.valueOf(list.get(i).split("\\|")[1]);
+                    double a = Double.parseDouble(ranking.get(i).split("\\|")[1]);
                     if (n <= a) {// 如果小于等于比较对象，终止
                         for (int i2 = (originalSize - 1); i2 > i; i2--) {
-                            list.set(i2 + 1, list.get(i2));
+                            ranking.set(i2 + 1, ranking.get(i2));
                         }
-                        list.set(i + 1, s);
+                        ranking.set(i + 1, s);
                         return;
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    continue;
+                } catch (ArrayIndexOutOfBoundsException ignored) {
                 }
             }
             for (int i2 = (originalSize - 1); i2 >= 0; i2--) {
-                list.set(i2 + 1, list.get(i2));
+                ranking.set(i2 + 1, ranking.get(i2));
             }
-            list.set(0, s);
+            ranking.set(0, s);
             if (isWin) {
-                cache.setWin(list);
+                cache.setWin(ranking);
             } else {
-                cache.setKD(list);
+                cache.setKD(ranking);
             }
         } else {
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
             list.add(s);
             if (isWin) {
                 cache.setWin(list);
@@ -82,9 +80,9 @@ public class Ranking {
         if (ranking.size() == 0) {
             return n;
         }
-        for (int i = 0; i < ranking.size(); i++) {
-            if (ranking.get(i).split("\\|")[0].equals(playerName)) {
-                return Integer.parseInt(ranking.get(i).split("\\|")[1]);
+        for (String s : ranking) {
+            if (s.split("\\|")[0].equals(playerName)) {
+                return Integer.parseInt(s.split("\\|")[1]);
             }
         }
         return -1;
@@ -121,13 +119,12 @@ public class Ranking {
         if (ranking.size() == 0) {
             return n;
         }
-        for (int i = 0; i < ranking.size(); i++) {
-            if (ranking.get(i).split("\\|")[0].equals(playerName)) {
-                BigDecimal bg = new BigDecimal(Double.valueOf(ranking.get(i)
+        for (String s : ranking) {
+            if (s.split("\\|")[0].equals(playerName)) {
+                BigDecimal bg = BigDecimal.valueOf(Double.parseDouble(s
                         .split("\\|")[1]));
-                double kd = bg.setScale(2, BigDecimal.ROUND_HALF_UP)
+                return bg.setScale(2, BigDecimal.ROUND_HALF_UP)
                         .doubleValue();
-                return kd;
             }
         }
         return -1;

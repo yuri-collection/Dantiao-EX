@@ -14,9 +14,9 @@ import com.valorin.configuration.ConfigManager;
 public class MessageBuilder {
 
 	/*
-	 * Chinese:中文消息，必须 p:玩家，必须 v:变量，非必须，默认无 vl：变量的表示，非必须，默认无 prefix:是否前缀，必须，默认无
+	 * Chinese:中文消息，必须 player:玩家，必须 v:变量，非必须，默认无 vl：变量的表示，非必须，默认无 prefix:是否前缀，必须，默认无
 	 */
-	public static String gmLog(String Chinese, Player p, String v, String[] vl,
+	public static String gmLog(String Chinese, Player player, String v, String[] vl,
 			boolean prefix, boolean hdTitle) // 获取一个语言项
 	{
 		if (Chinese.length() == 0) {
@@ -35,7 +35,7 @@ public class MessageBuilder {
 					number = i;
 				}
 			}
-			if (p == null) {
+			if (player == null) {
 				ConfigManager configManager = getInstance().getConfigManager();
 				boolean exist = false;
 				if (configManager.getDefaultLanguage() != null) {
@@ -52,7 +52,7 @@ public class MessageBuilder {
 				}
 			} else {
 				String plang = getInstance().getCacheHandler()
-						.getLanguageFile().get(p.getName());
+						.getLanguageFile().get(player.getName());
 				if (plang == null) {
 					String configDefaultLang = getInstance().getConfigManager()
 							.getDefaultLanguage();
@@ -97,7 +97,7 @@ public class MessageBuilder {
 				}
 			}
 			finalMessage = finalMessage.replace("&", "§");
-			if (p != null) {
+			if (player != null) {
 				finalMessage = SymbolsExecutor.execute(finalMessage);// 替换符号
 			} else {
 				if (hdTitle) {

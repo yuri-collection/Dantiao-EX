@@ -318,4 +318,6 @@ public class ConfigManager {
 	public boolean isOpeningChestAllowed() { return config.getBoolean("Game.Process.IsOpeningChestAllowed"); }
 
 	public boolean isOpeningEnderChestAllowed() { return config.getBoolean("Game.Process.IsOpeningEnderChestAllowed"); }
+
+	public boolean isProjectileProtectionEnabled() { return config.getBoolean("Game.Process.EnableProjectileProtection"); }
 }

@@ -34,18 +34,19 @@ public class Teleport implements Listener {
 
     @EventHandler
     public void onTpToGamer(PlayerTeleportEvent e) {// 场外玩家企图传送到场内玩家身边给TA武器什么的
-        Player p = e.getPlayer();
-        String pn = p.getName();
+        Player player = e.getPlayer();
+        String playerName = player.getName();
         ArenaManager ah = Main.getInstance().getArenaManager();
-        if (pn == null) {
+        if (playerName == null) {
             return;
         }
         Location to = e.getTo();
         for (String arenaEditName : ArenaManager.busyArenasName) {
             Arena arena = ah.getArena(arenaEditName);
-            if (p.equals(Bukkit.getPlayerExact(arena.getp1())) ||
-                    p.equals(Bukkit.getPlayerExact(arena.getp2()))) {
-                continue;
+            if (arena.getp1() != null && arena.getp2() != null) {
+                if (player.getName().equals(arena.getp1()) || player.getName().equals(arena.getp2())) {
+                    continue;
+                }
             }
             Location player1Location = Bukkit.getPlayerExact(arena.getp1())
                     .getLocation();
@@ -59,7 +60,23 @@ public class Teleport implements Listener {
                     - to.getBlockY()) <= 2 && Math
                     .abs(player2Location.getBlockZ() - to.getBlockZ()) <= 2)) {
                 e.setCancelled(true);
-                sm("&c[x]发生非法传送，已制止", p);
+                sm("&c[x]发生非法传送，已制止", player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void useEnderPearl(PlayerTeleportEvent e) {
+        Player p = e.getPlayer();
+        String pn = p.getName();
+        ArenaManager ah = Main.getInstance().getArenaManager();
+        if (ah.isPlayerBusy(pn)) {
+            Arena arena = ah.getArena(ah.getPlayerOfArena(pn));
+            if (arena.getStage() == 0) {
+                if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
+                    e.setCancelled(true);
+                    sm("&c[x]还未正式开赛，请不要使用末影珍珠！", p);
+                }
             }
         }
     }

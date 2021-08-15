@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnergyCache {
-    private Map<String, Double> map = new HashMap<String, Double>();
+    private final Map<String, Double> map = new HashMap<>();
     private BukkitTask timer;
     private double maxEnergy;
     private double energyNeeded;
     private double energyResumePerSecond;
-    private boolean isEnable;
+    private final boolean isEnable;
 
     public EnergyCache() {
         isEnable = Main.getInstance().getConfigManager().isEnergyEnabled();
@@ -56,7 +56,7 @@ public class EnergyCache {
         timer = new BukkitRunnable() {
             @Override
             public void run() {
-                for (String name : map.keySet()) {
+                for (String name : new HashMap<>(map).keySet()) {
                     if (!map.containsKey(name)) {
                         map.put(name, maxEnergy);
                     }
@@ -80,7 +80,7 @@ public class EnergyCache {
     }
 
     public void load(String name) {
-        if (!map.keySet().contains(name)) { //服务器开启后首次进入，精力值加满
+        if (!map.containsKey(name)) { //服务器开启后首次进入，精力值加满
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(),
                     () -> {
                         map.put(name, Main.getInstance().getConfigManager().getMaxEnergy());
@@ -88,12 +88,12 @@ public class EnergyCache {
         }
     }
 
-    public void save(boolean isAsyn) {
+    public void save(boolean isAsynchronously) {
         if (!isEnable) {
             return;
         }
         for (String name : map.keySet()) {
-            Data.setEnergy(name, map.get(name), isAsyn);
+            Data.setEnergy(name, map.get(name), isAsynchronously);
         }
         Debug.send("精力值数据已自动保存", "The energy data saved automatically");
     }

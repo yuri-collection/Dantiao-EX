@@ -22,12 +22,12 @@ import com.valorin.commands.way.InServerCommand;
 public class CommandExecutor implements TabExecutor {
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
-		Player p = null;
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
+			player = (Player) sender;
 		}
 		if (args.length == 0) {
-			return new CMDMainHelp().onCommand(sender, command, label, args);
+			return new CMDMainHelp().onCommand(sender);
 		} else {
 			SubCommand subCommand = Main.getInstance().getCommandHandler()
 					.getSubCommand(args[0]);
@@ -35,22 +35,22 @@ public class CommandExecutor implements TabExecutor {
 				String similarLabel = SimilarityComparer
 						.getMostSimilarSubCommand(args[0]);
 				if (similarLabel == null) {
-					sm("&c不存在此则子指令，请检查输入", p);
+					sm("&c不存在此则子指令，请检查输入", player);
 				} else {
-					sm("&c不存在此则子指令，你是想输入 &e/dt {subcommand} &c吗？", p,
+					sm("&c不存在此则子指令，你是想输入 &e/dt {subcommand} &c吗？", player,
 							"subcommand", new String[] { similarLabel });
 				}
 				return true;
 			}
 			if (subCommand instanceof AdminCommand) {
 				if (!sender.hasPermission("dt.admin")) {
-					sm("&c[x]无权限！", p);
+					sm("&c[x]无权限！", player);
 					return true;
 				}
 				return subCommand.onCommand(sender, command, label, args);
 			} else if (subCommand instanceof InServerCommand) {
 				if (!(sender instanceof Player)) {
-					sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+					sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
 					return true;
 				}
 				return subCommand.onCommand(sender, command, label, args);
@@ -86,14 +86,14 @@ public class CommandExecutor implements TabExecutor {
 				if (!(sender instanceof Player)) {
 					return new ArrayList<>();
 				}
-				List<String> playerList = new ArrayList<String>();
+				List<String> playerList = new ArrayList<>();
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					if (!player.getName().equals(((Player) sender).getName())) {
+					if (!player.getName().equals(sender.getName())) {
 						playerList.add(player.getName());
 					}
 				}
 				return Arrays
-						.stream(playerList.toArray(new String[playerList.size()]))
+						.stream(playerList.toArray(new String[0]))
 						.filter(s -> s.startsWith(args[1]))
 						.collect(Collectors.toList());
 			}
@@ -104,7 +104,7 @@ public class CommandExecutor implements TabExecutor {
 				}
 				List<File> fileList = Main.getInstance()
 						.getLanguageFileLoader().getLanguagesList();
-				List<String> fileNameList = new ArrayList<String>();
+				List<String> fileNameList = new ArrayList<>();
 				for (File file : fileList) {
 					fileNameList.add(file.getName().replace(".txt", ""));
 				}
@@ -112,7 +112,7 @@ public class CommandExecutor implements TabExecutor {
 			}
 
 			if (!sender.hasPermission("dt.admin")) {
-				return new ArrayList<String>();
+				return new ArrayList<>();
 			}
 			if (args[0].equalsIgnoreCase("a")
 					|| args[0].equalsIgnoreCase("arena")) {
@@ -122,7 +122,7 @@ public class CommandExecutor implements TabExecutor {
 								.filter(s -> s.startsWith(args[2]))
 								.collect(Collectors.toList());
 					} else {
-						return new ArrayList<String>();
+						return new ArrayList<>();
 					}
 				}
 				return Arrays.stream(SUBCOMMANDS_ARENAOP)
@@ -163,7 +163,7 @@ public class CommandExecutor implements TabExecutor {
 						.filter(s -> s.startsWith(args[1]))
 						.collect(Collectors.toList());
 			}
-			return new ArrayList<String>();
+			return new ArrayList<>();
 		}
 	}
 }

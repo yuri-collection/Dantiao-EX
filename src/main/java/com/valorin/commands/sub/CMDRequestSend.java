@@ -32,13 +32,13 @@ public class CMDRequestSend extends SubCommand implements InServerCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = (Player) sender;
-		String sn = p.getName();
+		Player playerSending = (Player) sender;
+		String playerSendingName = playerSending.getName();
 		if (args.length != 2 && args.length != 3) {
-			sm("&7正确用法：/dt send <玩家名> [竞技场名称]，“竞技场名称”可不填，若不填则代表随机选择", p);
+			sm("&7正确用法：/dt send <玩家名> [竞技场名称]，“竞技场名称”可不填，若不填则代表随机选择", playerSending);
 			return true;
 		}
-		if (getInstance().getArenaManager().isPlayerBusy(p.getName())) {// OP比赛时输入
+		if (getInstance().getArenaManager().isPlayerBusy(playerSending.getName())) {// OP比赛时输入
 			return true;
 		}
 		String rn = args[1];
@@ -53,45 +53,45 @@ public class CMDRequestSend extends SubCommand implements InServerCommand {
 			}
 		}
 		if (!isOnline) {
-			sm("&c[x]目标玩家不在线！", p);
+			sm("&c[x]目标玩家不在线！", playerSending);
 			return true;
 		}
-		if (rn.equals(sn)) {
-			sm("&c[x]不能向自己发送请求！", p);
+		if (rn.equals(playerSendingName)) {
+			sm("&c[x]不能向自己发送请求！", playerSending);
 			return true;
 		}
 		String arenaEditName = null;
 		if (args.length == 3) {
 			arenaEditName = args[2];
 			if (!Data.getArenas().contains(arenaEditName)) {
-				sm("&c[x]不存在的竞技场，请检查输入", p);
+				sm("&c[x]不存在的竞技场，请检查输入", playerSending);
 				return true;
 			}
 		}
 		List<String> blist = Main.getInstance().getCacheHandler().getBlacklist().get();
-		if (blist.contains(sn)) {
-			sm("&c[x]您已被禁赛！", p);
+		if (blist.contains(playerSendingName)) {
+			sm("&c[x]您已被禁赛！", playerSending);
 			return true;
 		}
 		if (blist.contains(rn)) {
-			sm("&c[x]对方已被禁赛！", p);
+			sm("&c[x]对方已被禁赛！", playerSending);
 			return true;
 		}
-		if (!TimeChecker.isInTheTime(p, false)) {
-			sm("&c[x]此时间段不开放邀请赛功能，输入/dt timetable查看", p);
+		if (!TimeChecker.isInTheTime(playerSending, false)) {
+			sm("&c[x]此时间段不开放邀请赛功能，输入/dt timetable查看", playerSending);
 			return true;
 		}
 		ConfigManager configManager = getInstance().getConfigManager();
 		if (configManager.isWorldWhitelistEnabled()) {
 			List<String> worldlist = configManager.getWorldWhitelist();
 			if (worldlist != null) {
-				if (!worldlist.contains(p.getWorld().getName())) {
-					sm("&c[x]你所在的世界已被禁止比赛", p);
+				if (!worldlist.contains(playerSending.getWorld().getName())) {
+					sm("&c[x]你所在的世界已被禁止比赛", playerSending);
 					return true;
 				}
 				if (!worldlist.contains(Bukkit.getPlayerExact(rn).getWorld()
 						.getName())) {
-					sm("&c[x]对方所处世界已被禁止比赛", p);
+					sm("&c[x]对方所处世界已被禁止比赛", playerSending);
 					return true;
 				}
 			}
@@ -99,37 +99,37 @@ public class CMDRequestSend extends SubCommand implements InServerCommand {
 		}
 		EnergyCache cache = Main.getInstance().getCacheHandler().getEnergy();
 		if (cache.isEnable()) {
-			if (cache.get(p.getName()) < cache.getEnergyNeeded()) {
-				sm("&c[x]你的精力值不足！请休息一会", p);
+			if (cache.get(playerSending.getName()) < cache.getEnergyNeeded()) {
+				sm("&c[x]你的精力值不足！请休息一会", playerSending);
 				return true;
 			}
-			if (cache.get(p.getName()) < cache.getEnergyNeeded()) {
-				sm("&c[x]对方的精力值不足！请稍后再申请", p);
+			if (cache.get(playerSending.getName()) < cache.getEnergyNeeded()) {
+				sm("&c[x]对方的精力值不足！请稍后再申请", playerSending);
 				return true;
 			}
 		}
 		if (getInstance().getArenaManager().isPlayerBusy(rn)) {
-			sm("&c[x]对方正在比赛！请等一下再向他发送请求", p);
+			sm("&c[x]对方正在比赛！请等一下再向他发送请求", playerSending);
 			return true;
 		}
 		RequestsHandler rh = getInstance().getRequestsHandler();
-		if (rh.getReceivers(sn).contains(rn)) {
-			sm("&c[x]你已经向对方发过申请了，请不要重复发送！", p);
+		if (rh.getReceivers(playerSendingName).contains(rn)) {
+			sm("&c[x]你已经向对方发过申请了，请不要重复发送！", playerSending);
 			return true;
 		}
-		if (rh.getRequest(rn, sn) != null) {
-			sm("&c[x]对方已经向你发送了申请，无需重复向TA发送申请，请先处理", p);
+		if (rh.getRequest(rn, playerSendingName) != null) {
+			sm("&c[x]对方已经向你发送了申请，无需重复向TA发送申请，请先处理", playerSending);
 			return true;
 		}
 
 		Player r = Bukkit.getPlayerExact(rn);
-		rh.addRequest(sn, rn, arenaEditName);
+		rh.addRequest(playerSendingName, rn, arenaEditName);
 		Dec.sm(r, 2);
 		r.sendMessage(Dec.getStr(4)
 				+ gm("&e收到一则单挑请求&7(来自&b{player}&7)", Bukkit.getPlayerExact(rn),
-						"player", new String[] { sn }));
+						"player", new String[] { playerSendingName }));
 		Dec.sm(r, 0);
-		ClickableText.sendRequest(sn, rn);
+		ClickableText.sendRequest(playerSendingName, rn);
 		Dec.sm(r, 0);
 		Dec.sm(r, 2);
 
@@ -147,7 +147,7 @@ public class CMDRequestSend extends SubCommand implements InServerCommand {
 					new String[] { arenaDisplayName });
 		}
 
-		sm("&a[v]请求发送完毕！等待对方处理，有效时间60秒", p);
+		sm("&a[v]请求发送完毕！等待对方处理，有效时间60秒", playerSending);
 		return true;
 	}
 

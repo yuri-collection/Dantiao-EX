@@ -41,6 +41,7 @@ public class EndGame implements Listener {
             String winner = a.getTheOtherPlayer(pn);
             sm("&b对方下线了！系统判定你胜利！", Bukkit.getPlayerExact(winner));
             FinishGame.normalEnd(an, winner, pn, false);
+            CompulsoryTeleport.players.put(pn, a.getLoaction(a.isp1(pn)));
         }
     }
 }

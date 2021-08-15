@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class VersionChecker extends BukkitRunnable {
 
     public void run() {
         Update update = Main.getInstance().getUpdate();
-        String context = null;
+        String context;
         HttpURLConnection conn = null;
         try {
             URL url = new URL(
@@ -33,13 +34,13 @@ public class VersionChecker extends BukkitRunnable {
             while ((byteRead = inStream.read()) != -1) {
                 builder.append((char) byteRead);
             }
-            context = new String(builder.toString().getBytes("ISO-8859-1"),
-                    "UTF-8");
+            context = new String(builder.toString().getBytes(StandardCharsets.ISO_8859_1),
+                    StandardCharsets.UTF_8);
             update.setState(1);
             String version = context.split("\\[change]")[0];
             String[] messageStringArray = (context.split("\\[change]")[1])
                     .split("\\[next]");
-            List<String> messageList = new ArrayList<String>();
+            List<String> messageList = new ArrayList<>();
             for (String message : messageStringArray) {
                 messageList.add(message.replace("&", "§"));
             }

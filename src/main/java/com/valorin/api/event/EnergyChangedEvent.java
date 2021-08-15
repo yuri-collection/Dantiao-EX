@@ -8,9 +8,9 @@ import org.bukkit.event.HandlerList;
 public class EnergyChangedEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
-    private Player player;
-    private double before;
-    private double now;
+    private final Player player;
+    private final double before;
+    private final double now;
 
     /**
      * 精力值变更时调用，前提是服务器的精力值系统允许使用

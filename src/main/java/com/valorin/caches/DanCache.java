@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class DanCache {
-    private Map<String, Integer> map = new HashMap<String, Integer>();
-    private List<String> changeList = new ArrayList<String>();
+    private final Map<String, Integer> map = new HashMap<>();
+    private final List<String> changeList = new ArrayList<>();
 
     public DanCache() {
         try {
@@ -53,14 +53,13 @@ public class DanCache {
     }
 
     public void unload(String name) {
-        if (map.containsKey(name))
-            map.remove(name);
+        map.remove(name);
     }
 
-    public void save(boolean isAsyn) {
+    public void save(boolean isAsynchronously) {
         if (changeList.size() != 0) {
             for (String name : changeList) {
-                Data.setDanExp(name, map.get(name), isAsyn);
+                Data.setDanExp(name, map.get(name), isAsynchronously);
             }
             changeList.clear();
             Debug.send("段位经验数据已自动保存", "Dan EXP data saved automatically");

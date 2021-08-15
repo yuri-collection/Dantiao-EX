@@ -1,9 +1,17 @@
 package com.valorin.data.encapsulation;
 
 public class Record {
-    private String name, date, opponent, server, arenaEditName;
-    private int time, result, startWay, expChange;
-    private double damage, maxDamage;
+    private final String name;
+    private final String date;
+    private final String opponent;
+    private final String server;
+    private final String arenaEditName;
+    private final int time;
+    private final int result;
+    private final int startWay;
+    private final int expChange;
+    private final double damage;
+    private double maxDamage;
 
     public Record(String name, String date, String opponent, String server,
                   int time, double damage, double maxDamage, int result,

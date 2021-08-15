@@ -42,9 +42,7 @@ public class ToLogLocation {
 							.getTeleportCountDown();
 					if (countDown == 0) {
 						Bukkit.getScheduler().runTask(Main.getInstance(),
-								() -> {
-									winner.teleport(winnerLocation);
-								});
+								() -> winner.teleport(winnerLocation));
 						this.cancel();
 					} else {
 						if (countDown < 5) {
@@ -60,9 +58,7 @@ public class ToLogLocation {
 								timers.remove(winner.getName());
 								times.remove(winner.getName());
 								Bukkit.getScheduler().runTask(
-										Main.getInstance(), () -> {
-											winner.teleport(winnerLocation);
-										});
+										Main.getInstance(), () -> winner.teleport(winnerLocation));
 							} else {
 								ViaVersion
 										.sendTitle(

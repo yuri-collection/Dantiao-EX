@@ -55,7 +55,7 @@ public class CMDShop extends SubCommand implements InServerCommand {
         boolean result = true;
         for (String n : nl) {
             Pattern pattern = Pattern.compile("[0-9]+");
-            Matcher matcher = pattern.matcher((CharSequence) n);
+            Matcher matcher = pattern.matcher(n);
             if (!matcher.matches()) {
                 result = false;
             }
@@ -87,8 +87,8 @@ public class CMDShop extends SubCommand implements InServerCommand {
 
     public Integer[] getLocation(int num) {
         int page;
-        int row = 0;
-        int column = 0;
+        int row;
+        int column;
         if (num % 36 != 0) {
             page = num / 36 + 1;
         } else {
@@ -127,7 +127,7 @@ public class CMDShop extends SubCommand implements InServerCommand {
             return true;
         }
         if (args[1].equalsIgnoreCase("commands")) {
-            return CMDShop_Commands.onCommand(sender, cmd, label, args);
+            return CMDShop_Commands.onCommand(sender, args);
         }
         ShopCache cache = Main.getInstance().getCacheHandler().getShop();
         if (args[1].equalsIgnoreCase("add")) {

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.valorin</groupId>
-    <artifactId>DantiaoEx</artifactId>
-    <version>EX-14</version>
+    <artifactId>Dantiao</artifactId>
+    <version>EX-21</version>
 
 
-    <name>DantiaoEx</name>
+    <name>Dantiao</name>
 
     <properties>
         <java.version>1.8</java.version>

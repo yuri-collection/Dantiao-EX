@@ -23,8 +23,6 @@ public class MySQL {
     private boolean enable = false;
     private Connection connection;
 
-    private Statement statement = null;
-
     public boolean isEnabled() {
         return enable;
     }
@@ -37,17 +35,13 @@ public class MySQL {
         try {
             ConfigManager cm = Main.getInstance().getConfigManager();
             if (cm.isUseMySQL()) {
-                String url = cm.getMySQLURL();
-                if (url.endsWith("/")) {
-                    url = url.substring(0, url.length());
-                }
-                url = url + "?charset=utf8";
+                String url = cm.getMySQLURL() + "?charset=utf8";
                 String user = cm.getMySQLUser();
                 String password = cm.getMySQLPassword();
                 this.connection = DriverManager.getConnection(url, user,
                         password);
 
-                statement = connection.createStatement();
+                Statement statement = connection.createStatement();
                 if (cm.isAreaUseMySQL()) {
                     statement.executeUpdate(MySQLCMD.CREATE_TABLE_ARENA
                             .commandToString());
@@ -173,7 +167,7 @@ public class MySQL {
     }
 
     public List<String> getArenas() { // 获取所有竞技场的编辑名
-        List<String> arenas = new ArrayList<String>();
+        List<String> arenas = new ArrayList<>();
         try {
             ResultSet rs = getResultSet("select * from dantiao_arena;");
             while (rs.next()) {
@@ -207,7 +201,7 @@ public class MySQL {
     public Location getArenaPointA(String editName) { // 获取某个竞技场的A点
         Location location = null;
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_arena where `editname` = ? limit 1;");
             ps.setString(1, editName);
@@ -229,7 +223,7 @@ public class MySQL {
     public Location getArenaPointB(String editName) { // 获取某个竞技场的B点
         Location location = null;
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_arena where `editname` = ? limit 1;");
             ps.setString(1, editName);
@@ -249,9 +243,9 @@ public class MySQL {
     }
 
     public List<String> getArenaCommands(String editName) { // 获取某个竞技场的指令组
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_arena where `editname` = ? limit 1;");
             ps.setString(1, editName);
@@ -261,8 +255,7 @@ public class MySQL {
                 if (blob != null) {
                     List<?> rawList = (ArrayList<?>) (Transform
                             .serializeToObject(blob));
-                    for (int i = 0; i < rawList.size(); i++) {
-                        Object o = rawList.get(i);
+                    for (Object o : rawList) {
                         if (o instanceof String) {
                             list.add((String) o);
                         }
@@ -280,7 +273,7 @@ public class MySQL {
     public Location getArenaWatchingPoint(String editName) { // 获取某个竞技场的观战点
         Location location = null;
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_arena where `editname` = ? limit 1;");
             ps.setString(1, editName);
@@ -397,7 +390,7 @@ public class MySQL {
     public Location getHologramLocation(int type) { // 获取排行榜全息图的所在位置
         Location location = null;
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_hologram where `type` = ? limit 1;");
             ps.setInt(1, type);
@@ -455,7 +448,7 @@ public class MySQL {
     public Location getLobbyLocation() { // 获取大厅传送点的所在位置
         Location location = null;
         try {
-            Blob blob = null;
+            Blob blob;
             ResultSet rs = getResultSet("select * from dantiao_lobby;");
             if (rs.next()) {
                 blob = rs.getBlob("location");
@@ -503,16 +496,15 @@ public class MySQL {
     }
 
     public List<String> getBlacklist() { // 获取黑名单
-        List<String> blacklist = new ArrayList<String>();
+        List<String> blacklist = new ArrayList<>();
         try {
-            Blob blob = null;
+            Blob blob;
             ResultSet rs = getResultSet("select * from dantiao_blacklist limit 1;");
             if (rs.next()) {
                 blob = rs.getBlob("list");
                 List<?> rawRanking = (ArrayList<?>) (Transform
                         .serializeToObject(blob));
-                for (int i = 0; i < rawRanking.size(); i++) {
-                    Object o = rawRanking.get(i);
+                for (Object o : rawRanking) {
                     if (o instanceof String) {
                         blacklist.add((String) o);
                     }
@@ -712,7 +704,7 @@ public class MySQL {
     }
 
     public List<Good> getGoodList() { // 获取所有商品的代号
-        List<Good> goodList = new ArrayList<Good>();
+        List<Good> goodList = new ArrayList<>();
         try {
             ResultSet rs = getResultSet("select * from dantiao_pointshop;");
             while (rs.next()) {
@@ -727,13 +719,12 @@ public class MySQL {
                 int salesVolumn = rs.getInt("salesvolume");
                 String dan = rs.getString("dan");
 
-                List<String> commands = new ArrayList<String>();
+                List<String> commands = new ArrayList<>();
                 Blob blob = rs.getBlob("commands");
                 if (blob != null) {
                     List<?> rawCommands = (ArrayList<?>) (Transform
                             .serializeToObject(blob));
-                    for (int i = 0; i < rawCommands.size(); i++) {
-                        Object o = rawCommands.get(i);
+                    for (Object o : rawCommands) {
                         if (o instanceof String) {
                             commands.add((String) o);
                         }
@@ -866,9 +857,9 @@ public class MySQL {
     }
 
     public List<String> getRanking(int type) { // 获取某个排行榜
-        List<String> ranking = new ArrayList<String>();
+        List<String> ranking = new ArrayList<>();
         try {
-            Blob blob = null;
+            Blob blob;
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_ranking where `type` = ?;");
             ps.setInt(1, type);
@@ -877,8 +868,7 @@ public class MySQL {
                 blob = rs.getBlob("ranking");
                 List<?> rawRanking = (ArrayList<?>) (Transform
                         .serializeToObject(blob));
-                for (int i = 0; i < rawRanking.size(); i++) {
-                    Object o = rawRanking.get(i);
+                for (Object o : rawRanking) {
                     if (o instanceof String) {
                         ranking.add((String) o);
                     }
@@ -1238,7 +1228,7 @@ public class MySQL {
     }
 
     public List<Record> getRecordList(String name) { // 获取某玩家的所有比赛记录
-        List<Record> recordList = new ArrayList<Record>();
+        List<Record> recordList = new ArrayList<>();
         try {
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_record where `name` = ?;");
@@ -1365,7 +1355,7 @@ public class MySQL {
     }
 
     public List<ItemStack> getSeasonDanItemStacks(String danEditName) { // 获取某段位的赛季结束物品奖励
-        List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+        List<ItemStack> itemStacks = new ArrayList<>();
         try {
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_season where `dan` = ? limit 1;");
@@ -1598,7 +1588,7 @@ public class MySQL {
     }
 
     public List<ItemStack> getArenaKit(String editName) { // 获取某竞技场的Kit物品
-        List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+        List<ItemStack> itemStacks = new ArrayList<>();
         try {
             PreparedStatement ps = connection
                     .prepareStatement("select * from dantiao_arena where `kititem` = ? limit 1;");

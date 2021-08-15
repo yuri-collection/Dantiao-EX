@@ -19,28 +19,28 @@ public class CMDGame extends SubCommand implements AdminCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = null;
+        Player player = null;
         if (sender instanceof Player) {
-            p = (Player) sender;
+            player = (Player) sender;
         }
         if (args.length != 4) {
-            sm("&7正确格式：/dt game <竞技场名称> <玩家1> <玩家2>", p);
+            sm("&7正确格式：/dt game <竞技场名称> <玩家1> <玩家2>", player);
             return true;
         }
-        String pn1 = args[2];
-        String pn2 = args[3];
-        if (Bukkit.getPlayerExact(pn1) == null
-                || Bukkit.getPlayerExact(pn2) == null) {
-            sm("&c[x]玩家名输入有误！请检查两个玩家是否都在线！", p);
+        String playerName1 = args[2];
+        String playerName2 = args[3];
+        if (Bukkit.getPlayerExact(playerName1) == null
+                || Bukkit.getPlayerExact(playerName2) == null) {
+            sm("&c[x]玩家名输入有误！请检查两个玩家是否都在线！", player);
             return true;
         }
-        if (pn1.equals(pn2)) {
-            sm("&c[x]请输入两个不同的玩家名", p);
+        if (playerName1.equals(playerName2)) {
+            sm("&c[x]请输入两个不同的玩家名", player);
             return true;
         }
-        new StartGame(Bukkit.getPlayerExact(pn1), Bukkit.getPlayerExact(pn2),
-                args[1], p, 3);
-        sm("&a[v]已强制开始", p);
+        new StartGame(Bukkit.getPlayerExact(playerName1), Bukkit.getPlayerExact(playerName2),
+                args[1], player, 3);
+        sm("&a[v]已强制开始", player);
         return true;
     }
 }

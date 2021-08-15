@@ -139,9 +139,8 @@ public class ShopGUI implements Listener {
                         && (dh.getDanByName(good.getDan()) != null)) {
                     CustomDan danNeeded = dh.getDanByName(good.getDan());
                     CustomDan playerDan = dh.getPlayerDan(p.getName());
-                    if (playerDan == null
-                            || (playerDan != null && playerDan.getNum() < danNeeded
-                            .getNum())) {
+                    if (playerDan == null || playerDan.getNum() < danNeeded
+                            .getNum()) {
                         sm("&c[x]请先达到 {dan} &c段位再兑换这个奖励", p, "dan",
                                 new String[]{danNeeded.getDisplayName()
                                         .replace("&", "§")});

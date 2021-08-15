@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaCreatorHandler {
-    private List<ArenaCreator> acs = new ArrayList<ArenaCreator>();
-    private List<String> creators = new ArrayList<String>();
+    private List<ArenaCreator> acs = new ArrayList<>();
+    private List<String> creators = new ArrayList<>();
 
     public void addAC(String creatorName) {
         acs.add(new ArenaCreator(creatorName));

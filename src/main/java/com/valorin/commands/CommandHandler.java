@@ -1,17 +1,19 @@
 package com.valorin.commands;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.valorin.commands.sub.*;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 
 public class CommandHandler {
 
-	private Set<SubCommand> commands = new HashSet<>();
+	private final Set<SubCommand> commands = new HashSet<>();
 
-	public CommandHandler(String name) {
+	public CommandHandler() {
 		commands.add(new CMDAdminHelp());
 		commands.add(new CMDArenaOP());
 		commands.add(new CMDBlackList());
@@ -41,7 +43,9 @@ public class CommandHandler {
 		commands.add(new CMDTransfer());
 		commands.add(new CMDSeason());
 		commands.add(new CMDCheckVersion());
-		Bukkit.getPluginCommand(name).setExecutor(new CommandExecutor());
+		PluginCommand pluginCommand = Bukkit.getPluginCommand("dantiao");
+		pluginCommand.setExecutor(new CommandExecutor());
+		pluginCommand.setAliases(Collections.singletonList("dt"));
 	}
 
 	public SubCommand getSubCommand(String cmd) {

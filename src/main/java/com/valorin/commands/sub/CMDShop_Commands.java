@@ -21,26 +21,23 @@ public class CMDShop_Commands {
 		sm("&b/dt shop(s) commands list <页数> <行> <列> &f- &a查看所有已添加的指令", p);
 	}
 
-	public static boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		Player p;
+	public static boolean onCommand(CommandSender sender, String[] args) {
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
-		} else {
-			p = null;
+			player = (Player) sender;
 		}
 		if (args.length == 2) {
-			sendHelp(p);
+			sendHelp(player);
 			return true;
 		}
 		ShopCache cache = Main.getInstance().getCacheHandler().getShop();
 		if (args[2].equalsIgnoreCase("list")) {
 			if (args.length != 6) {
-				sm("&7正确格式：/dt s commands list <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+				sm("&7正确格式：/dt s commands list <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
 				return true;
 			}
 			if (!CMDShop.isInt(args[3], args[4], args[5])) {
-				sm("&c[x]请输入有效的阿拉伯数字！", p);
+				sm("&c[x]请输入有效的阿拉伯数字！", player);
 				return true;
 			}
 			int page = Integer.parseInt(args[3]);
@@ -48,28 +45,28 @@ public class CMDShop_Commands {
 			int column = Integer.parseInt(args[5]);
 			int index = CMDShop.getNum(page, row, column);
 			if (index >= cache.size()) {
-				sm("&c[x]不存在这个商品", p);
+				sm("&c[x]不存在这个商品", player);
 				return true;
 			}
 			List<String> commands = cache.get(cache.getNumByIndex(index)).getCommands();
 			if (commands.size() == 0) {
-				sm("&c[x]该商品不存在任何指令", p);
+				sm("&c[x]该商品不存在任何指令", player);
 				return true;
 			}
-			sm("&6指令如下 [right]", p);
+			sm("&6指令如下 [right]", player);
 			for (String command : commands) {
 				sender.sendMessage("§e" + command.replace("|", " "));
 			}
-			sm("&6共计 &f&l{amount} &6条", p, "amount", new String[] { ""+commands.size() });
+			sm("&6共计 &f&l{amount} &6条", player, "amount", new String[] { ""+commands.size() });
 			return true;
 		}
 		if (args[2].equalsIgnoreCase("add")) {
 			if (args.length != 8) {
-				sm("&7正确格式：/dt s commands add <页数> <行> <列> <执行方式(player/op/console)> <内容>，行和列不考虑GUI顶部和底部的玻璃板", p);
+				sm("&7正确格式：/dt s commands add <页数> <行> <列> <执行方式(player/op/console)> <内容>，行和列不考虑GUI顶部和底部的玻璃板", player);
 				return true;
 			}
 			if (!CMDShop.isInt(args[3], args[4], args[5])) {
-				sm("&c[x]请输入有效的阿拉伯数字！", p);
+				sm("&c[x]请输入有效的阿拉伯数字！", player);
 				return true;
 			}
 			int page = Integer.parseInt(args[3]);
@@ -77,7 +74,7 @@ public class CMDShop_Commands {
 			int column = Integer.parseInt(args[5]);
 			int index = CMDShop.getNum(page, row, column);
 			if (index >= cache.size()) {
-				sm("&c[x]不存在这个商品", p);
+				sm("&c[x]不存在这个商品", player);
 				return true;
 			}
 			String way = args[6];
@@ -85,29 +82,29 @@ public class CMDShop_Commands {
 			if (!way.equalsIgnoreCase("op") && !way.equalsIgnoreCase("player")
 					&& !way.equalsIgnoreCase("console")) {
 				sm("&c[x]执行方式请输入op/player/console(不区分大小写)，OP即以管理员身份执行，Player即以玩家自己的身份执行，Console即以后台身份执行",
-						p);
+						player);
 				return true;
 			}
 			command = way + "|" + command.replace("_", " ");
 			List<String> commands = cache.get(cache.getNumByIndex(index)).getCommands();
-			if (commands == null || (commands != null && commands.size() == 0)) {
-				List<String> newcommands = new ArrayList<String>();
-				newcommands.add(command);
-				cache.setCommands(cache.getNumByIndex(index), newcommands);
+			if (commands == null || commands.size() == 0) {
+				List<String> newCommands = new ArrayList<>();
+				newCommands.add(command);
+				cache.setCommands(cache.getNumByIndex(index), newCommands);
 			} else {
 				commands.add(command);
 				cache.setCommands(cache.getNumByIndex(index), commands);
 			}
-			sm("&a[v]添加成功 {command}", p, "command", new String[] { command });
+			sm("&a[v]添加成功 {command}", player, "command", new String[] { command });
 			return true;
 		}
 		if (args[2].equalsIgnoreCase("clear")) {
 			if (args.length != 6) {
-				sm("&7正确格式：/dt s commands clear <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+				sm("&7正确格式：/dt s commands clear <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
 				return true;
 			}
 			if (!CMDShop.isInt(args[3], args[4], args[5])) {
-				sm("&c[x]请输入有效的阿拉伯数字！", p);
+				sm("&c[x]请输入有效的阿拉伯数字！", player);
 				return true;
 			}
 			int page = Integer.parseInt(args[3]);
@@ -115,19 +112,19 @@ public class CMDShop_Commands {
 			int column = Integer.parseInt(args[5]);
 			int index = CMDShop.getNum(page, row, column);
 			if (index >= cache.size()) {
-				sm("&c[x]不存在这个商品", p);
+				sm("&c[x]不存在这个商品", player);
 				return true;
 			}
 			List<String> commands = cache.get(cache.getNumByIndex(index)).getCommands();
 			if (commands.size() == 0) {
-				sm("&c[x]该商品不存在任何指令", p);
+				sm("&c[x]该商品不存在任何指令", player);
 				return true;
 			}
-			cache.get(cache.getNumByIndex(index)).setCommands(new ArrayList<String>());
-			sm("&a[v]商品指令清空完毕", p);
+			cache.get(cache.getNumByIndex(index)).setCommands(new ArrayList<>());
+			sm("&a[v]商品指令清空完毕", player);
 			return true;
 		}
-		sendHelp(p);
+		sendHelp(player);
 		return true;
 	}
 }

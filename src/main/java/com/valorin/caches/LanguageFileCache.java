@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LanguageFileCache {
-    private Map<String, String> map = new HashMap<String, String>();
-    private List<String> changeList = new ArrayList<String>();
+    private final Map<String, String> map = new HashMap<>();
+    private final List<String> changeList = new ArrayList<>();
 
     public LanguageFileCache() {
         try {
@@ -35,7 +35,7 @@ public class LanguageFileCache {
     }
 
     public void load(String name) {
-        if (!map.keySet().contains(name)) {
+        if (!map.containsKey(name)) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(),
                     () -> {
                         String language = Data.getLanguageFile(name);
@@ -49,10 +49,10 @@ public class LanguageFileCache {
             map.remove(name);
     }
 
-    public void save(boolean isAsyn) {
+    public void save(boolean isAsynchronously) {
         if (changeList.size() != 0) {
             for (String name : changeList) {
-                Data.setLanguageFile(name, map.get(name), isAsyn);
+                Data.setLanguageFile(name, map.get(name), isAsynchronously);
             }
             changeList.clear();
             Debug.send("语言文件数据已自动保存", "Language File data saved automatically");

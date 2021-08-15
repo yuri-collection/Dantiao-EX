@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopCache {
-    private List<Good> goodList = new ArrayList<Good>();
+    private List<Good> goodList = new ArrayList<>();
 
     public ShopCache() {
         try {
@@ -127,7 +127,7 @@ public class ShopCache {
     }
 
     public void updateSalesVolumn(int num) {
-        goodList.get(goodList.indexOf(get(num))).updateSalesVolumn();
+        goodList.get(goodList.indexOf(get(num))).updateSalesVolume();
         Data.updateSalesVolumn(num);
     }
 }

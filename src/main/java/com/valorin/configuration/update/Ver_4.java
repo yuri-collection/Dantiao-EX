@@ -14,7 +14,7 @@ public class Ver_4 {
 
 			List<String> texts = ConfigUpdate.readTexts(configFile);
 			
-			List<String> newTexts = new ArrayList<String>();
+			List<String> newTexts = new ArrayList<>();
 
 			for (int i = 0;i < texts.size();i++) {
 				String text = texts.get(i);

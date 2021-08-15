@@ -15,16 +15,16 @@ public class Stats {
 
             BStats bStats = new BStats(plugin, 6343);
             bStats.addCustomChart(new BStats.SingleLineChart("duel_amount",
-                    () -> singleLineChartData.uploadGameTimes()));
+                    singleLineChartData::uploadGameTimes));
             bStats.addCustomChart(new BStats.SingleLineChart("command_type_amount",
-                    () -> singleLineChartData.uploadTypeCommandTimes()));
+                    singleLineChartData::uploadTypeCommandTimes));
             bStats.addCustomChart(new BStats.SingleLineChart("commodity_number",
-                    () -> singleLineChartData.uploadGoodNumber()));
+                    singleLineChartData::uploadGoodNumber));
             bStats.addCustomChart(new BStats.SingleLineChart("arena_number",
-                    () -> singleLineChartData.uploadArenaNumber()));
+                    singleLineChartData::uploadArenaNumber));
 
             new CStats(plugin);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }

@@ -13,8 +13,8 @@ import com.valorin.Main;
 import com.valorin.util.ViaVersion;
 
 public class ToLobby {
-	public static Map<String, BukkitTask> timers = new HashMap<String, BukkitTask>();
-	public static Map<String, Integer> times = new HashMap<String, Integer>();
+	public static Map<String, BukkitTask> timers = new HashMap<>();
+	public static Map<String, Integer> times = new HashMap<>();
 
 	public static void to(Player p, boolean isNow) {
 		if (Main.getInstance().getCacheHandler().getArea().getLobby() == null) {
@@ -27,18 +27,14 @@ public class ToLobby {
 			@Override
 			public void run() {
 				if (isNow) {
-					Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-						Bukkit.dispatchCommand(p, "dt lobby");
-					});
+					Bukkit.getScheduler().runTask(Main.getInstance(), () -> Bukkit.dispatchCommand(p, "dt lobby"));
 					this.cancel();
 				} else {
 					int countDown = Main.getInstance().getConfigManager()
 							.getTeleportCountDown();
 					if (countDown == 0) {
 						Bukkit.getScheduler().runTask(Main.getInstance(),
-								() -> {
-									Bukkit.dispatchCommand(p, "dt lobby");
-								});
+								() -> Bukkit.dispatchCommand(p, "dt lobby"));
 						this.cancel();
 					} else {
 						if (countDown < 5) {
@@ -51,10 +47,8 @@ public class ToLobby {
 							if (time == countDown) {
 								Bukkit.getScheduler().runTask(
 										Main.getInstance(),
-										() -> {
-											Bukkit.dispatchCommand(p,
-													"dt lobby");
-										});
+										() -> Bukkit.dispatchCommand(p,
+												"dt lobby"));
 								this.cancel();
 								timers.remove(p.getName());
 								times.remove(p.getName());

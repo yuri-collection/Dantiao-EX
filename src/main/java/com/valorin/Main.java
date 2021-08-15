@@ -34,8 +34,7 @@ public class Main extends JavaPlugin {
     /**
      * Dantiao Plugin
      *
-     * @author Valorin
-     * @date 2021/4
+     * @date 2021/8
      */
     private static String version;
     private static Main instance;
@@ -58,7 +57,7 @@ public class Main extends JavaPlugin {
     private RegPAPI regPAPI;
     private String serverVersion;
     private Update update;
-    private int serverVersionType; // 0代表1.7 1代表1.8~1.9 2代表1.9+
+    private int serverVersionType; // 0代表1.7及以下 1代表1.8~1.9 2代表1.10~1.16 3代表1.17及以上
 
     public static String getVersion() {
         return version;
@@ -150,91 +149,96 @@ public class Main extends JavaPlugin {
         return serverVersionType;
     }
 
-    public Update getUpdate() { return update; }
+    public Update getUpdate() {
+        return update;
+    }
 
     @Override
     public void onEnable() {
         instance = this;
 
-            ConsoleCommandSender console = Bukkit.getConsoleSender();
-            version = getDescription().getVersion();
-            console.sendMessage("§b██████╗ ████████╗");
-            console.sendMessage("§b██╔══██╗╚══██╔══╝");
-            console.sendMessage("§b██║  ██║   ██║   ");
-            console.sendMessage("§b██║  ██║   ██║   ");
-            console.sendMessage("§b██████╔╝   ██║   ");
-            console.sendMessage("§b╚═════╝    ╚═╝§eEnabling...");
-            console.sendMessage("§fThis is Dantiao-EX " + version
-                    + " developed by Valorin");
-            console.sendMessage("§f祝您使用愉快 :D");
+        ConsoleCommandSender console = Bukkit.getConsoleSender();
+        version = getDescription().getVersion();
+        console.sendMessage("§b██████╗ ████████╗");
+        console.sendMessage("§b██╔══██╗╚══██╔══╝");
+        console.sendMessage("§b██║  ██║   ██║   ");
+        console.sendMessage("§b██║  ██║   ██║   ");
+        console.sendMessage("§b██████╔╝   ██║   ");
+        console.sendMessage("§b╚═════╝    ╚═╝§eEnabling...");
+        console.sendMessage("§fThis is Dantiao-EX " + version
+                + " developed by Valorin");
+        console.sendMessage("§f祝您使用愉快 :D");
 
-            DataFile.loadData();
-            DataFile.saveAreas();
-            DataFile.saveBlackList();
-            DataFile.savepd();
-            DataFile.saveRanking();
-            DataFile.saveRecords();
-            DataFile.saveShop();
-            DataFile.saveSymbols();
+        DataFile.loadData();
+        DataFile.saveAreas();
+        DataFile.saveBlackList();
+        DataFile.savepd();
+        DataFile.saveRanking();
+        DataFile.saveRecords();
+        DataFile.saveShop();
+        DataFile.saveSymbols();
 
-            new SymbolLoader();
-            ConfigUpdate.execute();
-            configManager = new ConfigManager();
-            mysql = new MySQL();
-            mysql.connect();
-            cacheHandler = new CacheHandler(
-                    () -> {
-                        languageFileLoader = new LanguageFileLoader();
-                        symbolLoader = new SymbolLoader();
-                        arenaCreatorHandler = new ArenaCreatorHandler();
-                        arenaManager = new ArenaManager();
-                        timeTable = new Timetable();
-                        requestHandler = new RequestsHandler();
-                        ranking = new Ranking();
-                        hd = new HD();
-                        danHandler = new DanHandler();
-                        matchingHandler = new MatchingHandler();
-                        update = new Update();
-                        commandsHandler = new CommandHandler("dt");
-                        singleLineChartData = new SingleLineChartData();
-                        EventRegister.registerEvents();
-                        if (Bukkit.getPluginManager().isPluginEnabled(
-                                "PlaceholderAPI")) {
-                            if (!me.clip.placeholderapi.PlaceholderAPI
-                                    .isRegistered("dantiao")) {
-                                regPAPI = new RegPAPI();
-                                regPAPI.register();
-                            }
-                        } else {
-                            console.sendMessage("§8§l[§bDantiao§8§l]");
-                            console.sendMessage("§f- §c未发现PlaceholderAPI变量插件，将无法使用PAPI的相关功能，若您刚安装，请尝试重启服务器");
-                            console.sendMessage("§f- §cPlugin PlaceholderAPI is not found!");
+        new SymbolLoader();
+        ConfigUpdate.execute();
+        configManager = new ConfigManager();
+        mysql = new MySQL();
+        mysql.connect();
+        cacheHandler = new CacheHandler(
+                () -> {
+                    languageFileLoader = new LanguageFileLoader();
+                    symbolLoader = new SymbolLoader();
+                    arenaCreatorHandler = new ArenaCreatorHandler();
+                    arenaManager = new ArenaManager();
+                    timeTable = new Timetable();
+                    requestHandler = new RequestsHandler();
+                    ranking = new Ranking();
+                    hd = new HD();
+                    danHandler = new DanHandler();
+                    matchingHandler = new MatchingHandler();
+                    update = new Update();
+                    commandsHandler = new CommandHandler();
+                    singleLineChartData = new SingleLineChartData();
+                    EventRegister.registerEvents();
+                    if (Bukkit.getPluginManager().isPluginEnabled(
+                            "PlaceholderAPI")) {
+                        if (!me.clip.placeholderapi.PlaceholderAPI
+                                .isRegistered("dantiao")) {
+                            regPAPI = new RegPAPI();
+                            regPAPI.register();
                         }
-                    });
+                    } else {
+                        console.sendMessage("§8§l[§bDantiao§8§l]");
+                        console.sendMessage("§f- §c未发现PlaceholderAPI变量插件，将无法使用PAPI的相关功能，若您刚安装，请尝试重启服务器");
+                        console.sendMessage("§f- §cPlugin PlaceholderAPI is not found!");
+                    }
+                });
 
-            new VersionChecker().runTaskLaterAsynchronously(instance, 200L);
-            globalGameTimes = new GlobalGameTimes();
-            globalGameTimes.runTaskTimerAsynchronously(instance, 200L, 36000L);
-            new Stats();
-            serverVersion = Bukkit.getServer().getClass().getPackage()
-                    .getName().split("\\.")[3];
-            try {
-                int serverVersionInt = Integer.parseInt(serverVersion
-                        .split("_")[1]);
-                if (serverVersionInt <= 7) {
-                    serverVersionType = 0;
-                }
-                if (serverVersionInt >= 8 && serverVersionInt <= 9) {
-                    serverVersionType = 1;
-                }
-                if (serverVersionInt >= 10) {
-                    serverVersionType = 2;
-                }
-            } catch (NumberFormatException e) {
+        new VersionChecker().runTaskLaterAsynchronously(instance, 200L);
+        globalGameTimes = new GlobalGameTimes();
+        globalGameTimes.runTaskTimerAsynchronously(instance, 200L, 36000L);
+        new Stats();
+        serverVersion = Bukkit.getServer().getClass().getPackage()
+                .getName().split("\\.")[3];
+        try {
+            int serverVersionInt = Integer.parseInt(serverVersion
+                    .split("_")[1]);
+            if (serverVersionInt <= 7) {
                 serverVersionType = 0;
-                e.printStackTrace();
             }
-            ViaVersion.getAllClass();
+            if (serverVersionInt >= 8 && serverVersionInt <= 9) {
+                serverVersionType = 1;
+            }
+            if (serverVersionInt >= 10 && serverVersionInt <= 16) {
+                serverVersionType = 2;
+            }
+            if (serverVersionInt >= 17) {
+                serverVersionType = 3;
+            }
+        } catch (NumberFormatException e) {
+            serverVersionType = 0;
+            e.printStackTrace();
+        }
+        ViaVersion.getAllClass();
     }
 
     @Override
@@ -262,7 +266,7 @@ public class Main extends JavaPlugin {
             try {
                 Method method = Class.forName("me.clip.placeholderapi.PlaceholderAPI").getMethod("unregisterExpansion");
                 method.invoke(regPAPI);
-            } catch (Exception e1) {
+            } catch (Exception ignored) {
             }
         }
     }

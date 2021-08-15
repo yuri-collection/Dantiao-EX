@@ -21,29 +21,29 @@ public class CMDTimetable extends SubCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = null;
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
+			player = (Player) sender;
 		}
 		ConfigManager configManager = Main.getInstance().getConfigManager();
 		List<String> ts = configManager.getSearchingTimeTable();
 		List<String> ti = configManager.getInviteTimeTable();
 		if (ts.size() != 0) {
-			sm("&b全服匹配开放时间：", p);
+			sm("&b全服匹配开放时间：", player);
 			for (String s : ts) {
 				sender.sendMessage(s);
 			}
 		} else {
-			sm("&b全服匹配开放时间：全天无限制", p);
+			sm("&b全服匹配开放时间：全天无限制", player);
 		}
 
 		if (ti.size() != 0) {
-			sm("&b邀请功能开放时间：", p);
+			sm("&b邀请功能开放时间：", player);
 			for (String s : ti) {
 				sender.sendMessage(s);
 			}
 		} else {
-			sm("&b邀请功能开放时间：全天无限制", p);
+			sm("&b邀请功能开放时间：全天无限制", player);
 		}
 		return true;
 	}

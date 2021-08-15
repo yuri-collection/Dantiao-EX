@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DanHandler {
-    List<CustomDan> customDans = new ArrayList<CustomDan>();
-    Map<String, CustomDan> playerDans = new HashMap<String, CustomDan>();
+    List<CustomDan> customDans = new ArrayList<>();
+    Map<String, CustomDan> playerDans = new HashMap<>();
     int threshold;
 
     public DanHandler() {
@@ -47,9 +47,7 @@ public class DanHandler {
         DanCache cache = Main.getInstance().getCacheHandler().getDan();
         CustomDan playerDan = null;
         int exp = cache.get(playerName);
-        if (exp < threshold) {
-            playerDan = null;
-        } else {
+        if (exp >= threshold) {
             for (CustomDan customDan : customDans) {
                 if (exp < customDan.getExp()) {
                     break;
@@ -62,9 +60,7 @@ public class DanHandler {
 
     public CustomDan getDanByExp(int exp) {
         CustomDan dan = null;
-        if (exp < threshold) {
-            dan = null;
-        } else {
+        if (exp >= threshold) {
             for (CustomDan customDan : customDans) {
                 if (exp < customDan.getExp()) {
                     break;
@@ -107,7 +103,7 @@ public class DanHandler {
 
         Configuration config = Main.getInstance().getConfigManager()
                 .getConfig();
-        List<String> editNameList = new ArrayList<String>();
+        List<String> editNameList = new ArrayList<>();
         config.getConfigurationSection("Dan.CustomDan").getKeys(false)
                 .forEach(key -> {
                     if (!editNameList.contains(key)) {
@@ -119,9 +115,9 @@ public class DanHandler {
             isUseDefault = true;
         }
 
-        List<CustomDan> customDans = new ArrayList<CustomDan>();
+        List<CustomDan> customDans = new ArrayList<>();
 
-        List<String> customDanNameList = new ArrayList<String>();
+        List<String> customDanNameList = new ArrayList<>();
         int expMark = 0;
         for (int n = 0; n < editNameList.size(); n++) {
             String editName = editNameList.get(n);

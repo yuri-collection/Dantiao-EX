@@ -1,16 +1,12 @@
 package com.valorin.event.game;
 
 import com.valorin.Main;
-import com.valorin.arenas.Arena;
 import com.valorin.arenas.ArenaManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class OpenChest implements Listener {
     @EventHandler

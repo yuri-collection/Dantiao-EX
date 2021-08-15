@@ -30,10 +30,7 @@ public class CMDPoints extends SubCommand {
 
     public boolean isNum(String str) {
         if (str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$")) {
-            if (Double.valueOf(str) < 0) {
-                return false;
-            }
-            return true;
+            return !(Double.parseDouble(str) < 0);
         }
         return false;
     }
@@ -41,111 +38,111 @@ public class CMDPoints extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p;
+        Player player;
         if (sender instanceof Player) {
-            p = (Player) sender;
+            player = (Player) sender;
         } else {
-            p = null;
+            player = null;
         }
         if (args.length == 1) {
-            sendHelp(p);
+            sendHelp(player);
             return true;
         }
         PointCache cache = Main.getInstance().getCacheHandler().getPoint();
         if (args[1].equalsIgnoreCase("me")) {
             if (!(sender instanceof Player)) {
-                sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+                sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
                 return true;
             }
-            double me = cache.get(p.getName());
-            sm("&6我的单挑积分余额 [right] {amount}", p, "amount", new String[]{""
+            double me = cache.get(player.getName());
+            sm("&6我的单挑积分余额 [right] {amount}", player, "amount", new String[]{""
                     + me});
             return true;
         }
         if (!sender.hasPermission("dt.admin")) {
-            sm("&c[x]无权限！", p);
+            sm("&c[x]无权限！", player);
             return true;
         }
         List<String> playerSet = PlayerSet.get();
         if (args[1].equalsIgnoreCase("add")) {
             if (args.length != 4) {
-                sm("&7正确格式：/dt p add <玩家名> <数额>", p);
+                sm("&7正确格式：/dt p add <玩家名> <数额>", player);
                 return true;
             }
             if (!isNum(args[3])) {
-                sm("&c[x]请输入有效的且大于零的数字", p);
+                sm("&c[x]请输入有效的且大于零的数字", player);
                 return true;
             }
             String targetPlayerName = args[2];
             if (!playerSet.contains(targetPlayerName)) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
             double now = cache.get(targetPlayerName);
-            double value = Double.valueOf(args[3]);
+            double value = Double.parseDouble(args[3]);
             cache.set(targetPlayerName, now + value);
-            sm("&a[v]积分增添成功", p);
+            sm("&a[v]积分增添成功", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("take")) {
             if (args.length != 4) {
-                sm("&7正确格式：/dt p take <玩家名> <数额>", p);
+                sm("&7正确格式：/dt p take <玩家名> <数额>", player);
                 return true;
             }
             if (!isNum(args[3])) {
-                sm("&c[x]请输入有效的且大于零的数字", p);
+                sm("&c[x]请输入有效的且大于零的数字", player);
                 return true;
             }
             String targetPlayerName = args[2];
             if (!playerSet.contains(targetPlayerName)) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
-            double value = Double.valueOf(args[3]);
+            double value = Double.parseDouble(args[3]);
             double now = cache.get(targetPlayerName);
             if (now < value) {
                 cache.set(targetPlayerName, 0);
             } else {
                 cache.set(targetPlayerName, now - value);
             }
-            sm("&a[v]积分扣除成功", p);
+            sm("&a[v]积分扣除成功", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("set")) {
             if (args.length != 4) {
-                sm("&7正确格式：/dt p set <玩家名> <数额>", p);
+                sm("&7正确格式：/dt p set <玩家名> <数额>", player);
                 return true;
             }
             if (!isNum(args[3])) {
-                sm("&c[x]请输入有效的且大于零的数字", p);
+                sm("&c[x]请输入有效的且大于零的数字", player);
                 return true;
             }
             String targetPlayerName = args[2];
             if (!playerSet.contains(targetPlayerName)) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
             double value = Double.valueOf(args[3]);
             cache.set(targetPlayerName, value);
-            sm("&a[v]积分设置成功", p);
+            sm("&a[v]积分设置成功", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("view")) {
             if (args.length != 3) {
-                sm("&7正确格式：/dt p view <玩家名>", p);
+                sm("&7正确格式：/dt p view <玩家名>", player);
                 return true;
             }
             String targetPlayerName = args[2];
             if (!playerSet.contains(targetPlayerName)) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
             double value = cache.get(targetPlayerName);
-            sm("&6玩家&e{player}&6的单挑积分余额 [right] {amount}", p, "player amount",
+            sm("&6玩家&e{player}&6的单挑积分余额 [right] {amount}", player, "player amount",
                     new String[]{args[2], "" + value});
             return true;
         }
-        sendHelp(p);
+        sendHelp(player);
         return true;
     }
 

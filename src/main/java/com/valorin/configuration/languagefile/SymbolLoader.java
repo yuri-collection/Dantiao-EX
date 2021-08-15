@@ -42,8 +42,8 @@ public class SymbolLoader {
 		}
 	}
 
-	private Map<String, String> symbols = new HashMap<String, String>();
-	private List<String> symbolsMark = new ArrayList<String>();
+	private final Map<String, String> symbols = new HashMap<>();
+	private final List<String> symbolsMark = new ArrayList<>();
 
 	public List<String> getSymbolsMark() {
 		return symbolsMark;

@@ -25,28 +25,28 @@ public class CMDStarting extends SubCommand implements InServerCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = null;
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
+			player = (Player) sender;
 		}
-		if (getInstance().getArenaManager().isPlayerBusy(p.getName())) {// 防止玩家用vv进行二次匹配
+		if (getInstance().getArenaManager().isPlayerBusy(player.getName())) {// 防止玩家用vv进行二次匹配
 			return true;
 		}
 		List<String> blist = Main.getInstance().getCacheHandler().getBlacklist().get();
-		if (blist.contains(p.getName())) {
-			sm("&c[x]您已被禁赛！", p);
+		if (blist.contains(player.getName())) {
+			sm("&c[x]您已被禁赛！", player);
 			return true;
 		}
-		if (!TimeChecker.isInTheTime(p, true)) {
-			sm("&c[x]此时间段不开放全服匹配功能，输入/dt timetable查看", p);
+		if (!TimeChecker.isInTheTime(player, true)) {
+			sm("&c[x]此时间段不开放全服匹配功能，输入/dt timetable查看", player);
 			return true;
 		}
 		if (getInstance().getConfig().getBoolean("WorldLimit.Enable")) {
 			List<String> worldlist = getInstance().getConfig().getStringList(
 					"WorldLimit.Worlds");
 			if (worldlist != null) {
-				if (!worldlist.contains(p.getWorld().getName())) {
-					sm("&c[x]你所在的世界已被禁止比赛", p);
+				if (!worldlist.contains(player.getWorld().getName())) {
+					sm("&c[x]你所在的世界已被禁止比赛", player);
 					return true;
 				}
 			}
@@ -54,13 +54,13 @@ public class CMDStarting extends SubCommand implements InServerCommand {
 		}
 		EnergyCache energyCache = Main.getInstance().getCacheHandler().getEnergy();
 		if (energyCache.isEnable()) {
-			if (energyCache.get(p.getName()) < energyCache.getEnergyNeeded()) {
-				sm("&c[x]你的精力值不足！请休息一会", p);
+			if (energyCache.get(player.getName()) < energyCache.getEnergyNeeded()) {
+				sm("&c[x]你的精力值不足！请休息一会", player);
 				return true;
 			}
 		}
-		INVStart.openInv(p.getName());
-		sm("&a[v]已打开匹配面板..", p);
+		INVStart.openInv(player.getName());
+		sm("&a[v]已打开匹配面板..", player);
 		return true;
 	}
 

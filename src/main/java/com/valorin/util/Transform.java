@@ -13,9 +13,8 @@ import java.sql.SQLException;
 public class Transform {
     public static InputStream yamlToStream(YamlConfiguration yml)
             throws IOException, SQLException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(yml
+        return new ByteArrayInputStream(yml
                 .saveToString().getBytes(StandardCharsets.UTF_8));
-        return stream;
     }
 
     public static Object streamToYaml(InputStream stream) throws IOException,
@@ -34,7 +33,7 @@ public class Transform {
     }
 
     public static Blob serialize(Object obj) throws IOException,
-            SerialException, SQLException {
+            SQLException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream;
         objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -42,8 +41,7 @@ public class Transform {
         String string = byteArrayOutputStream.toString("ISO-8859-1");
         objectOutputStream.close();
         byteArrayOutputStream.close();
-        Blob blob = new SerialBlob(string.getBytes(StandardCharsets.UTF_8));
-        return blob;
+        return new SerialBlob(string.getBytes(StandardCharsets.UTF_8));
     }
 
     public static Object serializeToObject(Blob blob) throws IOException,

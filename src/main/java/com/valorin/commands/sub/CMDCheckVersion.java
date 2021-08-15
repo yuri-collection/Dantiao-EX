@@ -17,9 +17,9 @@ public class CMDCheckVersion extends SubCommand implements AdminCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        VersionChecker vc = new VersionChecker();
-        vc.setSend(sender);
-        vc.runTaskAsynchronously(Main.getInstance());
+        VersionChecker versionChecker = new VersionChecker();
+        versionChecker.setSend(sender);
+        versionChecker.runTaskAsynchronously(Main.getInstance());
         return true;
     }
 

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaInfo {
-    private String editName;
-    private String displayName;
-    private Location pointA;
-    private Location pointB;
+    private final String editName;
+    private final String displayName;
+    private final Location pointA;
+    private final Location pointB;
     private List<String> commandList;
     private Location watchingPoint;
     private boolean isKitMode;
@@ -23,7 +23,7 @@ public class ArenaInfo {
         this.pointA = pointA;
         this.pointB = pointB;
         if (commandList == null) {
-            this.commandList = new ArrayList<String>();
+            this.commandList = new ArrayList<>();
         } else {
             this.commandList = commandList;
         }
@@ -58,7 +58,7 @@ public class ArenaInfo {
 
     public void setCommandList(List<String> commandList) {
         if (commandList == null) {
-            this.commandList = new ArrayList<String>();
+            this.commandList = new ArrayList<>();
         } else {
             this.commandList = commandList;
         }
@@ -86,7 +86,7 @@ public class ArenaInfo {
 
     public void setKit(List<ItemStack> kit) {
         if (kit == null) {
-            this.kit = new ArrayList<ItemStack>();
+            this.kit = new ArrayList<>();
         } else {
             this.kit = kit;
         }

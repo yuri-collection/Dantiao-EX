@@ -22,7 +22,7 @@ public class EventRegister {
                 new ClickPlayer(), new SaveSeasonRewardItems(),
                 new InterruptSearching(), new SaveArenaKitItems(),
                 new InterruptAutoTeleport(), new DropItemInKitPVPMode(),
-                new CheckVersion(), new OpenChest()};
+                new CheckVersion(), new OpenChest(), new Interact()};
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener,
                     Main.getInstance());

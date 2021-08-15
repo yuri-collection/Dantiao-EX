@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatchingHandler {
-    private List<Matching> matchings = new ArrayList<Matching>();
-    private Matching randomMatching;
-    private List<String> busyPlayers = new ArrayList<String>();
+    private final List<Matching> matchings = new ArrayList<>();
+    private final Matching randomMatching;
+    private final List<String> busyPlayers = new ArrayList<>();
 
     public MatchingHandler() {
         List<ArenaInfo> arenaInfoList = Main.getInstance().getCacheHandler()

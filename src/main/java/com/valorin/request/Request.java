@@ -1,9 +1,9 @@
 package com.valorin.request;
 
 public class Request {
-    private String sender;
-    private String receiver;
-    private String arenaEditName;
+    private final String sender;
+    private final String receiver;
+    private final String arenaEditName;
 
     public Request(String sender, String receiver, String arenaEditName) {
         this.sender = sender;

@@ -1,12 +1,12 @@
 package com.valorin.configuration.update;
 
+import com.valorin.Main;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.valorin.Main;
-
-public class Ver_5 {
+public class Ver_7 {
 	public static void execute() {
 		try {
 			File configFile = new File(Main.getInstance().getDataFolder(),
@@ -16,26 +16,16 @@ public class Ver_5 {
 			
 			List<String> newTexts = new ArrayList<>();
 
-			for (int i = 0;i < texts.size();i++) {
-				String text = texts.get(i);
-				
+			for (String text : texts) {
 				if (text.startsWith("ConfigVersion:")) {
-					newTexts.add("ConfigVersion: 5");
+					newTexts.add("ConfigVersion: 7");
 					continue;
 				}
-				if (text.startsWith("      Points:")) {
+				if (text.startsWith("    IsOpeningEnderChestAllowed:")) {
 					newTexts.add(text);
-					if (texts.get(i - 1).startsWith("      # 奖励给获胜方的单挑积分数")) {
-						newTexts.add("      # The deduction of loser's points");
-						newTexts.add("      # 输家扣除的单挑积分");
-						newTexts.add("      PointsDeducted: 0");
-					} else {
-						if (texts.get(i - 4).startsWith("    Inviting:")) {
-							newTexts.add("      PointsDeducted: 0");
-						} else {
-							newTexts.add("      PointsDeducted: 0");
-						}
-					}
+					newTexts.add("    # Whether protect players from damage of projectile");
+					newTexts.add("    # 是否开启弹射物保护。开启时，玩家将不会受到任何场外玩家和怪物的远程伤害。但可能会导致一些模组武器无法造成远程伤害，纯净服务器推荐开启，模组服视实际情况而定。");
+					newTexts.add("    EnableProjectileProtection: true");
 					continue;
 				}
 				newTexts.add(text);

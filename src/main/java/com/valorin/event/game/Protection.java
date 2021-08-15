@@ -21,7 +21,7 @@ public class Protection implements Listener {
             String pn = p.getName();
             ArenaManager ah = Main.getInstance().getArenaManager();
             if (!ah.isPlayerBusy(pn)) { // 如果这个受击者不是正在比赛的玩家，那就看看攻击者是不是比赛中的选手
-                if (ah.isPlayerBusy(((Player) e.getDamager()).getName())) { // 是比赛选手，设置禁止伤害场外玩家
+                if (ah.isPlayerBusy(e.getDamager().getName())) { // 是比赛选手，设置禁止伤害场外玩家
                     e.setCancelled(true);
                 }
             } else {
@@ -46,6 +46,15 @@ public class Protection implements Listener {
     public void protection2(EntityDamageByEntityEvent e) { // 所有实体类型：弹射物保护
         if (!(e.getEntity() instanceof Player)) { // 受击者是玩家
             return;
+        }
+        ArenaManager ah = Main.getInstance().getArenaManager();
+        if (!Main.getInstance().getConfigManager().isProjectileProtectionEnabled()) {
+            if (ah.isPlayerBusy(e.getEntity().getName())) {
+                Arena arena = ah.getArena(ah.getPlayerOfArena((e.getEntity()).getName()));
+                if (arena.getStage() == 1) {
+                    return;
+                }
+            }
         }
         Player bearerPlayer = (Player) e.getEntity(); // 确认受击者
         String bearer = bearerPlayer.getName();
@@ -76,7 +85,6 @@ public class Protection implements Listener {
         if (!isShoot) { // 不是弹射物伤害，就跟这个事件无关了
             return;
         }
-        ArenaManager ah = Main.getInstance().getArenaManager();
         if (!ah.isPlayerBusy(bearer)) { // 受击者是场外玩家，可能是场内玩家误伤观众
             if (shooter != null) { // 确实射击者是场内玩家
                 Player shooterPlayer = (Player) shooter;
@@ -114,6 +122,15 @@ public class Protection implements Listener {
         if (!(e.getEntity() instanceof Player)) { // 受击者若不是玩家，return
             return;
         }
+        ArenaManager ah = Main.getInstance().getArenaManager();
+        if (!Main.getInstance().getConfigManager().isProjectileProtectionEnabled()) {
+            if (ah.isPlayerBusy(e.getEntity().getName())) {
+                Arena arena = ah.getArena(ah.getPlayerOfArena((e.getEntity()).getName()));
+                if (arena.getStage() == 1) {
+                    return;
+                }
+            }
+        }
         if (e.getDamager() instanceof Player) { // 攻击者是玩家，return
             return;
         }
@@ -134,7 +151,6 @@ public class Protection implements Listener {
         }
         Player p = (Player) e.getEntity(); // 确认受击者
         String pn = p.getName();
-        ArenaManager ah = Main.getInstance().getArenaManager();
         if (ah.isPlayerBusy(pn)) { // 受击者为比赛选手玩家
             e.setCancelled(true);
         }

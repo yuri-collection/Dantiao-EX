@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 public class ShopEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
-    private Player buyer;
-    private int page;
-    private int row;
-    private int column;
-    private ItemStack item;
+    private final Player buyer;
+    private final int page;
+    private final int row;
+    private final int column;
+    private final ItemStack item;
 
     /**
      * 玩家在单挑积分商城购物时调用（前提是有足够的积分）

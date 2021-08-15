@@ -65,12 +65,7 @@ public class INVShop {
 		List<Good> goodList = Main.getInstance().getCacheHandler().getShop()
 				.getList();
 		int goodNumber = goodList.size();
-		int n;
-		if (goodNumber - ((page - 1) * 36) > 36) {
-			n = 36;
-		} else {
-			n = goodNumber - ((page - 1) * 36);
-		}
+		int n = Math.min(goodNumber - ((page - 1) * 36), 36);
 		for (int i = 0; i < n; i++) {
 			inv.setItem(
 					i + 9,

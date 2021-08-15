@@ -21,77 +21,77 @@ public class CMDRankingOP extends SubCommand implements AdminCommand {
 		super("hd");
 	}
 
-	public void sendHelp(Player p) {
-		sm("", p);
-		sm("&3&lDan&b&l&oTiao &f&l>> &a管理员帮助：排行榜全息图操作", p, false);
-		sm("&b/dt hd win &f- &a创建/移动：全息图-胜场排行榜", p, false);
-		sm("&b/dt hd winremove &f- &a删除：全息图-胜场排行榜", p, false);
-		sm("&b/dt hd kd &f- &a创建/移动：全息图-KD值排行榜", p, false);
-		sm("&b/dt hd kdremove &f- &a删除：全息图-KD值排行榜", p, false);
-		sm("&b/dt hd refresh &f- &a强制刷新：所有全息图", p, false);
-		sm("", p);
+	public void sendHelp(Player player) {
+		sm("", player);
+		sm("&3&lDan&b&l&oTiao &f&l>> &a管理员帮助：排行榜全息图操作", player, false);
+		sm("&b/dt hd win &f- &a创建/移动：全息图-胜场排行榜", player, false);
+		sm("&b/dt hd winremove &f- &a删除：全息图-胜场排行榜", player, false);
+		sm("&b/dt hd kd &f- &a创建/移动：全息图-KD值排行榜", player, false);
+		sm("&b/dt hd kdremove &f- &a删除：全息图-KD值排行榜", player, false);
+		sm("&b/dt hd refresh &f- &a强制刷新：所有全息图", player, false);
+		sm("", player);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		Player p = null;
+		Player player = null;
 		if (sender instanceof Player) {
-			p = (Player) sender;
+			player = (Player) sender;
 		}
 		if (args.length == 1) {
-			sendHelp(p);
+			sendHelp(player);
 			return true;
 		}
 		HD hd = getInstance().getHD();
 		if (!hd.isEnabled()) {
-			sm("&c[x]未发现HD全息插件！无法使用此功能！", p);
+			sm("&c[x]未发现HD全息插件！无法使用此功能！", player);
 			return true;
 		}
 		AreaCache cache = Main.getInstance().getCacheHandler().getArea();
 		if (args[1].equalsIgnoreCase("win")) {
-			if (p == null) {
-				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+			if (player == null) {
+				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
 				return true;
 			}
 			if (Data.getHologramLocation(0) != null) {
-				sm("&b移动全息图...", p);
+				sm("&b移动全息图...", player);
 			} else {
-				sm("&b创建全息图...", p);
+				sm("&b创建全息图...", player);
 			}
-			Location location = p.getLocation();
+			Location location = player.getLocation();
 			cache.setWinRanking(location);
 			hd.load(1);
 			return true;
 		}
 		if (args[1].equalsIgnoreCase("winremove")) {
 			if (Data.getHologramLocation(0) == null) {
-				sm("&c[x]该全息图本来就不存在", p);
+				sm("&c[x]该全息图本来就不存在", player);
 				return true;
 			}
 			cache.setWinRanking(null);
 			hd.unload(1);
-			sm("&a[v]全息图删除完毕", p);
+			sm("&a[v]全息图删除完毕", player);
 			return true;
 		}
 		if (args[1].equalsIgnoreCase("kd")) {
-			if (p == null) {
-				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+			if (player == null) {
+				sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
 				return true;
 			}
 			if (Data.getHologramLocation(1) != null) {
-				sm("&b移动全息图...", p);
+				sm("&b移动全息图...", player);
 			} else {
-				sm("&b创建全息图...", p);
+				sm("&b创建全息图...", player);
 			}
-			Location location = p.getLocation();
+			Location location = player.getLocation();
 			cache.setKDRanking(location);
 			hd.load(2);
 			return true;
 		}
 		if (args[1].equalsIgnoreCase("kdremove")) {
 			if (Data.getHologramLocation(1) == null) {
-				sm("&c[x]该全息图本来就不存在", p);
+				sm("&c[x]该全息图本来就不存在", player);
 				return true;
 			}
 			cache.setKDRanking(null);
@@ -100,7 +100,7 @@ public class CMDRankingOP extends SubCommand implements AdminCommand {
 		}
 		if (args[1].equalsIgnoreCase("refresh")) {
 			if (cache.getWinRankingLocation() == null && cache.getKDRankingLocation() == null) {
-				sm("&c[x]无任何全息图！", p);
+				sm("&c[x]无任何全息图！", player);
 				return true;
 			}
 			if (cache.getWinRankingLocation() != null) {
@@ -111,12 +111,12 @@ public class CMDRankingOP extends SubCommand implements AdminCommand {
 				hd.unload(2);
 				hd.load(2);
 			}
-			if (p != null) {
-				sm("&a[v]全息图刷新完毕！", p);
+			if (player != null) {
+				sm("&a[v]全息图刷新完毕！", player);
 			}
 			return true;
 		}
-		sendHelp(p);
+		sendHelp(player);
 		return true;
 	}
 

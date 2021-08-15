@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class DefaultDanLoader {
-    private List<CustomDan> customDans = new ArrayList<CustomDan>();
+    private List<CustomDan> customDans = new ArrayList<>();
 
     public DefaultDanLoader() {
         customDans.add(new CustomDan(0, "dan0", "&f[&2青铜I&f]&r", 50));

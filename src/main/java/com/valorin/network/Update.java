@@ -35,8 +35,8 @@ public class Update {
 
     public boolean isNew() {
         String versionNow = Main.getVersion();
-        if (Integer.valueOf(versionNow.replace("EX-", "")) < Integer
-                .valueOf(version)) {
+        if (Integer.parseInt(versionNow.replace("EX-", "")) < Integer
+                .parseInt(version)) {
             return false;
         } else {
             return true;

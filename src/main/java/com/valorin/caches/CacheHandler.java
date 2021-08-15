@@ -44,7 +44,7 @@ public class CacheHandler {
                             "All the caches was loaded successfully in "
                                     + (end - start) + "ms");
                     Bukkit.getScheduler().runTask(Main.getInstance(),
-                            () -> action.run());
+                            action::run);
                 });
         int interval = Main.getInstance().getConfigManager()
                 .getAutoSaveCachesTime();
@@ -122,7 +122,7 @@ public class CacheHandler {
         return shopCache;
     }
 
-    public static interface Action {
-        public void run();
+    public interface Action {
+        void run();
     }
 }

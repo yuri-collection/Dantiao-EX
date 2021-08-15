@@ -1,5 +1,6 @@
 package com.valorin.arenas;
 
+import com.valorin.Main;
 import com.valorin.api.event.ArenaEventAbs;
 import com.valorin.api.event.arena.ArenaDrawFinishEvent;
 import com.valorin.api.event.arena.ArenaFinishEvent;
@@ -16,7 +17,6 @@ import com.valorin.util.ViaVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import static com.valorin.configuration.languagefile.MessageSender.gm;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class FinishGame {
-    public static void normalEnd(String name, String winner, String loser,
+    public static void normalEnd(String name, String winnerName, String loserName,
                                  boolean isDraw) {// 正常结束
         Arena arena = getInstance().getArenaManager().getArena(name);
         if (arena == null) {
@@ -36,77 +36,81 @@ public class FinishGame {
             return;
         }
 
-        Player w = Bukkit.getPlayerExact(winner);
-        Player l = Bukkit.getPlayerExact(loser);
+        Player winner = Bukkit.getPlayerExact(winnerName);
+        Player loser = Bukkit.getPlayerExact(loserName);
 
         ArenaInfo arenaInfo = getInstance().getCacheHandler().getArenaInfo().get(name);
         if (arenaInfo.isKitMode()) {
-            w.getInventory().clear();
-            l.getInventory().clear();
+            winner.closeInventory();
+            winner.getInventory().clear();
+            loser.closeInventory();
+            loser.getInventory().clear();
 
-            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(winner)).size(); i++) {
-                w.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(winner)).get(i));
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(winnerName)).size(); i++) {
+                winner.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(winnerName)).get(i));
             }
-            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(loser)).size(); i++) {
-                l.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(loser)).get(i));
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(loserName)).size(); i++) {
+                loser.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(loserName)).get(i));
             }
-            w.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(winner)));
-            l.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(loser)));
-            w.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(winner)));
-            l.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(loser)));
-            w.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(winner)));
-            l.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(loser)));
-            w.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(winner)));
-            l.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(loser)));
+            winner.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(winnerName)));
+            loser.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(loserName)));
+            winner.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(winnerName)));
+            loser.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(loserName)));
+            winner.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(winnerName)));
+            loser.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(loserName)));
+            winner.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(winnerName)));
+            loser.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(loserName)));
             if (ViaVersion.isHasOffHandMethod()) {
-                ViaVersion.setItemInOffHand(w, arena.getPlayerOffHandItem(arena.isp1(winner)));
-                ViaVersion.setItemInOffHand(l, arena.getPlayerOffHandItem(arena.isp1(loser)));
+                ViaVersion.setItemInOffHand(winner, arena.getPlayerOffHandItem(arena.isp1(winnerName)));
+                ViaVersion.setItemInOffHand(loser, arena.getPlayerOffHandItem(arena.isp1(loserName)));
             }
         }
 
-        if (w != null) {
+        if (winner != null) {
             try {
-                if (w.isDead()) {
-                    w.spigot().respawn();
+                if (winner.isDead()) {
+                    winner.spigot().respawn();
                 }
             } catch (Exception e) {
-                CompulsoryTeleport.players.put(winner,
-                        arena.getLoaction(arena.isp1(winner)));
+                CompulsoryTeleport.players.put(winnerName,
+                        arena.getLoaction(arena.isp1(winnerName)));
             }
         }
-        if (l != null) {
+        if (loser != null) {
 
-            l.getWorld().strikeLightningEffect(l.getLocation());
+            Bukkit.getScheduler().runTask(Main.getInstance(), () ->
+                    loser.getWorld().strikeLightningEffect(loser.getLocation()));
 
             try {
-                if (l.isDead()) {
-                    l.spigot().respawn();
+                if (loser.isDead()) {
+                    /*l.setHealth(l.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());适用于萝莉端*/
+                    loser.spigot().respawn();
                 }
             } catch (Exception e) {
-                CompulsoryTeleport.players.put(loser,
-                        arena.getLoaction(arena.isp1(loser)));
+                CompulsoryTeleport.players.put(loserName,
+                        arena.getLoaction(arena.isp1(loserName)));
             }
         }
         try {
-            w.setHealth(w.getMaxHealth());
-            w.setFoodLevel(20);
-            if (l != null && !l.isDead()) {
-                l.setHealth(l.getMaxHealth());
-                l.setFoodLevel(20);
+            winner.setHealth(winner.getMaxHealth());
+            winner.setFoodLevel(20);
+            if (loser != null && !loser.isDead()) {
+                loser.setHealth(loser.getMaxHealth());
+                loser.setFoodLevel(20);
             }
             ViaVersion.sendTitle(
-                    w,
-                    gm("&a&l胜利", w),
-                    gm("&f你以 &f&l{time} &f秒击败了 &f&l{player}", w, "time player",
-                            new String[]{arena.getTime() + "", loser}), 20, 60,
+                    winner,
+                    gm("&a&l胜利", winner),
+                    gm("&f你以 &f&l{time} &f秒击败了 &f&l{player}", winner, "time player",
+                            new String[]{arena.getTime() + "", loserName}), 20, 60,
                     0);
 
             EnergyCache energyCache = getInstance().getCacheHandler()
                     .getEnergy();
             if (energyCache.isEnable()) {
                 double energyNeeded = energyCache.getEnergyNeeded();
-                energyCache.set(winner, energyCache.get(winner) - energyNeeded);
-                energyCache.set(loser, energyCache.get(loser) - energyNeeded);
+                energyCache.set(winnerName, energyCache.get(winnerName) - energyNeeded);
+                energyCache.set(loserName, energyCache.get(loserName) - energyNeeded);
             }
 
             arena.setCanTeleport(true);
@@ -115,24 +119,22 @@ public class FinishGame {
             Location lobbyLocation = getInstance().getCacheHandler().getArea()
                     .getLobby();
             if (lobbyLocation != null) {
-                ToLobby.to(w, false);
-                ToLobby.to(l, true);
-                sm("&b已将你带回单挑大厅！", w);
-                if (l != null) {
-                    sm("&b已将你带回单挑大厅！", l);
+                ToLobby.to(winner, false);
+                ToLobby.to(loser, true);
+                sm("&b已将你带回单挑大厅！", winner);
+                if (loser != null) {
+                    sm("&b已将你带回单挑大厅！", loser);
                 }
                 for (String watcher : watchers) {
                     if (Bukkit.getPlayerExact(watcher) != null) {
                         ToLobby.to(Bukkit.getPlayerExact(watcher), true);
-                        sm("&b已将你带回单挑大厅！", l);
+                        sm("&b已将你带回单挑大厅！", loser);
                     }
                 }
             } else {
-                Location winnerLocation = arena.getLoaction(arena.isp1(w
-                        .getName()));
-                Location loserLocation = arena.getLoaction(arena.isp1(l
-                        .getName()));
-                ToLogLocation.to(w, l, winnerLocation, loserLocation, false);
+                Location winnerLocation = arena.getLoaction(arena.isp1(winnerName));
+                Location loserLocation = arena.getLoaction(arena.isp1(loserName));
+                ToLogLocation.to(winner, loser, winnerLocation, loserLocation, false);
                 for (String watcher : watchers) {
                     if (Bukkit.getPlayerExact(watcher) != null) {
                         sm("&b[报告] &7你所观战的竞技场上的比赛已结束，请自行传送回家...",
@@ -149,9 +151,12 @@ public class FinishGame {
             if (startWay == 2) {
                 isFirework = configManager.isFireworkAwardedByInviting();
             }
+            if (startWay == 3) {
+                isFirework = configManager.isFireworkAwardedByCompulsion();
+            }
             if (isFirework) {
-                WinFirework.setFirework(w.getLocation());
-                sm("&a[v]WOW！服务器专门为你的获胜放了一朵烟花~", w);
+                WinFirework.setFirework(winner.getLocation());
+                sm("&a[v]WOW！服务器专门为你的获胜放了一朵烟花~", winner);
             }
 
             busyArenasName.remove(arena.getName());
@@ -159,28 +164,26 @@ public class FinishGame {
 
             ArenaEventAbs event;
             if (isDraw) {
-                event = new ArenaDrawFinishEvent(w, l, arena);
+                event = new ArenaDrawFinishEvent(winner, loser, arena);
             } else {
-                event = new ArenaFinishEvent(w, l, arena);
+                event = new ArenaFinishEvent(winner, loser, arena);
             }
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            new BukkitRunnable() {
-                public void run() {
-                    try {
-                        SettleEnd.settle(arena, w, l, isDraw);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    arena.finish();
+            Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+                try {
+                    SettleEnd.settle(arena, winner, loser, isDraw);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.runTaskAsynchronously(getInstance());
+                arena.finish();
+            });
         } catch (Exception exception) {
             exception.printStackTrace();
             busyArenasName.remove(arena.getName());
             arena.finish();
             Debug.send("§c比赛结束时出现异常！请将报错信息截图反馈给本插件作者",
-                    "Some errors occured when the game finished!");
+                    "Some errors occurred when the game finished!");
         }
     }
 
@@ -195,33 +198,33 @@ public class FinishGame {
             return;
         }
 
-        Player p1 = Bukkit.getPlayerExact(arena.getp1());
-        String p1n = p1.getName();
-        Player p2 = Bukkit.getPlayerExact(arena.getp2());
-        String p2n = p2.getName();
+        Player player1 = Bukkit.getPlayerExact(arena.getp1());
+        String playerName1 = player1.getName();
+        Player player2 = Bukkit.getPlayerExact(arena.getp2());
+        String playerName2 = player2.getName();
 
         ArenaInfo arenaInfo = getInstance().getCacheHandler().getArenaInfo().get(name);
         if (arenaInfo.isKitMode()) {
-            p1.getInventory().clear();
-            p2.getInventory().clear();
+            player1.getInventory().clear();
+            player2.getInventory().clear();
 
-            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(p1n)).size(); i++) {
-                p1.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(p1n)).get(i));
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(playerName1)).size(); i++) {
+                player1.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(playerName1)).get(i));
             }
-            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(p2n)).size(); i++) {
-                p2.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(p2n)).get(i));
+            for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(playerName2)).size(); i++) {
+                player2.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(playerName2)).get(i));
             }
-            p1.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(p1n)));
-            p2.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(p2n)));
-            p1.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(p1n)));
-            p2.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(p2n)));
-            p1.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(p1n)));
-            p2.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(p2n)));
-            p1.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(p1n)));
-            p2.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(p2n)));
+            player1.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(playerName1)));
+            player2.getInventory().setItem(36, arena.getPlayerHelmet(arena.isp1(playerName2)));
+            player1.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(playerName1)));
+            player2.getInventory().setItem(37, arena.getPlayerChestPlate(arena.isp1(playerName2)));
+            player1.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(playerName1)));
+            player2.getInventory().setItem(38, arena.getPlayerLeggings(arena.isp1(playerName2)));
+            player1.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(playerName1)));
+            player2.getInventory().setItem(39, arena.getPlayerBoots(arena.isp1(playerName2)));
             if (ViaVersion.isHasOffHandMethod()) {
-                ViaVersion.setItemInOffHand(p1, arena.getPlayerOffHandItem(arena.isp1(p1n)));
-                ViaVersion.setItemInOffHand(p2, arena.getPlayerOffHandItem(arena.isp1(p2n)));
+                ViaVersion.setItemInOffHand(player1, arena.getPlayerOffHandItem(arena.isp1(playerName1)));
+                ViaVersion.setItemInOffHand(player2, arena.getPlayerOffHandItem(arena.isp1(playerName2)));
             }
         }
 
@@ -230,26 +233,26 @@ public class FinishGame {
         Location lobbyLocation = getInstance().getCacheHandler().getArea()
                 .getLobby();
         if (lobbyLocation != null) {
-            if (p1 != null) {
-                ToLobby.to(p1, true);
-                sm("&b已将你带回单挑大厅！", p1);
+            if (player1 != null) {
+                ToLobby.to(player1, true);
+                sm("&b已将你带回单挑大厅！", player1);
             }
-            if (p2 != null) {
-                ToLobby.to(p2, true);
-                sm("&b已将你带回单挑大厅！", p2);
+            if (player2 != null) {
+                ToLobby.to(player2, true);
+                sm("&b已将你带回单挑大厅！", player2);
             }
             for (String watcher : watchers) {
                 if (Bukkit.getPlayerExact(watcher) != null) {
                     ToLobby.to(Bukkit.getPlayerExact(watcher), true);
-                    sm("&b已将你带回单挑大厅！", p2);
+                    sm("&b已将你带回单挑大厅！", player2);
                 }
             }
         } else {
             Location winnerLocation = arena
-                    .getLoaction(arena.isp1(p1.getName()));
+                    .getLoaction(arena.isp1(player1.getName()));
             Location loserLocation = arena
-                    .getLoaction(arena.isp1(p2.getName()));
-            ToLogLocation.to(p1, p2, winnerLocation, loserLocation, true);
+                    .getLoaction(arena.isp1(player2.getName()));
+            ToLogLocation.to(player1, player2, winnerLocation, loserLocation, true);
             for (String watcher : watchers) {
                 if (Bukkit.getPlayerExact(watcher) != null) {
                     sm("&b[报告] &7你所观战的竞技场上的比赛已结束，请自行传送回家...",
@@ -259,7 +262,7 @@ public class FinishGame {
         }// 回到原处
 
         arena.finish();
-        sm("&b&l比赛被管理员强制结束！本局比赛不会被记录！", p1, p2);
+        sm("&b&l比赛被管理员强制结束！本局比赛不会被记录！", player1, player2);
         sm("&a[v]已强制停止", finisher);
         busyArenasName.remove(arena.getName());
     }

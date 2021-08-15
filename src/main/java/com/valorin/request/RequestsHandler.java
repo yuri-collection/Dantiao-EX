@@ -10,14 +10,11 @@ import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class RequestsHandler {
 
-    private Set<Request> requests = new HashSet<>();
-    private Map<Request, BukkitTask> timers = new HashMap<Request, BukkitTask>();
-    private Map<Request, Integer> times = new HashMap<Request, Integer>();
+    private final Set<Request> requests = new HashSet<>();
+    private final Map<Request, BukkitTask> timers = new HashMap<>();
+    private final Map<Request, Integer> times = new HashMap<>();
 
     public Request getRequest(String sender, String receiver) {
-        if (requests == null) {
-            return null;
-        }
         for (Request request : requests) {
             if (request.getSender().equals(sender)
                     && request.getReceiver().equals(receiver)) {
@@ -72,7 +69,7 @@ public class RequestsHandler {
     }
 
     public List<String> getReceivers(String sender) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (Request request : requests) {
             if (request.getSender().equals(sender)) {
                 list.add(request.getReceiver());
@@ -82,7 +79,7 @@ public class RequestsHandler {
     }
 
     public List<String> getSenders(String receiver) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (Request request : requests) {
             if (request.getReceiver().equals(receiver)) {
                 list.add(request.getSender());

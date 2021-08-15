@@ -18,11 +18,9 @@ public class CMDReload extends SubCommand implements AdminCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p;
+        Player p = null;
         if (sender instanceof Player) {
             p = (Player) sender;
-        } else {
-            p = null;
         }
         if (args.length == 1) {
             sm("&a输入 &b/dt reload c &a重载配置config.yml", p);
@@ -41,13 +39,14 @@ public class CMDReload extends SubCommand implements AdminCommand {
                 getInstance().getMySQL().close();
                 getInstance().getMySQL().connect();
                 getInstance().getCacheHandler().unload();
+                Player finalP = p;
                 getInstance().getCacheHandler().load(
                         () -> {
                             getInstance().getHD().reload();
                             getInstance().getDanHandler().loadCustomDanFromConfig();
                             getInstance().reloadTimeTable();
                             long end = System.currentTimeMillis();
-                            sm("&a[v]config.yml:重载完毕！耗时&d{ms}毫秒", p, "ms",
+                            sm("&a[v]config.yml:重载完毕！耗时&d{ms}毫秒", finalP, "ms",
                                     new String[]{"" + (end - start)});
                         });
             } catch (Exception e) {

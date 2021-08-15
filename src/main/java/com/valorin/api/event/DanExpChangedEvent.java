@@ -8,9 +8,9 @@ import org.bukkit.event.HandlerList;
 public class DanExpChangedEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
-    private Player player;
-    private int before;
-    private int now;
+    private final Player player;
+    private final int before;
+    private final int now;
 
     /**
      * 玩家在经验变更时调用

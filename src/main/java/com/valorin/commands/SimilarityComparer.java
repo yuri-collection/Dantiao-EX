@@ -3,7 +3,7 @@ package com.valorin.commands;
 
 public class SimilarityComparer {
 	public static float getSubCommandSimilarity(String enter, String subcommand) {
-	    int d[][];
+	    int[][] d;
 	    int n = enter.length();
 	    int m = subcommand.length();
 	    int i;

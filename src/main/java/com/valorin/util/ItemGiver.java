@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class ItemGiver {
-    private boolean isreceive;
+    private final boolean isreceive;
     private int freeSlot;
 
     public ItemGiver(Player p, ItemStack item) {

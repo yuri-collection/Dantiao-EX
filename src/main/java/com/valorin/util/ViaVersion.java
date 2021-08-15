@@ -1,6 +1,8 @@
 package com.valorin.util;
 
 import com.valorin.Main;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -124,20 +126,10 @@ public class ViaVersion {
         boolean isHelmetPlate = false;
         switch (material.toString()) {
             case "LEATHER_HELMET":
-                isHelmetPlate = true;
-                break;
             case "CHAINMAIL_HELMET":
-                isHelmetPlate = true;
-                break;
             case "IRON_HELMET":
-                isHelmetPlate = true;
-                break;
             case "DIAMOND_HELMET":
-                isHelmetPlate = true;
-                break;
             case "GOLD_HELMET":
-                isHelmetPlate = true;
-                break;
             case "GOLDEN_HELMET":
                 isHelmetPlate = true;
                 break;
@@ -149,20 +141,10 @@ public class ViaVersion {
         boolean isChestPlate = false;
         switch (material.toString()) {
             case "LEATHER_CHESTPLATE":
-                isChestPlate = true;
-                break;
-            case "CHAINMAIL_CHESTPLATE":
-                isChestPlate = true;
-                break;
             case "IRON_CHESTPLATE":
-                isChestPlate = true;
-                break;
+            case "CHAINMAIL_CHESTPLATE":
             case "DIAMOND_CHESTPLATE":
-                isChestPlate = true;
-                break;
             case "GOLD_CHESTPLATE":
-                isChestPlate = true;
-                break;
             case "GOLDEN_CHESTPLATE":
                 isChestPlate = true;
                 break;
@@ -174,20 +156,10 @@ public class ViaVersion {
         boolean isLeggings = false;
         switch (material.toString()) {
             case "LEATHER_LEGGINGS":
-                isLeggings = true;
-                break;
             case "CHAINMAIL_LEGGINGS":
-                isLeggings = true;
-                break;
             case "IRON_LEGGINGS":
-                isLeggings = true;
-                break;
             case "DIAMOND_LEGGINGS":
-                isLeggings = true;
-                break;
             case "GOLD_LEGGINGS":
-                isLeggings = true;
-                break;
             case "GOLDEN_LEGGINGS":
                 isLeggings = true;
                 break;
@@ -199,20 +171,10 @@ public class ViaVersion {
         boolean isBoots = false;
         switch (material.toString()) {
             case "LEATHER_BOOTS":
-                isBoots = true;
-                break;
             case "CHAINMAIL_BOOTS":
-                isBoots = true;
-                break;
             case "IRON_BOOTS":
-                isBoots = true;
-                break;
             case "DIAMOND_BOOTS":
-                isBoots = true;
-                break;
             case "GOLD_BOOTS":
-                isBoots = true;
-                break;
             case "GOLDEN_BOOTS":
                 isBoots = true;
                 break;
@@ -400,8 +362,13 @@ public class ViaVersion {
 
     private static Class<?> getNmsClass(String name)
             throws ClassNotFoundException {
-        return Class.forName("net.minecraft.server."
-                + Main.getInstance().getServerVersion() + "." + name);
+        int serverVersionType = Main.getInstance().getServerVersionType();
+        if (serverVersionType == 3) {
+            return Class.forName("net.minecraft.server." + name);
+        } else {
+            return Class.forName("net.minecraft.server."
+                    + Main.getInstance().getServerVersion() + "." + name);
+        }
     }
 
     private static Class<?> getCbClass(String name)
@@ -411,14 +378,16 @@ public class ViaVersion {
     }
 
     public static void getAllClass() {
-        try {
-            iChatBaseComponent = getNmsClass("IChatBaseComponent");
-            chatComponentText = getNmsClass("ChatComponentText");
-            packet = getNmsClass("Packet");
-            packetPlayOutTitle = getNmsClass("PacketPlayOutTitle");
-            enumTitleAction = getNmsClass("PacketPlayOutTitle$EnumTitleAction");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if (Main.getInstance().getServerVersionType() == 1) {
+            try {
+                iChatBaseComponent = getNmsClass("IChatBaseComponent");
+                chatComponentText = getNmsClass("ChatComponentText");
+                packet = getNmsClass("Packet");
+                packetPlayOutTitle = getNmsClass("PacketPlayOutTitle");
+                enumTitleAction = getNmsClass("PacketPlayOutTitle$EnumTitleAction");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -483,59 +452,21 @@ public class ViaVersion {
                         .invoke(playerConnection,
                                 packetPlayOutTitleTimeInstance);
             }
-            if (Main.getInstance().getServerVersionType() == 2) {
+            if (Main.getInstance().getServerVersionType() >= 2) {
                 Class<?> clazz = Class.forName("org.bukkit.entity.Player");
                 Method method = clazz.getMethod("sendTitle", String.class,
                         String.class, int.class, int.class, int.class);
                 method.invoke(player, title, subTitle, fadeIn, stay, fadeOut);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
-    public static void sendActionBar(Player player, String actionbar,
-                                     int fadeIn, int stay, int fadeOut) {
+    public static void sendActionBar(Player player, String actionbar) {
         if (Main.getInstance().getServerVersionType() == 0) {
             return;
         }
-        try {
-            Enum<?>[] enumConstants = (Enum<?>[]) enumTitleAction
-                    .getEnumConstants();
-            Object enumACTIONBAR = null;
-            Object enumTIMES = null;
-            for (Enum<?> enum1 : enumConstants) {
-                String name = enum1.name();
-                if (name.equals("ACTIONBAR")) {
-                    enumACTIONBAR = enum1;
-                }
-                if (name.equals("TIMES")) {
-                    enumTIMES = enum1;
-                }
-            }
-            Object chatComponentTextActionBarInstance = chatComponentText
-                    .getConstructor(String.class).newInstance(actionbar);
-            Object packetPlayOutTitleActionBarInstance = packetPlayOutTitle
-                    .getConstructor(enumTitleAction, iChatBaseComponent)
-                    .newInstance(enumACTIONBAR,
-                            chatComponentTextActionBarInstance);
-            Object packetPlayOutTitleTimeInstance = packetPlayOutTitle
-                    .getConstructor(enumTitleAction, iChatBaseComponent,
-                            int.class, int.class, int.class).newInstance(
-                            enumTIMES, null, fadeIn, stay, fadeOut);
-            Object craftPlayer = getCbClass("entity.CraftPlayer").cast(player);
-            Object entityPlayer = craftPlayer.getClass().getMethod("getHandle")
-                    .invoke(craftPlayer);
-            Object playerConnection = entityPlayer.getClass()
-                    .getField("playerConnection").get(entityPlayer);
-            playerConnection
-                    .getClass()
-                    .getMethod("sendPacket", packet)
-                    .invoke(playerConnection,
-                            packetPlayOutTitleActionBarInstance);
-            playerConnection.getClass().getMethod("sendPacket", packet)
-                    .invoke(playerConnection, packetPlayOutTitleTimeInstance);
-        } catch (Exception e) {
-        }
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbar));
     }
 
     public static Sound getSound(String... soundNames) {
@@ -552,7 +483,7 @@ public class ViaVersion {
                 }
             }
             return enumACTIONBAR;
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException ignored) {
         }
         return null;
     }

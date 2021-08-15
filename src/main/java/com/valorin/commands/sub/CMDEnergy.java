@@ -28,10 +28,7 @@ public class CMDEnergy extends SubCommand {
 
     public boolean isNum(String str) {
         if (str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$")) {
-            if (Double.valueOf(str) < 0) {
-                return false;
-            }
-            return true;
+            return !(Double.parseDouble(str) < 0);
         }
         return false;
     }
@@ -39,71 +36,71 @@ public class CMDEnergy extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = null;
+        Player player = null;
         if (sender instanceof Player) {
-            p = (Player) sender;
+            player = (Player) sender;
         }
         if (args.length == 1) {
-            sendHelp(p);
+            sendHelp(player);
             return true;
         }
         EnergyCache cache = Main.getInstance().getCacheHandler().getEnergy();
         if (!cache.isEnable()) {
-            sm("&c[x]精力值系统已被禁用！", p);
+            sm("&c[x]精力值系统已被禁用！", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("me")) {
             if (!(sender instanceof Player)) {
-                sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", p);
+                sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
                 return true;
             }
-            BigDecimal bg = new BigDecimal(cache.get(p.getName()));
+            BigDecimal bg = BigDecimal.valueOf(cache.get(player.getName()));
             double energy = bg.setScale(1, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
-            sm("&6我的精力值 [right] &b{energy}/&3{maxenergy}", p,
+            sm("&6我的精力值 [right] &b{energy}/&3{maxenergy}", player,
                     "energy maxenergy",
                     new String[]{"" + energy, "" + cache.getMaxEnergy()});
             return true;
         }
         if (!sender.hasPermission("dt.admin")) {
-            sm("&c[x]无权限！", p);
+            sm("&c[x]无权限！", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("add")) {
             if (args.length != 4) {
-                sm("&7正确格式：/dt e add <玩家名> <数额>", p);
+                sm("&7正确格式：/dt e add <玩家名> <数额>", player);
                 return true;
             }
             if (!isNum(args[3])) {
-                sm("&c[x]请输入有效的且大于零的数字", p);
+                sm("&c[x]请输入有效的且大于零的数字", player);
                 return true;
             }
             if (!PlayerSet.get().contains(args[2])) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
             cache.set(args[2], cache.get(args[2]) + Double.parseDouble(args[3]));
-            sm("&a[v]精力值增添成功", p);
+            sm("&a[v]精力值增添成功", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("set")) {
             if (args.length != 4) {
-                sm("&7正确格式：/dt e set <玩家名> <数额>", p);
+                sm("&7正确格式：/dt e set <玩家名> <数额>", player);
                 return true;
             }
             if (!isNum(args[3])) {
-                sm("&c[x]请输入有效的且大于零的数字", p);
+                sm("&c[x]请输入有效的且大于零的数字", player);
                 return true;
             }
             if (!PlayerSet.get().contains(args[2])) {
-                sm("&c[x]该玩家不存在！", p);
+                sm("&c[x]该玩家不存在！", player);
                 return true;
             }
             cache.set(args[2], Double.parseDouble(args[3]));
-            sm("&a[v]精力值设置成功", p);
+            sm("&a[v]精力值设置成功", player);
             return true;
         }
-        sendHelp(p);
+        sendHelp(player);
         return true;
     }
 }

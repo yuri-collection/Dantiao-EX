@@ -26,6 +26,6 @@ public class ClickPlayer implements Listener {
         if (!SwordChecker.isHoldingSword(player)) {
             return;
         }
-        Bukkit.dispatchCommand(player, "dt send " + ((Player) clickedPlayer).getName());
+        Bukkit.dispatchCommand(player, "dt send " + clickedPlayer.getName());
     }
 }

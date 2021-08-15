@@ -138,14 +138,9 @@ public class HD {
         RankingCache rankingCache = plugin.getCacheHandler().getRanking();
         AreaCache areaCache = plugin.getCacheHandler().getArea();
 
-        List<String> winList = new ArrayList<String>();
+        List<String> winList = new ArrayList<>();
         List<String> winListData = rankingCache.getWin();
-        int max = 0;
-        if (winListData.size() > 10) {
-            max = 10;
-        } else {
-            max = winListData.size();
-        }
+        int max = Math.min(winListData.size(), 10);
         winList.add(gm("&b[star1]单挑-胜场排行榜[star2]"));
         for (int i = 0; i < max; i++) {
             String rankingString = getRankingString(i, winListData, true);
@@ -153,14 +148,9 @@ public class HD {
                 winList.add(rankingString);
             }
         }
-        List<String> KDList = new ArrayList<String>();
+        List<String> KDList = new ArrayList<>();
         List<String> KDListData = rankingCache.getKD();
-        int max2 = 0;
-        if (KDListData.size() > 10) {
-            max2 = 10;
-        } else {
-            max2 = KDListData.size();
-        }
+        int max2 = Math.min(KDListData.size(), 10);
         KDList.add(gm("&b[star1]单挑-KD比值排行榜[star2]"));
         for (int i = 0; i < max2; i++) {
             String rankingString = getRankingString(i, KDListData, false);
@@ -215,7 +205,7 @@ public class HD {
                             .runTask(
                                     plugin,
                                     () -> {
-                                        TypeHolographicDisplays.hologramWin = (com.gmail.filoghost.holographicdisplays.api.Hologram) com.gmail.filoghost.holographicdisplays.api.HologramsAPI
+                                        TypeHolographicDisplays.hologramWin = com.gmail.filoghost.holographicdisplays.api.HologramsAPI
                                                 .createHologram(plugin,
                                                         winRankingLocation);
                                         TypeHolographicDisplays.hologramWin.appendItemLine(new ItemStack(
@@ -236,12 +226,10 @@ public class HD {
                     }
                     TypeTrHologram.hologramWin = builder.build();
                 }
-            } else {
-                /*
-                 * Bukkit.getConsoleSender().sendMessage(
-                 * gm("&c检测到[胜场排行榜]的全息图所在的世界不存在，全息图加载失败，建议将该全息图换个位置"));
-                 */
-            }
+            }  /*
+             * Bukkit.getConsoleSender().sendMessage(
+             * gm("&c检测到[胜场排行榜]的全息图所在的世界不存在，全息图加载失败，建议将该全息图换个位置"));
+             */
         }
         if (n == 0 || n == 2) {
             if (useHD == 1) {
@@ -284,12 +272,10 @@ public class HD {
                     }
                     TypeTrHologram.hologramKD = builder.build();
                 }
-            } else {
-                /*
-                 * Bukkit.getConsoleSender().sendMessage(
-                 * gm("&c检测到[KD排行榜]的全息图所在的世界不存在，全息图加载失败，建议将该全息图换个位置"));
-                 */
-            }
+            }  /*
+             * Bukkit.getConsoleSender().sendMessage(
+             * gm("&c检测到[KD排行榜]的全息图所在的世界不存在，全息图加载失败，建议将该全息图换个位置"));
+             */
         }
     }
 
@@ -337,7 +323,7 @@ public class HD {
             return null;
         } else {
             String playerName = dataList.get(rank).split("\\|")[0];
-            BigDecimal bg = new BigDecimal(Double.valueOf(dataList.get(rank)
+            BigDecimal bg = BigDecimal.valueOf(Double.parseDouble(dataList.get(rank)
                     .split("\\|")[1]));
             double value = bg.setScale(1, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
