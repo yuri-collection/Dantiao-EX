@@ -3,6 +3,7 @@ package com.valorin.commands.sub;
 import com.valorin.Main;
 import com.valorin.caches.AreaCache;
 import com.valorin.commands.SubCommand;
+import com.valorin.util.TeleportUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,7 +35,7 @@ public class CMDLobby extends SubCommand {
                 return true;
             }
             Location location = cache.getLobby();
-            player.teleport(location);
+            TeleportUtil.deal(player, location);
             sm("&b传送至单挑大厅...", player);
             return true;
         }

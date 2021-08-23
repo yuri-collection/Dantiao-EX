@@ -93,6 +93,8 @@ public class ConfigUpdate {
                     Ver_6.execute();
                 case 6:
                     Ver_7.execute();
+                case 7:
+                    Ver_8.execute();
             }
         }
 

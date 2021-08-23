@@ -529,12 +529,11 @@ public class MySQL {
             if (exist) {
                 ps = connection
                         .prepareStatement("update dantiao_blacklist set list = ?;");
-                ps.setBlob(1, Transform.serialize(list));
             } else {
                 ps = connection
                         .prepareStatement("insert into dantiao_blacklist (list) value(?);");
-                ps.setBlob(1, Transform.serialize(list));
             }
+            ps.setBlob(1, Transform.serialize(list));
             ps.executeUpdate();
             ps.close();
         } catch (SQLException | IOException e) {

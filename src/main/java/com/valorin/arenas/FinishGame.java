@@ -66,12 +66,28 @@ public class FinishGame {
             }
         }
 
+        ConfigManager configManager = getInstance().getConfigManager();
+        ConfigManager.AutoRespawnWay autoRespawnWay = configManager.getAutoRespawnWay();
         if (winner != null) {
             try {
                 if (winner.isDead()) {
-                    winner.spigot().respawn();
+                    if (configManager.isAutoRespawnEnable()) {
+                        if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SPIGOT)) {
+                            winner.spigot().respawn();
+                        }
+                        if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
+                            winner.setHealth(winner.getMaxHealth());
+                            CompulsoryTeleport.players.put(winnerName,
+                                    arena.getLoaction(arena.isp1(winnerName)));
+                            CompulsoryTeleport.back(winner);
+                        }
+                    } else {
+                        CompulsoryTeleport.players.put(winnerName,
+                                arena.getLoaction(arena.isp1(winnerName)));
+                    }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 CompulsoryTeleport.players.put(winnerName,
                         arena.getLoaction(arena.isp1(winnerName)));
             }
@@ -83,10 +99,23 @@ public class FinishGame {
 
             try {
                 if (loser.isDead()) {
-                    /*l.setHealth(l.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());适用于萝莉端*/
-                    loser.spigot().respawn();
+                    if (configManager.isAutoRespawnEnable()) {
+                        if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SPIGOT)) {
+                            loser.spigot().respawn();
+                        }
+                        if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
+                            loser.setHealth(loser.getMaxHealth());
+                            CompulsoryTeleport.players.put(loserName,
+                                    arena.getLoaction(arena.isp1(winnerName)));
+                            CompulsoryTeleport.back(loser);
+                        }
+                    } else {
+                        CompulsoryTeleport.players.put(loserName,
+                                arena.getLoaction(arena.isp1(winnerName)));
+                    }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 CompulsoryTeleport.players.put(loserName,
                         arena.getLoaction(arena.isp1(loserName)));
             }
@@ -142,7 +171,6 @@ public class FinishGame {
                     }
                 }
             }// 回到原处
-            ConfigManager configManager = getInstance().getConfigManager();
             boolean isFirework = false;
             int startWay = arena.getStartWay();
             if (startWay == 1) {
@@ -233,14 +261,10 @@ public class FinishGame {
         Location lobbyLocation = getInstance().getCacheHandler().getArea()
                 .getLobby();
         if (lobbyLocation != null) {
-            if (player1 != null) {
-                ToLobby.to(player1, true);
-                sm("&b已将你带回单挑大厅！", player1);
-            }
-            if (player2 != null) {
-                ToLobby.to(player2, true);
-                sm("&b已将你带回单挑大厅！", player2);
-            }
+            ToLobby.to(player1, true);
+            sm("&b已将你带回单挑大厅！", player1);
+            ToLobby.to(player2, true);
+            sm("&b已将你带回单挑大厅！", player2);
             for (String watcher : watchers) {
                 if (Bukkit.getPlayerExact(watcher) != null) {
                     ToLobby.to(Bukkit.getPlayerExact(watcher), true);

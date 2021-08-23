@@ -48,7 +48,7 @@ public class CMDRequestAccept extends SubCommand implements InServerCommand {
 				rh.removeRequest(sn, playerAcceptingName);
 				sm("&a[v]已接受请求", playerAccepting);
 				sm("&a[v]对方接受了你的请求！", s);
-				new StartGame(playerAccepting, s, null, null, 2);
+				StartGame.start(playerAccepting, s, null, null, 2);
 			} else {
 				sm("&6发现有&e多个&6待处理的请求，请选择处理 [right]", playerAccepting);
 				for (String sn : rh.getSenders(playerAcceptingName)) {
@@ -70,7 +70,7 @@ public class CMDRequestAccept extends SubCommand implements InServerCommand {
 			} else {
 				sm("&a[v]已接受请求", playerAccepting);
 				sm("&a[v]对方接受了你的请求！", s);
-				new StartGame(playerAccepting, s, rh.getRequest(sn, playerAcceptingName).getArenaEditName(), null, 2);
+				StartGame.start(playerAccepting, s, rh.getRequest(sn, playerAcceptingName).getArenaEditName(), null, 2);
 				rh.removeRequest(sn, playerAcceptingName);
 			}
 		}

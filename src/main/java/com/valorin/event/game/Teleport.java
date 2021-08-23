@@ -3,6 +3,7 @@ package com.valorin.event.game;
 import com.valorin.Main;
 import com.valorin.arenas.Arena;
 import com.valorin.arenas.ArenaManager;
+import com.valorin.util.TeleportUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -61,6 +62,24 @@ public class Teleport implements Listener {
                     .abs(player2Location.getBlockZ() - to.getBlockZ()) <= 2)) {
                 e.setCancelled(true);
                 sm("&c[x]发生非法传送，已制止", player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onGamerTpToOthers(PlayerTeleportEvent e) {// 场内玩家企图传送到场外玩家身边
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+        ArenaManager ah = Main.getInstance().getArenaManager();
+        if (playerName == null) {
+            return;
+        }
+        if (ah.isPlayerBusy(playerName)) {
+            if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
+                if (!TeleportUtil.legalTeleportPlayer.contains(playerName)) {
+                    sm("&c[x]发生非法传送，已制止", player);
+                    e.setCancelled(true);
+                }
             }
         }
     }

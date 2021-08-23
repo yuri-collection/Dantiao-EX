@@ -6,7 +6,7 @@
 
     <groupId>com.valorin</groupId>
     <artifactId>Dantiao</artifactId>
-    <version>EX-21</version>
+    <version>EX-22</version>
 
 
     <name>Dantiao</name>
@@ -53,6 +53,14 @@
         </resources>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>release</id>
+            <url>https://repo.zhanshi123.me/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
+
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
@@ -85,21 +93,21 @@
         <dependency>
             <groupId>hd</groupId>
             <artifactId>hd</artifactId>
-            <version>1</version>
+            <version>2.4.9</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/HolographicDisplays.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1</version>
+            <version>2.4.3</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/MailBox-v2.4.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>trhd</groupId>
             <artifactId>trhd</artifactId>
-            <version>2</version>
+            <version>2.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/TrHologram.jar</systemPath>
         </dependency>

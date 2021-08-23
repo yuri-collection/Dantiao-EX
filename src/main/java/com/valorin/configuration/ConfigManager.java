@@ -320,4 +320,19 @@ public class ConfigManager {
 	public boolean isOpeningEnderChestAllowed() { return config.getBoolean("Game.Process.IsOpeningEnderChestAllowed"); }
 
 	public boolean isProjectileProtectionEnabled() { return config.getBoolean("Game.Process.EnableProjectileProtection"); }
+
+	public boolean isAutoRespawnEnable() { return config.getBoolean("Game.Finish.AutoRespawn.Enable"); }
+
+	public AutoRespawnWay getAutoRespawnWay() {
+		AutoRespawnWay way = AutoRespawnWay.SPIGOT;
+		String configWay = config.getString("Game.Finish.AutoRespawn.Way");
+		if (configWay.equalsIgnoreCase("SETHEALTH")) {
+			way = AutoRespawnWay.SETHEALTH;
+		}
+		return way;
+	}
+
+	public enum AutoRespawnWay {
+		SPIGOT,SETHEALTH;
+	}
 }

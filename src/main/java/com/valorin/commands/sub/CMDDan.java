@@ -21,14 +21,14 @@ public class CMDDan extends SubCommand implements InServerCommand {
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
         Player player = (Player) sender;
-        DanHandler dh = getInstance().getDanHandler();
+        DanHandler danHandler = getInstance().getDanHandler();
         DanCache cache = getInstance().getCacheHandler().getDan();
         String danDisplayName;
-        if (dh.getPlayerDan(player.getName()) == null) {
+        if (danHandler.getPlayerDan(player.getName()) == null) {
             danDisplayName = getInstance().getConfigManager()
                     .getInitialDanName();
         } else {
-            danDisplayName = dh.getPlayerDan(player.getName()).getDisplayName();
+            danDisplayName = danHandler.getPlayerDan(player.getName()).getDisplayName();
         }
         sm("", player);
         sm("&b我的段位信息 [right]", player, false);
@@ -39,7 +39,7 @@ public class CMDDan extends SubCommand implements InServerCommand {
         sm("&a[v]现有经验：{exp}", player, "exp",
                 new String[]{"" + cache.get(player.getName())}, false);
         sm("&a[v]升级所差：{needexp}", player, "needexp",
-                new String[]{"" + dh.getNeedExpToLevelUp(player.getName())},
+                new String[]{"" + danHandler.getNeedExpToLevelUp(player.getName())},
                 false);
         sm("", player);
         return true;

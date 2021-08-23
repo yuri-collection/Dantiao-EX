@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -168,6 +169,7 @@ public class Arena {
                 player1.getInventory().setItem(37, air);
                 player1.getInventory().setItem(38, air);
                 player1.getInventory().setItem(39, air);
+
                 player2.getInventory().setItem(36, air);
                 player2.getInventory().setItem(37, air);
                 player2.getInventory().setItem(38, air);
@@ -216,6 +218,13 @@ public class Arena {
                     player1.getInventory().addItem(kitItem);
                     player2.getInventory().addItem(kitItem);
                 }
+            }
+            //清除药水效果
+            for (PotionEffect potionEffect : player1.getActivePotionEffects()) {
+                player1.removePotionEffect(potionEffect.getType());
+            }
+            for (PotionEffect potionEffect : player2.getActivePotionEffects()) {
+                player2.removePotionEffect(potionEffect.getType());
             }
         }
 

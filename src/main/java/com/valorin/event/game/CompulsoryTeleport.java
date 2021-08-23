@@ -21,32 +21,32 @@ public class CompulsoryTeleport implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRespawn(PlayerRespawnEvent e) {
-        Player p = e.getPlayer();
-        teleportCompulsorily(p);
+        Player player = e.getPlayer();
+        back(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        teleportCompulsorily(p);
+        Player player = e.getPlayer();
+        back(player);
     }
 
-    private void teleportCompulsorily(Player p) {
-        String pn = p.getName();
-        if (players.containsKey(pn)) {
+    public static void back(Player player) {
+        String playerName = player.getName();
+        if (players.containsKey(playerName)) {
             new BukkitRunnable() {
                 public void run() {
                     new BukkitRunnable() {
                         public void run() {
                             if (Main.getInstance().getCacheHandler().getArea().getLobby() != null) {
-                                ToLobby.to(p, true);
-                                if (!p.isDead()) {
-                                    sm("&b已将你带回单挑大厅！", p);
+                                ToLobby.to(player, true);
+                                if (!player.isDead()) {
+                                    sm("&b已将你带回单挑大厅！", player);
                                 }
                             } else {
-                                p.teleport(players.get(pn));
+                                player.teleport(players.get(playerName));
                             }
-                            players.remove(pn);
+                            players.remove(playerName);
                         }
                     }.runTask(Main.getInstance());
                 }

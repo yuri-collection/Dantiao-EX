@@ -38,7 +38,7 @@ public class CMDGame extends SubCommand implements AdminCommand {
             sm("&c[x]请输入两个不同的玩家名", player);
             return true;
         }
-        new StartGame(Bukkit.getPlayerExact(playerName1), Bukkit.getPlayerExact(playerName2),
+        StartGame.start(Bukkit.getPlayerExact(playerName1), Bukkit.getPlayerExact(playerName2),
                 args[1], player, 3);
         sm("&a[v]已强制开始", player);
         return true;

@@ -105,9 +105,11 @@ public class EnergyCache {
         double log = map.get(name);
         map.put(name, energy);
         if (Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline()) {
-            EnergyChangedEvent event = new EnergyChangedEvent(
-                    Bukkit.getPlayer(name), log, energy);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                EnergyChangedEvent event = new EnergyChangedEvent(
+                        Bukkit.getPlayer(name), log, energy);
+                Bukkit.getServer().getPluginManager().callEvent(event);
+            });
         }
     }
 

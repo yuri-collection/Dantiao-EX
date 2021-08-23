@@ -39,7 +39,7 @@
 #
 # The version of this config.
 # 【请勿修改此项】本配置文件的版本号，用于插件检测并更新配置文件内容
-ConfigVersion: 7
+ConfigVersion: 8
 # Players with dt.admin permission will be noticed about new Dantiao version when logining
 # 是否在上线时接收更新检查信息（拥有dt.admin权限的玩家才能接收到）
 CheckVersion: true
@@ -189,6 +189,25 @@ Game:
     # The teleport countdown of the winner
     # 比赛结束后胜利一方的玩家传送离场的倒计时时间
     TeleportCountDown: 6
+    # The settings of auto-respawn
+    # 单挑比赛结束后自动复活的相关设置
+    AutoRespawn:
+      # Whether enable the function which makes player who dies in arena respawn automatically
+      # 是否开启此自动复活功能
+      Enable: true
+      # The way of respawning
+      # If some problem occurred when respawn,please try to change the way of respawning
+      # Ways provided are as follows
+      # SPIGOT - Use method player.spigot().respawn()
+      # SETHEALTH - Use method player.setHealth(player.getMaxHealth())
+      # If you cannot solve problem by change the way,just disable auto-respawn function
+      # 自动重生的方式
+      # 如果你服务器的自动重生遇到了问题，请尝试修改此项配置已改变自动重生的方式
+      # 目前的方式有：
+      # SPIGOT - 使用player.spigot().respawn()方法重生
+      # SETHEALTH - 使用player.setHealth(player.getMaxHealth())方法重生
+      # 如果你通过修改重生方式都不能解决问题，那请直接关闭此功能
+      Way: "SPIGOT"
   # Reward scheme
   # 奖励方案
   Rewards:

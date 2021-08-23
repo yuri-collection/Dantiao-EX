@@ -90,7 +90,7 @@ public class MatchingHandler {
                 String waiter = randomMatching.getWaiter();
                 if (waiter != null) {
                     randomMatching.disable(false);
-                    new StartGame(Bukkit.getPlayerExact(playerName),
+                    StartGame.start(Bukkit.getPlayerExact(playerName),
                             Bukkit.getPlayerExact(waiter), null, null, 1);
                 }
                 return;
@@ -115,7 +115,7 @@ public class MatchingHandler {
                 String waiter = matching.getWaiter();
                 if (waiter != null) {
                     matching.disable(false);
-                    new StartGame(Bukkit.getPlayerExact(playerName),
+                    StartGame.start(Bukkit.getPlayerExact(playerName),
                             Bukkit.getPlayerExact(waiter), arenaEditName, null,
                             1);
                 }
@@ -124,7 +124,7 @@ public class MatchingHandler {
                     String waiter = randomMatching.getWaiter();
                     if (waiter != null) {
                         randomMatching.disable(false);
-                        new StartGame(Bukkit.getPlayerExact(playerName),
+                        StartGame.start(Bukkit.getPlayerExact(playerName),
                                 Bukkit.getPlayerExact(waiter), arenaEditName,
                                 null, 1);
                     }

@@ -24,7 +24,7 @@ public class StartGame {
     /*
      * player1：选手1号 player2：选手2号 arenaName：指定竞技场，null则为随机 starter：强制开启比赛的管理员，null则为正常情况的开赛
      */
-    public StartGame(Player player1, Player player2, String editName, Player starter, int startWay) {
+    public static void start(Player player1, Player player2, String editName, Player starter, int startWay) {
         if (player1 == null || player2 == null) {// 玩家遁地了？！
             sm("&c[x]警告：开赛时发生异常，不予开赛！", starter);
             return;
@@ -35,15 +35,15 @@ public class StartGame {
         }
         ConfigManager configManager = getInstance().getConfigManager();
         if (configManager.isWorldWhitelistEnabled()) {
-            List<String> worldlist = configManager.getWorldWhitelist();
-            if (worldlist != null) {
-                if (!worldlist.contains(player1.getWorld().getName())) {
+            List<String> worldList = configManager.getWorldWhitelist();
+            if (worldList != null) {
+                if (!worldList.contains(player1.getWorld().getName())) {
                     sm("&c[x]你所在的世界已被禁止比赛，请移动到允许比赛的世界再开赛", player1);
                     sm("&c[x]对手{player}所在的世界已被禁止比赛，请等待TA移动到允许比赛的世界再开赛", player2,
                             "player", new String[]{player1.getName()});
                     return;
                 }
-                if (!worldlist.contains(player2.getWorld().getName())) {
+                if (!worldList.contains(player2.getWorld().getName())) {
                     sm("&c[x]你所在的世界已被禁止比赛，请移动到允许比赛的世界再开赛", player2);
                     sm("&c[x]对手{player}所在的世界已被禁止比赛，请等待TA移动到允许比赛的世界再开赛", player1,
                             "player", new String[]{player2.getName()});
@@ -122,7 +122,7 @@ public class StartGame {
         Arena arena;
         if (editName == null) {
             arena = getRandomArena();
-        }// 随机获取一个竞技场
+        }// 若没有玩家指定的竞技场，则随机获取一个竞技场
         else {
             arena = getInstance().getArenaManager().getArena(editName);
         }// 获取OP强制开始时指定的竞技场
@@ -189,7 +189,7 @@ public class StartGame {
         }
     }
 
-    public Arena getRandomArena() {
+    private static Arena getRandomArena() {
         if (Data.getArenas().size() == 0) {
             return null;
         }

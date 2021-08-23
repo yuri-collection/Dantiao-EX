@@ -88,10 +88,8 @@ public class ArenaManager {
             return false;
         }
         if (getArena(arenaName).getEnable()) {
-            if (getArena(arenaName).getp1().equals(pn)
-                    || getArena(arenaName).getp2().equals(pn)) {
-                return true;
-            }
+            return getArena(arenaName).getp1().equals(pn)
+                    || getArena(arenaName).getp2().equals(pn);
         }
         return false;
     }
