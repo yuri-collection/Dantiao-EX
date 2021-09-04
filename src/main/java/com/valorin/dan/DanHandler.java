@@ -5,10 +5,7 @@ import com.valorin.caches.DanCache;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DanHandler {
     List<CustomDan> customDans = new ArrayList<>();
@@ -180,8 +177,7 @@ public class DanHandler {
             this.threshold = customDans.get(0).getExp();
         }
         if (this.customDans.size() != 0) {
-            for (String playerName : Main.getInstance().getCacheHandler()
-                    .getDan().keySet()) {
+            for (String playerName : new HashSet<>(Main.getInstance().getCacheHandler().getDan().keySet())) {
                 refreshPlayerDan(playerName);
             }
         }

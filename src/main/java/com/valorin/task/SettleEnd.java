@@ -6,12 +6,10 @@ import com.valorin.configuration.ConfigManager;
 import com.valorin.dan.CustomDan;
 import com.valorin.dan.DanHandler;
 import com.valorin.ranking.Ranking;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import static com.valorin.Main.getInstance;
 import static com.valorin.configuration.languagefile.MessageSender.*;
@@ -93,7 +91,7 @@ public class SettleEnd {
             }
             if (pointsDeducted != 0) {
                 double now = pointCache.get(loser);
-                double nowShowed = now;
+                double nowShowed;
                 double pointsDeductedShowed = pointsDeducted;
                 if (now > 0) {
                     if (now - pointsDeducted >= 0) {
@@ -134,6 +132,7 @@ public class SettleEnd {
 
             int winnerRank = ranking.getWin(winner);
             int loserRank = ranking.getWin(loser);
+
             int winnerRank2 = ranking.getKD(winner);
             int loserRank2 = ranking.getKD(loser);
 
@@ -271,11 +270,7 @@ public class SettleEnd {
             boolean b1 = arena.isp1(winner);
             int winnerExp;
             int loserExp;
-            if (arena.getExp(b1) > maxExpAwarded) {
-                winnerExp = maxExpAwarded;
-            } else {
-                winnerExp = arena.getExp(b1);
-            }
+            winnerExp = Math.min(arena.getExp(b1), maxExpAwarded);
             winnerExp = winnerExp + winExpAwarded;
             loserExp = winnerExp / 3;
 
@@ -288,12 +283,8 @@ public class SettleEnd {
             if (protectionExp == 0) { // 有保护措施
                 protection = false;
             } else {
-                if (winnerExpNow - loserExpNow >= protectionExp
-                        || loserExpNow - winnerExpNow >= protectionExp) {
-                    protection = true;
-                } else {
-                    protection = false;
-                }
+                protection = winnerExpNow - loserExpNow >= protectionExp
+                        || loserExpNow - winnerExpNow >= protectionExp;
             }
 
             int loserExpShow;
@@ -323,10 +314,8 @@ public class SettleEnd {
 
             sml("&7============================================================| |                       &b比赛结束！|        &7恭喜获得了胜利，期待你下一次更加精彩得表现！|                  &7同时获得了 &a{exp} &7经验| |&7============================================================",
                     w, "exp", new String[]{"" + winnerExpShow});
-            if (l != null) {
-                sml("&7============================================================| |                     &b比赛结束！|           &7你没有获胜，不要灰心，再接再厉！|                &7同时损失了 &c{exp} &7经验| |&7============================================================",
-                        l, "exp", new String[]{"" + loserExpShow});
-            }
+            sml("&7============================================================| |                     &b比赛结束！|           &7你没有获胜，不要灰心，再接再厉！|                &7同时损失了 &c{exp} &7经验| |&7============================================================",
+                    l, "exp", new String[]{"" + loserExpShow});
             if (displayName == null) {
                 displayName = arena.getName();
             } else {
@@ -355,28 +344,6 @@ public class SettleEnd {
                             null, "player dan",
                             new String[]{winner, danNow.getDisplayName()}),
                             startWay);
-                }
-            }
-            if (isDraw) {
-                if (arena.getDan(arena.isp1(loser)) != null) {
-                    List<CustomDan> danList = dh.getCustomDans();
-                    for (int i = 0; i < danList.size(); i++) {
-                        CustomDan danBefore = arena.getDan(arena.isp1(loser));
-                        CustomDan danNow = dh.getDanByExp(loserExpNow + loserExpShow);
-                        if (!danBefore.equals(danNow)) {
-                            bc(gm("&a[恭喜]: &7玩家 &e{player} &7的单挑段位成功升到了&r{dan}",
-                                    null, "player dan", new String[]{loser,
-                                            danNow.getDisplayName()}),
-                                    startWay);
-                        }
-                    }
-                } else {
-                    CustomDan danNow = dh.getDanByExp(loserExpNow + loserExpShow);
-                    if (danNow != null) {
-                        bc(gm("&a[恭喜]: &7玩家 &e{player} &7突破了无段位的身份，首次获得了段位：&r{dan}&7！祝TA在单挑战斗的路上越走越远！",
-                                null, "player dan", new String[]{loser,
-                                        danNow.getDisplayName()}), startWay);
-                    }
                 }
             }
 

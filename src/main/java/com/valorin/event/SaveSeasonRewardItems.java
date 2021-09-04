@@ -38,7 +38,7 @@ public class SaveSeasonRewardItems implements Listener {
                 Data.setSeasonDanItemStacks(danEditName, itemStacks);
                 sm("&a[v]物品奖励保存完毕", p);
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
     }
 }

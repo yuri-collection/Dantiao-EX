@@ -27,7 +27,7 @@ public class SaveArenaKitItems implements Listener {
             String editName = e.getView().getTitle().split("\\:")[0];
             String title = e.getView().getTitle().split("\\:")[1];
             if (title.equals(gm("请将装备放进来", p))) {
-                List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+                List<ItemStack> itemStacks = new ArrayList<>();
                 for (ItemStack itemStack : inv.getContents()) {
                     if (itemStack != null) {
                         if (!itemStack.getType().equals(Material.AIR)) {
@@ -38,7 +38,7 @@ public class SaveArenaKitItems implements Listener {
                 Main.getInstance().getCacheHandler().getArenaInfo().setKit(editName, itemStacks);
                 sm("&a[v]Kit装备保存完毕", p);
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
     }
 }

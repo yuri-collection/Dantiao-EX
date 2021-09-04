@@ -268,7 +268,9 @@ public class Arena {
                                 player2);
                     }
                     if (time == 300) {
-                        FinishGame.normalEnd(name, p1, p2, true);
+                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                            FinishGame.normalEnd(name, p1, p2, true);
+                        });
                     }
                 } else {
                     sm("&7比赛开始倒计时 &b{time}s", player1, "time",

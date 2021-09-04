@@ -43,7 +43,7 @@ public class DanCache {
     }
 
     public void load(String name) {
-        if (!map.keySet().contains(name)) {
+        if (!map.containsKey(name)) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(),
                     () -> {
                         int exp = Data.getDanExp(name);

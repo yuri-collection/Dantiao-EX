@@ -28,9 +28,7 @@ public class CheckVersion implements Listener {
         Update update = Main.getInstance().getUpdate();
         new BukkitRunnable() {
             public void run() {
-                if (p != null) {
-                    sendUpdateInfo(update, p);
-                }
+                sendUpdateInfo(update, p);
             }
         }.runTaskLaterAsynchronously(Main.getInstance(), 60);
     }

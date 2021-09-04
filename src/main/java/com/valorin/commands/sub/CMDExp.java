@@ -67,7 +67,7 @@ public class CMDExp extends SubCommand implements AdminCommand {
             int now = cache.get(targetPlayerName);
             int value = Integer.parseInt(args[3]);
             cache.set(targetPlayerName, now + value);
-            Main.getInstance().getDanHandler().refreshPlayerDan(player.getName());
+            Main.getInstance().getDanHandler().refreshPlayerDan(targetPlayerName);
             sm("&a[v]经验增添成功", player);
             return true;
         }
@@ -92,7 +92,7 @@ public class CMDExp extends SubCommand implements AdminCommand {
             } else {
                 cache.set(targetPlayerName, now - value);
             }
-            Main.getInstance().getDanHandler().refreshPlayerDan(player.getName());
+            Main.getInstance().getDanHandler().refreshPlayerDan(targetPlayerName);
             sm("&a[v]经验扣除成功", player);
             return true;
         }
@@ -112,7 +112,7 @@ public class CMDExp extends SubCommand implements AdminCommand {
             }
             int value = Integer.parseInt(args[3]);
             cache.set(targetPlayerName, value);
-            Main.getInstance().getDanHandler().refreshPlayerDan(player.getName());
+            Main.getInstance().getDanHandler().refreshPlayerDan(targetPlayerName);
             sm("&a[v]经验设置成功", player);
             return true;
         }

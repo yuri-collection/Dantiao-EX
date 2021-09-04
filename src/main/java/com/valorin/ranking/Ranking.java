@@ -17,11 +17,12 @@ public class Ranking {
             ranking = cache.getKD();
         }
         if (ranking.size() != 0) {
-            for (int i = 0; i < ranking.size(); i++) {
+            ranking.removeIf(rankingContext -> rankingContext.split("\\|")[0].equals(s.split("\\|")[0]));
+            /*for (int i = 0; i < ranking.size(); i++) {
                 if (ranking.get(i).split("\\|")[0].equals(s.split("\\|")[0])) {
                     ranking.remove(i);
                 }
-            }
+            }*/
             double n = Double.parseDouble(s.split("\\|")[1]);
             int originalSize = ranking.size();
             ranking.add("");
