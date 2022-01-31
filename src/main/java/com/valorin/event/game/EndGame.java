@@ -18,30 +18,30 @@ public class EndGame implements Listener {
     // 一方选手死亡，无论因素，判定“非平局结束比赛”
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDTDeath(PlayerDeathEvent e) {
-        Player p = e.getEntity();
-        String pn = p.getName();
-        ArenaManager ah = Main.getInstance().getArenaManager();
-        if (ah.isPlayerBusy(pn)) {// 属于比赛玩家，对方取胜
-            String an = ah.getPlayerOfArena(pn);
-            Arena a = ah.getArena(an);
-            String winner = a.getTheOtherPlayer(pn);
-            FinishGame.normalEnd(an, winner, pn, false);
+        Player player = e.getEntity();
+        String playerName = player.getName();
+        ArenaManager arenaManager = Main.getInstance().getArenaManager();
+        if (arenaManager.isPlayerBusy(playerName)) {// 属于比赛玩家，对方取胜
+            String arenaName = arenaManager.getPlayerOfArena(playerName);
+            Arena arena = arenaManager.getArena(arenaName);
+            String winner = arena.getTheOtherPlayer(playerName);
+            FinishGame.normalEnd(arenaName, winner, playerName, false);
         }
     }
 
     // 一方玩家下线，无论因素，判定“非平局结束比赛”
     @EventHandler
     public void onDTLeaveGame(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-        String pn = p.getName();
-        ArenaManager ah = Main.getInstance().getArenaManager();
-        if (ah.isPlayerBusy(pn)) {// 属于比赛玩家，对方取胜
-            String an = ah.getPlayerOfArena(pn);
-            Arena a = ah.getArena(an);
-            String winner = a.getTheOtherPlayer(pn);
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+        ArenaManager arenaManager = Main.getInstance().getArenaManager();
+        if (arenaManager.isPlayerBusy(playerName)) {// 属于比赛玩家，对方取胜
+            String arenaName = arenaManager.getPlayerOfArena(playerName);
+            Arena arena = arenaManager.getArena(arenaName);
+            String winner = arena.getTheOtherPlayer(playerName);
             sm("&b对方下线了！系统判定你胜利！", Bukkit.getPlayerExact(winner));
-            FinishGame.normalEnd(an, winner, pn, false);
-            CompulsoryTeleport.players.put(pn, a.getLoaction(a.isp1(pn)));
+            FinishGame.normalEnd(arenaName, winner, playerName, false);
+            CompulsoryTeleport.players.put(playerName, arena.getLocation(arena.isp1(playerName)));
         }
     }
 }

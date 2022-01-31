@@ -470,3 +470,10 @@ Kit Setting
 &7Failed to get message of latest version because of some unknown reasons,it's recommended that you type /dt checkv to get it manually
 &7System deduct &d{points} &7point(s) from you,and now &6{now} &7point(s) left
 &c[x]You are not allowed to use ender pearl before game start formally!
+&2The game will come to an end automatically in {time} seconds,try your best to beat your opponent in the shortest time!
+&c[x]You can't use this command in game!
+&3The game is over time,player &b{winner}&3's value of health is &b{winner_health_value} &3which is higher than player &b{loser}&3's &b{loser_health_value} &3.And the one whose value of health is higher is decided to be the winner
+&3The game is over time,the value of health of the players on both sides is equal.And the game is judged to be in a draw
+&3The game is over time,player &b{winner}&3's percentage of health is &b{winner_health_percentage}% &3which is higher than player &b{loser}&3's &b{loser_health_percentage}% &3.And the one whose percentage of health is higher is decided to be the winner
+&3The game is over time,the percentage of health of the players on both sides is equal.And the game is judged to be in a draw
+&b{second} seconds left

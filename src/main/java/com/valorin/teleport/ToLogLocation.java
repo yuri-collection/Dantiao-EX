@@ -25,54 +25,44 @@ public class ToLogLocation {
                 || loser == null) {
             return;
         }
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                loser.teleport(loserLocation);
-            }
-        }.runTask(Main.getInstance());
+
+        TeleportUtil.deal(loser, loserLocation);
+
+        final int[] countDown = {Main.getInstance().getConfigManager()
+                .getTeleportCountDown()};
+        if (isWinnerNow || countDown[0] == 0) {
+            TeleportUtil.deal(winner, winnerLocation);
+            return;
+        }
 
         BukkitTask timer = new BukkitRunnable() {
             @Override
             public void run() {
-                if (isWinnerNow) {
-                    TeleportUtil.deal(winner, winnerLocation);
-                    this.cancel();
-                } else {
-                    int countDown = Main.getInstance().getConfigManager()
-                            .getTeleportCountDown();
-                    if (countDown == 0) {
-                        Bukkit.getScheduler().runTask(Main.getInstance(),
-                                () -> TeleportUtil.deal(winner, winnerLocation));
-                        this.cancel();
-                    } else {
-                        if (countDown < 5) {
-                            countDown = 5;
-                        }
-                        times.put(winner.getName(),
-                                times.get(winner.getName()) + 1);
+                if (countDown[0] < 5) {
+                    countDown[0] = 5;
+                }
+                times.put(winner.getName(),
+                        times.getOrDefault(winner.getName(), -1) + 1);
 
-                        int time = times.get(winner.getName());
-                        if (time >= 2) {
-                            if (time == countDown) {
-                                this.cancel();
-                                timers.remove(winner.getName());
-                                times.remove(winner.getName());
-                                Bukkit.getScheduler().runTask(
-                                        Main.getInstance(), () -> winner.teleport(winnerLocation));
-                            } else {
-                                ViaVersion
-                                        .sendTitle(
+                int time = times.get(winner.getName());
+                if (time >= 2) {
+                    if (time == countDown[0]) {
+                        this.cancel();
+                        timers.remove(winner.getName());
+                        times.remove(winner.getName());
+                        Bukkit.getScheduler().runTask(
+                                Main.getInstance(), () -> winner.teleport(winnerLocation));
+                    } else {
+                        ViaVersion
+                                .sendTitle(
+                                        winner,
+                                        gm("&b&l即将传送", winner),
+                                        gm("&f你将在 &7&l{time} &f秒后自动传送离开竞技场",
                                                 winner,
-                                                gm("&b&l即将传送", winner),
-                                                gm("&f你将在 &7&l{time} &f秒后自动传送离开竞技场",
-                                                        winner,
-                                                        "time",
-                                                        new String[]{""
-                                                                + (countDown - time)}),
-                                                0, 20, 20);
-                            }
-                        }
+                                                "time",
+                                                new String[]{""
+                                                        + (countDown[0] - time)}),
+                                        0, 20, 20);
                     }
                 }
             }

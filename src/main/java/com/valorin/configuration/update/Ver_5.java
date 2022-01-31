@@ -30,9 +30,7 @@ public class Ver_5 {
 						newTexts.add("      # 输家扣除的单挑积分");
 						newTexts.add("      PointsDeducted: 0");
 					} else {
-						if (texts.get(i - 4).startsWith("    Inviting:")) {
-							newTexts.add("      PointsDeducted: 0");
-						} else {
+						if (texts.get(i - 4).startsWith("    Inviting:") || texts.get(i - 4).startsWith("    Compulsion:")) {
 							newTexts.add("      PointsDeducted: 0");
 						}
 					}

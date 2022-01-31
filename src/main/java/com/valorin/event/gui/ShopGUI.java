@@ -30,51 +30,53 @@ public class ShopGUI implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (good.getCommands().size() != 0) {
-                    List<String> commands = good.getCommands();
-                    for (String command : commands) {
-                        String way = command.split("\\|")[0];
-                        String c = command.split("\\|")[1];
-                        if (way.equalsIgnoreCase("op")) {
-                            try {
-                                if (player.isOp()) {
-                                    Bukkit.dispatchCommand(
-                                            player,
-                                            c.replace("{player}",
-                                                    player.getName()));
-                                } else {
-                                    player.setOp(true);
-                                    Bukkit.dispatchCommand(
-                                            player,
-                                            c.replace("{player}",
-                                                    player.getName()));
-                                    player.setOp(false);
+                if (good.getCommands() != null) {
+                    if (good.getCommands().size() != 0) {
+                        List<String> commands = good.getCommands();
+                        for (String command : commands) {
+                            String way = command.split("\\|")[0];
+                            String c = command.split("\\|")[1];
+                            if (way.equalsIgnoreCase("op")) {
+                                try {
+                                    if (player.isOp()) {
+                                        Bukkit.dispatchCommand(
+                                                player,
+                                                c.replace("{player}",
+                                                        player.getName()));
+                                    } else {
+                                        player.setOp(true);
+                                        Bukkit.dispatchCommand(
+                                                player,
+                                                c.replace("{player}",
+                                                        player.getName()));
+                                        player.setOp(false);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    sm("&c[x]执行&eOP&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
+                                            player);
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                sm("&c[x]执行&eOP&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
-                                        player);
                             }
-                        }
-                        if (way.equalsIgnoreCase("player")) {
-                            try {
-                                Bukkit.dispatchCommand(player,
-                                        c.replace("{player}", player.getName()));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                sm("&c[x]执行&e玩家&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
-                                        player);
+                            if (way.equalsIgnoreCase("player")) {
+                                try {
+                                    Bukkit.dispatchCommand(player,
+                                            c.replace("{player}", player.getName()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    sm("&c[x]执行&e玩家&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
+                                            player);
+                                }
                             }
-                        }
-                        if (way.equalsIgnoreCase("console")) {
-                            try {
-                                Bukkit.dispatchCommand(
-                                        Bukkit.getConsoleSender(),
-                                        c.replace("{player}", player.getName()));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                sm("&c[x]执行&e后台&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
-                                        player);
+                            if (way.equalsIgnoreCase("console")) {
+                                try {
+                                    Bukkit.dispatchCommand(
+                                            Bukkit.getConsoleSender(),
+                                            c.replace("{player}", player.getName()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    sm("&c[x]执行&e后台&c身份的购买商品后触发的指令时发生了错误，可能是管理员添加的指令不妥，请截此图联系管理员",
+                                            player);
+                                }
                             }
                         }
                     }

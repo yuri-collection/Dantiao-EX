@@ -78,18 +78,18 @@ public class FinishGame {
                         if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
                             winner.setHealth(winner.getMaxHealth());
                             CompulsoryTeleport.players.put(winnerName,
-                                    arena.getLoaction(arena.isp1(winnerName)));
+                                    arena.getLocation(arena.isp1(winnerName)));
                             CompulsoryTeleport.back(winner);
                         }
                     } else {
                         CompulsoryTeleport.players.put(winnerName,
-                                arena.getLoaction(arena.isp1(winnerName)));
+                                arena.getLocation(arena.isp1(winnerName)));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 CompulsoryTeleport.players.put(winnerName,
-                        arena.getLoaction(arena.isp1(winnerName)));
+                        arena.getLocation(arena.isp1(winnerName)));
             }
         }
         if (loser != null) {
@@ -106,18 +106,18 @@ public class FinishGame {
                         if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
                             loser.setHealth(loser.getMaxHealth());
                             CompulsoryTeleport.players.put(loserName,
-                                    arena.getLoaction(arena.isp1(winnerName)));
+                                    arena.getLocation(arena.isp1(winnerName)));
                             CompulsoryTeleport.back(loser);
                         }
                     } else {
                         CompulsoryTeleport.players.put(loserName,
-                                arena.getLoaction(arena.isp1(winnerName)));
+                                arena.getLocation(arena.isp1(winnerName)));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 CompulsoryTeleport.players.put(loserName,
-                        arena.getLoaction(arena.isp1(loserName)));
+                        arena.getLocation(arena.isp1(loserName)));
             }
         }
         try {
@@ -161,8 +161,8 @@ public class FinishGame {
                     }
                 }
             } else {
-                Location winnerLocation = arena.getLoaction(arena.isp1(winnerName));
-                Location loserLocation = arena.getLoaction(arena.isp1(loserName));
+                Location winnerLocation = arena.getLocation(arena.isp1(winnerName));
+                Location loserLocation = arena.getLocation(arena.isp1(loserName));
                 ToLogLocation.to(winner, loser, winnerLocation, loserLocation, false);
                 for (String watcher : watchers) {
                     if (Bukkit.getPlayerExact(watcher) != null) {
@@ -273,9 +273,9 @@ public class FinishGame {
             }
         } else {
             Location winnerLocation = arena
-                    .getLoaction(arena.isp1(player1.getName()));
+                    .getLocation(arena.isp1(player1.getName()));
             Location loserLocation = arena
-                    .getLoaction(arena.isp1(player2.getName()));
+                    .getLocation(arena.isp1(player2.getName()));
             ToLogLocation.to(player1, player2, winnerLocation, loserLocation, true);
             for (String watcher : watchers) {
                 if (Bukkit.getPlayerExact(watcher) != null) {

@@ -335,4 +335,29 @@ public class ConfigManager {
 	public enum AutoRespawnWay {
 		SPIGOT,SETHEALTH;
 	}
+
+	public int getGameTimeOut() {
+		int time = config.getInt("Game.Process.TimeOut");
+		time = Math.max(time, 5);
+		return time;
+	}
+
+	public boolean isTimeOutHandlingSchemeEnabled() { return config.getBoolean("Game.Finish.TimeOutHandlingScheme.Enable"); }
+
+	public TimeOutHandlingScheme getTimeOutHandlingScheme() {
+		TimeOutHandlingScheme scheme = TimeOutHandlingScheme.COMPARE_HEALTH_VALUE;
+		String configScheme = config.getString("Game.Finish.TimeOutHandlingScheme.Scheme");
+		if (configScheme.equalsIgnoreCase("COMPARE_HEALTH_PERCENTAGE")) {
+			scheme = TimeOutHandlingScheme.COMPARE_HEALTH_PERCENTAGE;
+		}
+		return scheme;
+	}
+
+	public enum TimeOutHandlingScheme {
+		COMPARE_HEALTH_VALUE,COMPARE_HEALTH_PERCENTAGE;
+	}
+
+	public List<String> getCommandWhitelist() {
+		return config.getStringList("Game.Process.CommandWhitelist");
+	}
 }

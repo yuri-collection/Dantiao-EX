@@ -13,34 +13,34 @@ public class PVP implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void pvp(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            String pn = p.getName();
-            ArenaManager ah = Main.getInstance().getArenaManager();
-            Arena a = ah.getArena(ah.getPlayerOfArena(pn));
-            if (!ah.isPlayerBusy(pn)) {
+            Player player = (Player) e.getEntity();
+            String playerName = player.getName();
+            ArenaManager arenaManager = Main.getInstance().getArenaManager();
+            Arena arena = arenaManager.getArena(arenaManager.getPlayerOfArena(playerName));
+            if (!arenaManager.isPlayerBusy(playerName)) {
                 return;
             }
-            String theOther = a.getTheOtherPlayer(pn);
+            String theOther = arena.getTheOtherPlayer(playerName);
             if (e.getDamager() instanceof Player) {
-                if (((Player) e.getDamager()).getName().equals(theOther)) {// 锁定对打双方
-                    boolean isp1 = a.isp1(theOther);
-                    a.addHit(isp1);
-                    if (a.getHit(isp1) == 2) {
-                        a.addExp(isp1, 1);
+                if (e.getDamager().getName().equals(theOther)) {// 锁定对打双方
+                    boolean isp1 = arena.isp1(theOther);
+                    arena.addHit(isp1);
+                    if (arena.getHit(isp1) == 2) {
+                        arena.addExp(isp1, 1);
                     }
-                    if (a.getHit(isp1) == 3) {
-                        a.addExp(isp1, 2);
+                    if (arena.getHit(isp1) == 3) {
+                        arena.addExp(isp1, 2);
                     }
-                    if (a.getHit(isp1) == 4) {
-                        a.addExp(isp1, 3);
+                    if (arena.getHit(isp1) == 4) {
+                        arena.addExp(isp1, 3);
                     }
-                    if (a.getHit(isp1) >= 5) {
-                        a.addExp(isp1, 4);
+                    if (arena.getHit(isp1) >= 5) {
+                        arena.addExp(isp1, 4);
                     }
 
-                    a.addDamage(isp1, e.getDamage());
-                    if (e.getDamage() > a.getMaxDamage(isp1)) {
-                        a.setMaxDamage(isp1, e.getDamage());
+                    arena.addDamage(isp1, e.getDamage());
+                    if (e.getDamage() > arena.getMaxDamage(isp1)) {
+                        arena.setMaxDamage(isp1, e.getDamage());
                     }
                 }
             }

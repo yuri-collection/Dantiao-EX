@@ -1,6 +1,7 @@
 package com.valorin.arenas;
 
 import com.valorin.Main;
+import com.valorin.configuration.ConfigManager;
 import com.valorin.dan.CustomDan;
 import com.valorin.data.encapsulation.ArenaInfo;
 import com.valorin.util.ViaVersion;
@@ -14,6 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class Arena {
     private BukkitTask timer;
     private int time;
     private int countDown;
+    private int timeout;
 
     private int stage = -1;
 
@@ -50,8 +53,8 @@ public class Arena {
     private int player1Exp;
     private int player2Exp;
 
-    private int player1Mutilhit;
-    private int player2Mutilhit;
+    private int player1MultiHit;
+    private int player2MultiHit;
 
     private Location player1Location;
     private Location player2Location;
@@ -91,6 +94,8 @@ public class Arena {
         watchersTeleport = false;
         enable = true;
         time = getCountDown();
+        ConfigManager configManager = Main.getInstance().getConfigManager();
+        timeout = configManager.getGameTimeOut();
         stage = 0;
         Player player1 = Bukkit.getPlayerExact(p1);
         Player player2 = Bukkit.getPlayerExact(p2);
@@ -246,31 +251,60 @@ public class Arena {
                                 1, 0);
                         sm("&a比赛开始！！亮剑吧！", player1, player2);
                         ViaVersion.sendTitle(player1, gm("&a&l战斗开始", player1),
-                                gm("&2比赛将在5分钟之内结束，请尽快击败对手！", player1), 20, 40,
+                                gm("&2比赛将在 &a&l{time} &2秒后结束，请尽快击败对手！", player1, "time", new String[]{"" + timeout}), 20, 40,
                                 10);
                         ViaVersion.sendTitle(player2, gm("&a&l战斗开始", player2),
-                                gm("&2比赛将在5分钟之内结束，请尽快击败对手！", player2), 20, 40,
+                                gm("&2比赛将在 &a&l{time} &2秒后结束，请尽快击败对手！", player2, "time", new String[]{"" + timeout}), 20, 40,
                                 10);
                         ArenaCommands.ExecuteArenaCommands(name, player1,
                                 player2);
                     }
-                    if (time == 60) {
-                        sm("&7比赛已进行一分钟..", player1, player2);
-                    }
-                    if (time == 120) {
-                        sm("&7比赛已进行两分钟..", player1, player2);
-                    }
-                    if (time == 180) {
-                        sm("&7比赛已进行三分钟！达到五分钟时仍为决出胜负则将判定为平局！", player1, player2);
-                    }
-                    if (time == 240) {
-                        sm("&7比赛已进行四分钟！达到五分钟时仍为决出胜负则将判定为平局！请抓紧时间", player1,
-                                player2);
-                    }
-                    if (time == 300) {
-                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                            FinishGame.normalEnd(name, p1, p2, true);
-                        });
+                    ViaVersion.sendActionBar(player1, gm("&b比赛时间剩余 &6{second} &b秒", player1, "second", new String[]{"" + (timeout - time)}));
+                    ViaVersion.sendActionBar(player2, gm("&b比赛时间剩余 &6{second} &b秒", player1, "second", new String[]{"" + (timeout - time)}));
+                    if (time == timeout) {
+                        if (configManager.isTimeOutHandlingSchemeEnabled()) {
+                            ConfigManager.TimeOutHandlingScheme scheme = configManager.getTimeOutHandlingScheme();
+                            if (scheme.equals(ConfigManager.TimeOutHandlingScheme.COMPARE_HEALTH_VALUE)) {
+                                double player1HealthValue = player1.getHealth();
+                                double player2HealthValue = player2.getHealth();
+                                if (player1HealthValue != player2HealthValue) {
+                                    if (player1HealthValue > player2HealthValue) {
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player1, "winner winner_health_value loser loser_health_value", new String[]{p1, "" + player1HealthValue, p2, "" + player2HealthValue});
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player2, "winner winner_health_value loser loser_health_value", new String[]{p1, "" + player1HealthValue, p2, "" + player2HealthValue});
+                                        FinishGame.normalEnd(name, p1, p2, false);
+                                    } else {
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player1, "winner winner_health_value loser loser_health_value", new String[]{p2, "" + player2HealthValue, p1, "" + player1HealthValue});
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player2, "winner winner_health_value loser loser_health_value", new String[]{p2, "" + player2HealthValue, p1, "" + player1HealthValue});
+                                        FinishGame.normalEnd(name, p2, p1, false);
+                                    }
+                                } else {
+                                    sm("&3比赛超时，双方血量值相当，判为平局！", player1, player2);
+                                    Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, true));
+                                }
+                            }
+                            if (scheme.equals(ConfigManager.TimeOutHandlingScheme.COMPARE_HEALTH_PERCENTAGE)) {
+                                double player1HealthPercentage = player1.getHealth() / player1.getMaxHealth();
+                                double player2HealthPercentage = player2.getHealth() / player2.getMaxHealth();
+                                if (player1HealthPercentage != player2HealthPercentage) {
+                                    double player1HealthPercentageShowed = new BigDecimal(player1HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
+                                    double player2HealthPercentageShowed = new BigDecimal(player2HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
+                                    if (player1HealthPercentage > player2HealthPercentage) {
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player1, "winner winner_health_percentage loser loser_health_percentage", new String[]{p1, "" + player1HealthPercentageShowed, p2, "" + player2HealthPercentageShowed});
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player2, "winner winner_health_percentage loser loser_health_percentage", new String[]{p1, "" + player1HealthPercentageShowed, p2, "" + player2HealthPercentageShowed});
+                                        FinishGame.normalEnd(name, p1, p2, false);
+                                    } else {
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player1, "winner winner_health_percentage loser loser_health_percentage", new String[]{p2, "" + player2HealthPercentageShowed, p1, "" + player1HealthPercentageShowed});
+                                        sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player2, "winner winner_health_percentage loser loser_health_percentage", new String[]{p2, "" + player2HealthPercentageShowed, p1, "" + player1HealthPercentageShowed});
+                                        FinishGame.normalEnd(name, p2, p1, false);
+                                    }
+                                } else {
+                                    sm("&3比赛超时，双方血量百分比相当，判为平局！", player1, player2);
+                                    Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, true));
+                                }
+                            }
+                        } else {
+                            Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, true));
+                        }
                     }
                 } else {
                     sm("&7比赛开始倒计时 &b{time}s", player1, "time",
@@ -320,8 +354,8 @@ public class Arena {
         player2MaxDamage = 0;
         player1Exp = 0;
         player2Exp = 0;
-        player1Mutilhit = 0;
-        player2Mutilhit = 0;
+        player1MultiHit = 0;
+        player2MultiHit = 0;
         player1Location = null;
         player2Location = null;
         stage = -1;
@@ -451,19 +485,19 @@ public class Arena {
 
     public int getHit(boolean isp1) {
         if (isp1) {
-            return player1Mutilhit;
+            return player1MultiHit;
         } else {
-            return player2Mutilhit;
+            return player2MultiHit;
         }
     }
 
     public void addHit(boolean isp1) {
         if (isp1) {
-            player1Mutilhit = player1Mutilhit + 1;
-            player2Mutilhit = 0;
+            player1MultiHit = player1MultiHit + 1;
+            player2MultiHit = 0;
         } else {
-            player2Mutilhit = player2Mutilhit + 1;
-            player1Mutilhit = 0;
+            player2MultiHit = player2MultiHit + 1;
+            player1MultiHit = 0;
         }
     }
 
@@ -475,7 +509,7 @@ public class Arena {
         player2Location = p2.getLocation();
     }
 
-    public Location getLoaction(boolean isp1) {
+    public Location getLocation(boolean isp1) {
         if (isp1) {
             return player1Location;
         } else {
@@ -561,5 +595,9 @@ public class Arena {
 
     protected void setWatchersTeleport(boolean watchersTeleport) {
         this.watchersTeleport = watchersTeleport;
+    }
+
+    public int getTimeout() {
+        return timeout;
     }
 }

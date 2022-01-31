@@ -15,10 +15,10 @@ public class Move implements Listener {
     public void onMoveInStageI(PlayerMoveEvent e) {// 阶段一：禁止移动！
         Player player = e.getPlayer();
         String playerName = player.getName();
-        ArenaManager ah = Main.getInstance().getArenaManager();
-        if (ah.isPlayerBusy(playerName)) {
-            Arena a = ah.getArena(ah.getPlayerOfArena(playerName));
-            if (a.getStage() == 0) {
+        ArenaManager arenaManager = Main.getInstance().getArenaManager();
+        if (arenaManager.isPlayerBusy(playerName)) {
+            Arena arena = arenaManager.getArena(arenaManager.getPlayerOfArena(playerName));
+            if (arena.getStage() == 0) {
                 if ((e.getTo().getX() != e.getFrom().getX())
                         || (e.getTo().getY() != e.getFrom().getY())
                         || (e.getTo().getZ() != e.getFrom().getZ())) {

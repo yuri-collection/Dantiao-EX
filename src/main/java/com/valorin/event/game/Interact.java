@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class Interact implements Listener {
     @EventHandler
     public void interact(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        String pn = p.getName();
-        ArenaManager ah = Main.getInstance().getArenaManager();
-        if (ah.isPlayerBusy(pn)) {
-            Arena arena = ah.getArena(ah.getPlayerOfArena(pn));
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+        ArenaManager arenaManager = Main.getInstance().getArenaManager();
+        if (arenaManager.isPlayerBusy(playerName)) {
+            Arena arena = arenaManager.getArena(arenaManager.getPlayerOfArena(playerName));
             if (arena.getStage() == 0) {
                 e.setCancelled(true);
             }

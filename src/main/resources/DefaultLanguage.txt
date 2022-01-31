@@ -470,3 +470,10 @@
 &7版本更新内容因为某些未知原因（详见后台报错信息）而获取失败，建议输入/dt checkv手动获取
 &7你被扣除了 &d{points} &7点单挑积分，现在还剩 &6{now} &7点
 &c[x]还未正式开赛，请不要使用末影珍珠！
+&2比赛将在 &a&l{time} &2秒后结束，请尽快击败对手！
+&c[x]比赛时禁用这条指令！
+&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者
+&3比赛超时，双方血量值相当，判为平局！
+&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者
+&3比赛超时，双方血量百分比相当，判为平局！
+&b比赛时间剩余 &6{second} &b秒

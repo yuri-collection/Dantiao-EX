@@ -48,7 +48,6 @@ public class RequestsHandler {
                                         "receiver", new String[]{receiver});
                             }
                         }
-                        timers.get(request).cancel();
                     }
                 }, 20, 20);
         timers.put(request, timer);

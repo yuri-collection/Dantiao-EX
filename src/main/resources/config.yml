@@ -39,7 +39,7 @@
 #
 # The version of this config.
 # 【请勿修改此项】本配置文件的版本号，用于插件检测并更新配置文件内容
-ConfigVersion: 8
+ConfigVersion: 9
 # Players with dt.admin permission will be noticed about new Dantiao version when logining
 # 是否在上线时接收更新检查信息（拥有dt.admin权限的玩家才能接收到）
 CheckVersion: true
@@ -178,6 +178,14 @@ Game:
     # Whether protect players from damage of projectile
     # 是否开启弹射物保护。开启时，玩家将不会受到任何场外玩家和怪物的远程伤害。但可能会导致一些模组武器无法造成远程伤害，纯净服务器推荐开启，模组服视实际情况而定。
     EnableProjectileProtection: true
+    # Game time limit in seconds.If the timeout occurs,the winner will be decided according to the preset handling scheme in this configuration file.If there is no scheme,players on both sides will be judged to be in a draw after the game is over time
+    # 比赛时间限制，单位为秒。若超时则会按本配置文件中的预设方案判定赢家，若无方案则判定平局
+    TimeOut: 300
+    # The whitelist of commands.If the command player types in the game contains the following sentence,it will be allowed
+    # 指令白名单。如果玩家在比赛时输入的指令包含以下的字符，指令则会被允许执行
+    CommandWhitelist:
+      - '/dantiao test_whitelist_command1'
+      - '/dantiao test_whitelist_command2'
   Finish:
     # When a player's winning streak times reaches this value or more than it,a congratulation message will be broadcast
     # 比赛结束后，若某玩家的连胜数达到或超过这个值，则会全服广播
@@ -189,6 +197,21 @@ Game:
     # The teleport countdown of the winner
     # 比赛结束后胜利一方的玩家传送离场的倒计时时间
     TeleportCountDown: 6
+    # The handling scheme to decide the winner after timeout
+    # 超时后判定输赢的方案
+    TimeOutHandlingScheme:
+      # Whether enable the function which will provide a handling scheme after the game is over time to decide the winner.If it is disabled,players on both sides will be judged to be in a draw after the game is over time
+      # 是否开启比赛超时的输赢判定方案，若不开启此方案，比赛超时后则直接判定为平局
+      Enable: true
+      # The handling scheme of game timeout
+      # Schemes provided are as follows
+      # COMPARE_HEALTH_VALUE - Compare the value of health of players on both sides
+      # COMPARE_HEALTH_PERCENTAGE - Compare the percentage of health of players on both sides
+      # 超时后判定输赢的方案
+      # 目前的方案有：
+      # COMPARE_HEALTH_VALUE - 比较双方玩家的血量值
+      # COMPARE_HEALTH_PERCENTAGE - 比较双方玩家的血量百分比
+      Scheme: "COMPARE_HEALTH_VALUE"
     # The settings of auto-respawn
     # 单挑比赛结束后自动复活的相关设置
     AutoRespawn:

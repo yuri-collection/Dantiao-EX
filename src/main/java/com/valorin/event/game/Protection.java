@@ -17,16 +17,16 @@ public class Protection implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void protection(EntityDamageByEntityEvent e) { // 玩家：常规保护
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) { // 判断互打双方都是玩家
-            Player p = (Player) e.getEntity(); // 确定受击者
-            String pn = p.getName();
-            ArenaManager ah = Main.getInstance().getArenaManager();
-            if (!ah.isPlayerBusy(pn)) { // 如果这个受击者不是正在比赛的玩家，那就看看攻击者是不是比赛中的选手
-                if (ah.isPlayerBusy(e.getDamager().getName())) { // 是比赛选手，设置禁止伤害场外玩家
+            Player player = (Player) e.getEntity(); // 确定受击者
+            String playerName = player.getName();
+            ArenaManager arenaManager = Main.getInstance().getArenaManager();
+            if (!arenaManager.isPlayerBusy(playerName)) { // 如果这个受击者不是正在比赛的玩家，那就看看攻击者是不是比赛中的选手
+                if (arenaManager.isPlayerBusy(e.getDamager().getName())) { // 是比赛选手，设置禁止伤害场外玩家
                     e.setCancelled(true);
                 }
             } else {
-                Arena arena = ah.getArena(ah.getPlayerOfArena(pn)); // 获取竞技场
-                String theOther = arena.getTheOtherPlayer(pn); // 获取受击者的对手
+                Arena arena = arenaManager.getArena(arenaManager.getPlayerOfArena(playerName)); // 获取竞技场
+                String theOther = arena.getTheOtherPlayer(playerName); // 获取受击者的对手
                 Player attacker = (Player) e.getDamager();
 
                 if (attacker.getName().equals(theOther)) { // 判定：攻击者就是受击者的对手
