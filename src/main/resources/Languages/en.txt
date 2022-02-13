@@ -477,3 +477,5 @@ Kit Setting
 &3The game is over time,player &b{winner}&3's percentage of health is &b{winner_health_percentage}% &3which is higher than player &b{loser}&3's &b{loser_health_percentage}% &3.And the one whose percentage of health is higher is decided to be the winner
 &3The game is over time,the percentage of health of the players on both sides is equal.And the game is judged to be in a draw
 &b{second} seconds left
+&c[x]Please install the plugin MailBox before you restart the season
+&c[x]The plugin MailBox is disabled

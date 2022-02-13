@@ -40,12 +40,17 @@ public class VersionChecker extends BukkitRunnable {
             String version = context.split("\\[change]")[0];
             String[] messageStringArray = (context.split("\\[change]")[1])
                     .split("\\[next]");
+            String downloadUrl = context.split("\\[change]")[2];
+            String password = context.split("\\[change]")[3];
+
             List<String> messageList = new ArrayList<>();
             for (String message : messageStringArray) {
                 messageList.add(message.replace("&", "§"));
             }
             update.setVersion(version);
             update.setContext(messageList);
+            update.setDownloadUrl(downloadUrl);
+            update.setPassword(password);
 
             if (send) {
                 CheckVersion.sendUpdateInfo(update, receiver);

@@ -41,11 +41,15 @@ public class Teleport implements Listener {
         if (playerName == null) {
             return;
         }
+        if (player.isOp()) {
+            return;
+        }
         Location to = e.getTo();
         for (String arenaEditName : ArenaManager.busyArenasName) {
             Arena arena = arenaManager.getArena(arenaEditName);
             if (arena.getp1() != null && arena.getp2() != null) {
                 if (player.getName().equals(arena.getp1()) || player.getName().equals(arena.getp2())) {
+                    //如果传送者是场内玩家，且传送对象是TA的对手，则跳过
                     continue;
                 }
                 Location player1Location = Bukkit.getPlayerExact(arena.getp1())

@@ -163,16 +163,16 @@ public class ClickableText {
 		}
 	}
 
-	public static void sendDownloadInfo(CommandSender sender) {
+	public static void sendDownloadInfo(CommandSender sender,String downloadUrl,String password) {
 		boolean isPlayer = sender instanceof Player;
 
-		String text = "§b[点击前往下载(提取码qpgl)]";
+		String text = "§b[点击前往下载(压缩包解压密码"+password+")]";
 		if (isPlayer) {
 			TextComponent txt = new TextComponent();
 			txt.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 					new ComponentBuilder("\n§7前往下载最新版本\n").create()));
 			txt.setClickEvent(new ClickEvent(Action.OPEN_URL,
-					"https://pan.baidu.com/s/1ylxeVxVHXabqLOsVtqXlRA"));
+					downloadUrl));
 			txt.setText(text);
 			((Player) sender).spigot().sendMessage(txt);
 		} else {

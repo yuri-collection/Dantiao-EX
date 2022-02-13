@@ -1,7 +1,5 @@
 package com.valorin.commands.sub;
 
-import com.tripleying.qwq.MailBox.API.MailBoxAPI;
-import com.tripleying.qwq.MailBox.Mail.BaseFileMail;
 import com.valorin.Main;
 import com.valorin.caches.DanCache;
 import com.valorin.caches.RankingCache;
@@ -16,12 +14,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.ConversationContext;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import com.tripleying.qwq.MailBox.Mail.MailPlayer;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import org.bukkit.plugin.Plugin;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.valorin.configuration.languagefile.MessageSender.gm;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
@@ -159,71 +160,100 @@ public class CMDSeason extends SubCommand implements InServerCommand,
             return true;
         }
         if (args[1].equalsIgnoreCase("restart")) {
+            Plugin pluginMailBox = Bukkit.getPluginManager().getPlugin("MailBox");
+            if (pluginMailBox == null) {
+                sm("&c[x]请先按照文档指引安装MailBox插件，否则无法发送邮件", player);
+                return true;
+            }
+            if (!pluginMailBox.isEnabled()) {
+                sm("&c[x]MailBox插件未加载", player);
+                return true;
+            }
             sm("&a[v]赛季已重启！排行榜数据和段位数据正在清空，同时段位奖励正在发放", player);
 /*            Bukkit.getScheduler().runTaskAsynchronously(
                     Main.getInstance(),
                     () -> {*/
-                        RankingCache rankingCache = Main.getInstance()
-                                .getCacheHandler().getRanking();
-                        rankingCache.setWin(new ArrayList<>());
-                        rankingCache.setKD(new ArrayList<>());
-                        DanCache danCache = Main.getInstance()
-                                .getCacheHandler().getDan();
-                        for (Player onlinePlayer : ViaVersion
-                                .getOnlinePlayers()) {
-                            String playerName = onlinePlayer.getName();
-                            CustomDan dan = dh.getPlayerDan(playerName);
-                            if (dan != null) {
-                                String danEditName = dan.getEditName();
-                                sendMail(playerName, danEditName);
-                            }
-                            danCache.set(playerName, 0);
-                        }
-                        for (OfflinePlayer offlinePlayer : Bukkit
-                                .getOfflinePlayers()) {
-                            String playerName = offlinePlayer.getName();
-                            CustomDan dan = dh.getPlayerDan(playerName);
-                            if (dan != null) {
-                                String danEditName = dan.getEditName();
-                                sendMail(playerName, danEditName);
-                            }
-                            danCache.set(playerName, 0);
-                        }
-                    /*});*/
+            RankingCache rankingCache = Main.getInstance()
+                    .getCacheHandler().getRanking();
+            rankingCache.setWin(new ArrayList<>());
+            rankingCache.setKD(new ArrayList<>());
+            DanCache danCache = Main.getInstance()
+                    .getCacheHandler().getDan();
+
+            Method methodCreateBaseFileMail = null;
+            Method methodSetItemList = null;
+            Method methodSetCommandDescription = null;
+            Method methodSetCommandList = null;
+            Method methodSetRecipient = null;
+            Method methodSend = null;
+            Class classMailPlayer = null;
+            if (pluginMailBox.getDescription().getVersion().startsWith("2")) {
+                try {
+                    Class<?> classMailBoxAPI = Class.forName("com.tripleying.qwq.MailBox.API.MailBoxAPI");
+                    methodCreateBaseFileMail = classMailBoxAPI.getMethod("createBaseFileMail", String.class, String.class, String.class, String.class, String.class);
+
+                    Class<?> classBaseFileMail = Class.forName("com.tripleying.qwq.MailBox.Mail.BaseFileMail");
+                    methodSetItemList = classBaseFileMail.getMethod("setItemList", List.class);
+                    methodSetCommandDescription = classBaseFileMail.getMethod("setCommandDescription", List.class);
+                    methodSetCommandList = classBaseFileMail.getMethod("setCommandList", List.class);
+                    methodSend = classBaseFileMail.getMethod("Send", CommandSender.class, ConversationContext.class);
+
+                    classMailPlayer = Class.forName("com.tripleying.qwq.MailBox.Mail.MailPlayer");
+                    methodSetRecipient = classMailPlayer.getMethod("setRecipient", List.class);
+
+                } catch (ClassNotFoundException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            boolean isVersion2x = pluginMailBox.getDescription().getVersion().startsWith("2");
+
+            for (Player onlinePlayer : ViaVersion
+                    .getOnlinePlayers()) {
+                String playerName = onlinePlayer.getName();
+                CustomDan dan = dh.getPlayerDan(playerName);
+                if (dan != null) {
+                    String danEditName = dan.getEditName();
+                    if (isVersion2x) {
+                        com.valorin.mailbox.SendPersonMail_2.sendMail(onlinePlayer.getName(), danEditName,
+                                methodCreateBaseFileMail,
+                                methodSetItemList,
+                                methodSetCommandDescription,
+                                methodSetCommandList,
+                                methodSetRecipient,
+                                methodSend,
+                                classMailPlayer);
+                    } else {
+                        com.valorin.mailbox.SendPersonMail_3.sendOnlinePlayerMail(onlinePlayer, danEditName);
+                    }
+                }
+                danCache.set(playerName, 0);
+            }
+            for (OfflinePlayer offlinePlayer : Bukkit
+                    .getOfflinePlayers()) {
+                String playerName = offlinePlayer.getName();
+                CustomDan dan = dh.getPlayerDan(playerName);
+                if (dan != null) {
+                    String danEditName = dan.getEditName();
+                    if (isVersion2x) {
+                        com.valorin.mailbox.SendPersonMail_2.sendMail(offlinePlayer.getName(), danEditName,
+                                methodCreateBaseFileMail,
+                                methodSetItemList,
+                                methodSetCommandDescription,
+                                methodSetCommandList,
+                                methodSetRecipient,
+                                methodSend,
+                                classMailPlayer);
+                    } else {
+                        com.valorin.mailbox.SendPersonMail_3.sendOfflinePersonMail(offlinePlayer, danEditName);
+                    }
+                }
+                danCache.set(playerName, 0);
+            }
+            /*});*/
             return true;
         }
         sendHelp(player);
         return true;
-    }
-
-    private boolean sendMail(String playerName, String danEditName) {
-        if (!Data.isSeasonDanEnable(danEditName)) {
-            return false;
-        }
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = formatter.format(cal.getTime());
-
-        BaseFileMail fm = MailBoxAPI.createBaseFileMail("player", Main
-                        .getInstance().getConfigManager().getServerName(), gm("赛季结束"),
-                Data.getSeasonDanMessage(danEditName), date);
-        fm.setItemList(Data.getSeasonDanItemStacks(danEditName));
-        int points = Data.getSeasonDanPoints(danEditName);
-        Player player = Bukkit.getPlayerExact(playerName);
-        CustomDan dan = Main.getInstance().getDanHandler()
-                .getDanByName(danEditName);
-        if (points != 0) {
-            List<String> commandDescriptions = new ArrayList<>();
-            commandDescriptions.add(gm("&f领取 &r{dan} &f段位的奖励： &b{point} &f积分",
-                    player, "dan point",
-                    new String[]{dan.getDisplayName().replace("&", "§"),
-                            points + ""}));
-            List<String> commands = new ArrayList<>();
-            commands.add("dt point add " + playerName + " " + points);
-            fm.setCommandDescription(commandDescriptions);
-            fm.setCommandList(commands);
-        }
-        ((MailPlayer)fm).setRecipient(Collections.singletonList(playerName));
-        return fm.Send(Bukkit.getConsoleSender(), null);
     }
 }

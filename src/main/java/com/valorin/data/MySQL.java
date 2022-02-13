@@ -1580,7 +1580,6 @@ public class MySQL {
                 ps2.executeUpdate();
                 ps2.close();
             }
-            Bukkit.broadcastMessage("" + itemStacks);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }

@@ -172,7 +172,7 @@ public class Main extends JavaPlugin {
         DataFile.loadData();
         DataFile.saveAreas();
         DataFile.saveBlackList();
-        DataFile.savepd();
+        DataFile.savePlayerData();
         DataFile.saveRanking();
         DataFile.saveRecords();
         DataFile.saveShop();

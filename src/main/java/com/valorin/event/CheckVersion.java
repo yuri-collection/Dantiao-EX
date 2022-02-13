@@ -54,7 +54,9 @@ public class CheckVersion implements Listener {
                     }
                 }
                 sender.sendMessage("");
-                ClickableText.sendDownloadInfo(sender);
+                String downloadUrl = update.getDownloadUrl();
+                String password = update.getPassword();
+                ClickableText.sendDownloadInfo(sender, downloadUrl, password);
             } else {
                 sender.sendMessage("");
                 sender.sendMessage("§8§l[§bDantiao-EX§8§l]");

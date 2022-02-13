@@ -7,6 +7,8 @@ import com.valorin.Main;
 public class Update {
     private String version;
     private List<String> context;
+    private String downloadUrl;
+    private String password;
     private int state;// 0 未变更 1 成功 2 失败（超时） 3 失败（其他）
 
     public String getVersion() {
@@ -23,6 +25,22 @@ public class Update {
 
     public void setContext(List<String> context) {
         this.context = context;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getState() {

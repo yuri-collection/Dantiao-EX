@@ -477,3 +477,5 @@
 &3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者
 &3比赛超时，双方血量百分比相当，判为平局！
 &b比赛时间剩余 &6{second} &b秒
+&c[x]请先按照文档指引安装MailBox插件，否则无法发送邮件
+&c[x]MailBox插件未加载

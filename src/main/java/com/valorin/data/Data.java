@@ -328,7 +328,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getDanExp(name);
         } else {
-            return pd.getInt(name + ".Exp");
+            return playerData.getInt(name + ".Exp");
         }
     }
 
@@ -338,8 +338,8 @@ public class Data {
             if (useDatabase) {
                 getInstance().getMySQL().setDanExp(name, exp);
             } else {
-                pd.set(name + ".Exp", exp);
-                savepd();
+                playerData.set(name + ".Exp", exp);
+                savePlayerData();
             }
         };
         if (isAsyn) {
@@ -358,7 +358,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getLanguageFile(name);
         } else {
-            return pd.getString(name + ".Language");
+            return playerData.getString(name + ".Language");
         }
     }
 
@@ -369,8 +369,8 @@ public class Data {
             if (useDatabase) {
                 getInstance().getMySQL().setLanguageFile(name, language);
             } else {
-                pd.set(name + ".Language", language);
-                savepd();
+                playerData.set(name + ".Language", language);
+                savePlayerData();
             }
         };
         if (isAsyn) {
@@ -389,7 +389,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getPoint(name);
         } else {
-            return pd.getDouble(name + ".Points");
+            return playerData.getDouble(name + ".Points");
         }
     }
 
@@ -400,8 +400,8 @@ public class Data {
             if (useDatabase) {
                 getInstance().getMySQL().setPoint(name, point);
             } else {
-                pd.set(name + ".Points", point);
-                savepd();
+                playerData.set(name + ".Points", point);
+                savePlayerData();
             }
         };
         if (isAsyn) {
@@ -605,7 +605,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getWinningStreakTimes(name);
         } else {
-            return pd.getInt(name + ".Winning-Streak-Times");
+            return playerData.getInt(name + ".Winning-Streak-Times");
         }
     }
 
@@ -614,7 +614,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getMaxWinningStreakTimes(name);
         } else {
-            return pd.getInt(name + ".Max-Winning-Streak-Times");
+            return playerData.getInt(name + ".Max-Winning-Streak-Times");
         }
     }
 
@@ -795,7 +795,7 @@ public class Data {
         if (useDatabase) {
             return getInstance().getMySQL().getEnergy(name);
         } else {
-            return pd.getDouble(name + ".Energy");
+            return playerData.getDouble(name + ".Energy");
         }
     }
 
@@ -806,8 +806,8 @@ public class Data {
             if (useDatabase) {
                 getInstance().getMySQL().setEnergy(name, energy);
             } else {
-                pd.set(name + ".Energy", energy);
-                savepd();
+                playerData.set(name + ".Energy", energy);
+                savePlayerData();
             }
         };
         if (isAsyn) {
