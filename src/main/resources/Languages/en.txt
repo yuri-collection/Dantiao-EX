@@ -17,8 +17,8 @@
 &b/dt arena(a) commands add <Arena editname> <Way(player/op/console)> <Content> &f- &aAdd a command which is used at the beginning of game.
 &b/dt arena(a) commands clear <Arena editname> &f- &aClear all commands.
 &b/dt arena(a) commands list <Arena editname> &f- &aView all commands added.
-&c[x]This arena isn't exist.
-&a[v]Arena Delected.
+&c[x]This arena does not exist!
+&a[v]Arena Deleted.
 &c[x]There aren't any arenas.
 &6Arena list [right]
 &6Amount: &f&l{amount} &6totally.
@@ -58,7 +58,7 @@
 &6Language file [right]
 English translated by Valorin
 &a[v]Language changed.
-&c[x]Language file &e{name}&c isn't exist!
+&c[x]Language file &e{name}&c does not exist!
 &bMy dan [right]
    &e&l> &r{dan} &e&l<
 &a[v]My exp: {exp}
@@ -75,8 +75,8 @@ English translated by Valorin
 &7Usage: /dt e set <Player name> <Amount>.
 &a[v]Energy set.
 &7Usage: /dt game <Arena editname> <P1> <P2>.
-&c[x]There are someboby that is not online.
-&c[x]Two player names you entered can't be the same.
+&c[x]One of them is offline!
+&c[x]The names you entered can't be the same.
 &eWarning: This command can only be executed by player.
 &c[x]No lobby!
 &bTeleporting to lobby...
@@ -122,7 +122,7 @@ English translated by Valorin
 &b/dt hd refresh &f- &aRefresh Forcibly: All HD
 &bMove the HD...
 &bCreate a HD...
-&c[x]This HD is not exist!
+&c[x]This HD does not exist!
 &a[v]HD removed
 &c[x]No HD!
 &a[v]HD refreshed
@@ -148,12 +148,12 @@ English translated by Valorin
 &a[v]The player accepted your request.
 &6There are &emultiple &6request which is not dealed,please choose to deal [right]
 &6Use &f/dt accept <Player name> &6to choose to deal.
-&c[x]The request is not existed!
+&c[x]The request does not exist!
 &a[v]Denied the request.
 &c[x]The player denied your request.
 &6Use &f/dt deny <Player name> &6to choose to deal.
 &7Usage: /dt send <Player name>
-&c[x]The player is offline
+&c[x]The player is offline!
 &c[x]You can send request to yourself.
 &c[x]Your have been banned from having a game.
 &c[x]The player has been banned from having a game.
@@ -181,7 +181,7 @@ English translated by Valorin
 &c[x]Please enter arabic numerals which is greater than 0!
 &a[v]Good added.
 &7Usage: /dt s remove <Page> <Row> <Column>,glass is not be consided
-&c[x]This good isn't exist
+&c[x]This good does not exist!
 &a[v]Good removed.
 &7Usage: /dt s des <Page> <Row> <Column> <Content>,glass is not be consided
 &7Usage: /dt s bc <Page> <Row> <Column> <Content>,glass is not be consided,string '{player}' stands forPlayer name
@@ -227,10 +227,10 @@ English translated by Valorin
 &c[x]Warning: Error in starting game!
 &cNo arena!Please tell the Admin of server!
 &cAll arenas are full!Please wait!
-&cThis arena isn't exist!
+&cThis arena does not exist!
 &cThis arena is holding a game!Please choose another one.
 &bNow you enter the arena &r{arenaname}
-&cThis sub command isn't exist!
+&cThis sub command does not exist!
 &c[x]Please use /dt a mode before you use this tool!
 &c[x]The two points you set must be in the same world!
 &a[v]PointA set.
@@ -311,8 +311,8 @@ English translated by Valorin
 &c[x]Cannot find Plugin HolographicDisplays,fail to use this function
 &c[x]The player is having a game now!Please wait
 second(s) before
-&c[x]This player is not exist!
-&cThis sub command is not exist,do you mean &e/dt {subcommand}&c?
+&c[x]This player does not exist!
+&cThis sub command does not exist,do you mean &e/dt {subcommand}&c?
 &b/dt checkv &f- &aGetting the latest version infomation manually
 &b&l[n1] &f{player} &7[right] &a{value} Win(s)
 &e&l[n2] &f{player} &7[right] &a{value} Win(s)
@@ -381,8 +381,8 @@ second(s) before
 &7Transfer...there may be a jam briefly
 &7Failed to transfer because of the loss of the data file
 &b/dt transfer(tf) <Function> &f- &aTransfer the data from yml file to MySQL database
-&cIt's found that the world which the HD of [Win Ranking] locate in is not exist!Please change the place for it!
-&cIt's found that the world which the HD of [KD Ranking] locate in is not exist!Please change the place for it!
+&cIt's found that the world which the HD of [Win Ranking] locate in does not exist!Please change the place for it!
+&cIt's found that the world which the HD of [KD Ranking] locate in does not exist!Please change the place for it!
 Gain 
 Lose 
 Searching Panel
@@ -398,7 +398,7 @@ Compulsory
 &b/dt season(ss) disable <Dan name> &f- &aDisable the notice function for a dan
 &b/dt season(ss) restart &f- &aRestart the season and settle reward for every player
 &7Usage:/dt ss setmessage <Dan name> <Context>
-&c[x]This dan is not exist
+&c[x]This dan does not exist!
 &a[v]Message set
 &7Usage:/dt ss setitem <Dan name>
 Reward Setting
@@ -461,7 +461,7 @@ Kit Setting
 &a[v]KITPVP MODE enabled
 &7Usage:/dt a disablekit <Arena Edit Name>
 &a[v]KITPVP MODE disabled
-&b&lTeleport...
+&b&lTeleporting...
 &fYou will leave the arena automatically in &7&l{time}&fs
 &a&lWIN
 &fIt took you &f&l{time}&fs to beat your opponent &f&l{player}
