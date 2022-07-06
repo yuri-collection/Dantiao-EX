@@ -75,7 +75,19 @@ public enum MySQLCMD {
             + "`message` TEXT,"
             + "`itemstacks` LONGBLOB,"
             + "`points` INT,"
-            + "`enable` INT) DEFAULT CHARACTER SET = utf8;"); //result: 0为胜利 1为失败 2为平局
+            + "`enable` INT) DEFAULT CHARACTER SET = utf8;"),
+    CREATE_TABLE_RANKINGSKULL("CREATE TABLE IF NOT EXISTS `dantiao_rankingskull` ("
+            + "`name` TEXT,"
+            + "`rankingtype` TEXT,"
+            + "`ranking` INT,"
+            + "`location` LONGBLOB) DEFAULT CHARACTER SET = utf8;"),
+    CREATE_TABLE_RANKINGSIGN("CREATE TABLE IF NOT EXISTS `dantiao_rankingsign` ("
+            + "`name` TEXT,"
+            + "`rankingtype` TEXT,"
+            + "`ranking` INT,"
+            + "`location` LONGBLOB) DEFAULT CHARACTER SET = utf8;");
+
+    //result: 0为胜利 1为失败 2为平局
 
     private final String command;
 

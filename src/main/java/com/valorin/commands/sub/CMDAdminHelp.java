@@ -31,6 +31,8 @@ public class CMDAdminHelp extends SubCommand implements AdminCommand {
 		sm("&b&l/dt blacklist(b) &f- &a查看黑名单操作的相关帮助", player, false);
 		sm("&b&l/dt energy(e) &f- &a查看精力值操作的相关帮助", player, false);
 		sm("&b&l/dt season(ss) &f- &a查看赛季操作的相关帮助", player, false);
+		sm("&b&l/dt rankingskull(rsk) &f- &a查看头颅排行榜操作的相关帮助", player, false);
+		sm("&b&l/dt rankingsign(rsi) &f- &a查看木牌排行榜操作的相关帮助", player, false);
 		sm("&b&l/dt hd &f- &a查看单挑排行榜操作的相关帮助", player, false);
 		sm("&b&l/dt exp &f- &a查看段位经验操作的相关帮助", player, false);
 		sm("&b/dt stop <竞技场名称> &f- &a强制结束某个竞技场的比赛", player, false);

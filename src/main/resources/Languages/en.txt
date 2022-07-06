@@ -4,7 +4,7 @@
 &b&l/dt points(p) &f- &aView the help about points.
 &b&l/dt blacklist(b) &f- &aView the help about blacklist.
 &b&l/dt energy(e) &f- &aView the help about energy.
-&b&l/dt hd &f- &aView the help about HD ranking.
+&b&l/dt hologramManager &f- &aView the help about HD rankingData.
 &b/dt stop <Arena displayname> &f- &aStop a game Forcibly.
 &b/dt lobby set &f- &aSet lobby.
 &b/dt lobby delete &f- &aRemove lobby.
@@ -86,7 +86,7 @@ English translated by Valorin
   &f&l>> &6/dt help(h) &fView the help of player&a[v]
   &f&l>> &6/dt adminhelp(ah) &fView the help of admin&a[v]
 &3&lDan&b&l&oTiao &f&l>> &aPlayer help.
-&b/dt rank(r) &f- &aView the ranking.
+&b/dt rank(r) &f- &aView the rankingData.
 &b/dt lobby(l) &f- &aTeleport to lobby.
 &b/dt start(st) &f- &aOpen the searching panel.
 &b/dt timetable &f- &aView the period during which the searching function or the invite function can be used.
@@ -114,28 +114,28 @@ English translated by Valorin
 &6Player &e{player}&6's point [right] {amount}
 &c[x]You are not in a game now!
 &bYour opponent give in...
-&3&lDan&b&l&oTiao &f&l>> &aAdmin help:HD ranking
-&b/dt hd win &f- &aCreate/Move: HD Win ranking
-&b/dt hd winremove &f- &aRemove: HD Win ranking
-&b/dt hd kd &f- &aCreate/Move: HD KD ranking
-&b/dt hd kdremove &f- &aRemove: HD KD ranking
-&b/dt hd refresh &f- &aRefresh Forcibly: All HD
+&3&lDan&b&l&oTiao &f&l>> &aAdmin help:HD rankingData
+&b/dt hologramManager win &f- &aCreate/Move: HD Win rankingData
+&b/dt hologramManager winremove &f- &aRemove: HD Win rankingData
+&b/dt hologramManager kd &f- &aCreate/Move: HD KD rankingData
+&b/dt hologramManager kdremove &f- &aRemove: HD KD rankingData
+&b/dt hologramManager refresh &f- &aRefresh Forcibly: All HD
 &bMove the HD...
 &bCreate a HD...
 &c[x]This HD does not exist!
 &a[v]HD removed
 &c[x]No HD!
 &a[v]HD refreshed
-&6My ranking [right]
-&bWin: No.&d{ranking}
-&bKD: No.&d{ranking}
-&eEnter &f/dt rank win(or 'kd') &eto view all player ranking
-&b[star1]Duel-Win ranking[star2]
-&bMy ranking: &e{ranking} ({amount} wins)
+&6My rankingData [right]
+&bWin: No.&d{rankingData}
+&bKD: No.&d{rankingData}
+&eEnter &f/dt rank win(or 'kd') &eto view all player rankingData
+&b[star1]Duel-Win rankingData[star2]
+&bMy rankingData: &e{rankingData} ({amount} wins)
 &bRanking: &eNo data.
-&cNo data in ranking.
-&b[star1]Duel-KD ranking[star2]
-&bMy ranking: &e{ranking} ({kd})
+&cNo data in rankingData.
+&b[star1]Duel-KD rankingData[star2]
+&bMy rankingData: &e{rankingData} ({kd})
 &a[v]Opened the records pannel.
 &aEnter &b/dt reload c &ato reload config.yml
 &aEnter &b/dt reload l &ato reload all language files
@@ -222,8 +222,8 @@ English translated by Valorin
 &b&lAdmin stop this game now and it will not be recorded in your game record panel.
 &a[v]Game stopped!This game will not be recorded!
 &bWELL DONE!System give you &d{points} &bpoints as a reward.
-&bYour win ranking changed!&e{before}->{now}
-&bYour KD ranking changed!&e{before}->{now}
+&bYour win rankingData changed!&e{before}->{now}
+&bYour KD rankingData changed!&e{before}->{now}
 &c[x]Warning: Error in starting game!
 &cNo arena!Please tell the Admin of server!
 &cAll arenas are full!Please wait!
@@ -411,7 +411,7 @@ Reward Setting
 &a[v]Notice function enabled
 &7Usage:/dt ss disable <Dan name>
 &a[v]Notice function disabled
-&a[v]Season restarted and ranking data as well as dan data cleared,while the reward is settling
+&a[v]Season restarted and rankingData data as well as dan data cleared,while the reward is settling
 Season Ended
 &fGain the reward of dan &r{dan} &f: &b{point} &fPoint(s)
 &b/dt shop(s) commands add <Page> <Row> <Column> <Way(player/op/console)> <Context> &f- &aSet a command which will be executed after purchase
@@ -479,3 +479,54 @@ Kit Setting
 &b{second} seconds left
 &c[x]Please install the plugin MailBox before you restart the season
 &c[x]The plugin MailBox is disabled
+&b&l/dt rankingskull(rsk) &f- &aView the help of skull for ranking
+&3&lDan&b&l&oTiao &f&l>> &aAdmin help: Skull for ranking
+&b/dt rankingskull(rsk) create <Edit Name> <Type(win/kd)> <Ranking> &f- &aSet the target skull block as skull for ranking
+&b/dt rankingskull(rsk) remove <Edit Name> &f- &aremove a skull for ranking
+&b/dt rankingskull(rsk) list &f- &aView all skulls for ranking and their information(such as location)
+&b/dt rankingskull(rsk) refresh &f- &aRefresh all skulls for ranking
+&7Usage:/dt rsk remove <Edit Name>
+&c[x]This skull for ranking not exists
+&a[v]Skull for ranking removed!
+&7No skull for ranking
+&6Skulls for ranking [right]
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &eLocation({world},{x},{y},{z})
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &eLocation({world},{x},{y},{z}) &c[This skull block is replaced by other block]
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &cInvalid location(Maybe be the world of skull has been deleted)
+&f&l{amount} &6in total
+&a[v]Skull refreshed!
+&7Usage:/dt rsk create <Edit Name> <Type> <Ranking>|&7Type is win or kd
+&c[x]Please aim at a skull block
+&c[x]The type is win or kd
+&c[x]Fail to create the skull for ranking,the reason(s) is as follows
+&7Edit name '{editname}' exists
+&7This place has been occupied by other skull for ranking,you can click it to view its edit name
+&a[v]Skull created!
+&aThis skull for ranking's edit name is {editname}.If you want to break it,please type /dt rsk remove {editname}
+&7The skulls for ranking refreshed!Success:{successes}/{total}
+&b&l/dt rankingsign(rsi) &f- &aView the help of sign for ranking
+&3&lDan&b&l&oTiao &f&l>> &aAdmin help: Sign for ranking
+&b/dt rankingsign(rsi) create <Edit Name> <Type(win/kd)> <Ranking> &f- &aSet the target sign block as sign for ranking
+&b/dt rankingsign(rsi) remove <Edit Name> &f- &aremove a sign for ranking
+&b/dt rankingsign(rsi) list &f- &aView all signs for ranking and their information(such as location)
+&b/dt rankingsign(rsi) refresh &f- &aRefresh all signs for ranking
+&7Usage:/dt rsi remove <Edit Name>
+&c[x]This sign for ranking not exists
+&a[v]Sign for ranking removed!
+&7No sign for ranking
+&6Signs for ranking [right]
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &eLocation({world},{x},{y},{z})
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &eLocation({world},{x},{y},{z}) &c[This sign block is replaced by other block]
+&eEdit name:{editname} &f- &bFor No.{ranking} &f- &dType:{type} &f- &cInvalid location(Maybe be the world of sign has been deleted)
+&f&l{amount} &6in total
+&a[v]Sign refreshed!
+&7Usage:/dt rsi create <Edit Name> <Type> <Ranking>|&7Type is win or kd
+&c[x]Please aim at a sign block
+&c[x]The content of sign must contain the symbol %p to stand for name of player
+&c[x]Fail to create the sign for ranking,the reason(s) is as follows
+&7Edit name '{editname}' exists
+&7This place has been occupied by other skull for ranking,you can click it to view its edit name
+&a[v]Sign for ranking created!
+&7The signs for ranking refreshed!Success:{successes}/{total}
+&aThis sign for ranking's edit name is {editname}.If you want to break it,please type /dt rsi remove {editname}
+No player

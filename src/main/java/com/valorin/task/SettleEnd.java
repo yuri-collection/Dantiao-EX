@@ -5,7 +5,7 @@ import com.valorin.caches.*;
 import com.valorin.configuration.ConfigManager;
 import com.valorin.dan.CustomDan;
 import com.valorin.dan.DanHandler;
-import com.valorin.ranking.Ranking;
+import com.valorin.ranking.RankingData;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -128,13 +128,13 @@ public class SettleEnd {
         if (!isDraw) {
             RankingCache rankingCache = getInstance().getCacheHandler()
                     .getRanking();
-            Ranking ranking = getInstance().getRanking();
+            RankingData rankingData = getInstance().getRanking();
 
-            int winnerRank = ranking.getWin(winner);
-            int loserRank = ranking.getWin(loser);
+            int winnerRank = rankingData.getWinRank(winner);
+            int loserRank = rankingData.getWinRank(loser);
 
-            int winnerRank2 = ranking.getKD(winner);
-            int loserRank2 = ranking.getKD(loser);
+            int winnerRank2 = rankingData.getKDRank(winner);
+            int loserRank2 = rankingData.getKDRank(loser);
 
             int winnerOrder = 0;
             if (rankingCache.getWin() != null) {
@@ -157,11 +157,11 @@ public class SettleEnd {
 
             if (winnerOrder <= loserOrder) {// winner本来就强过loser
                 // 等号则代表没有排行数据，winner优先
-                ranking.rank(winner + "|" + recordCache.getWins(winner), true);
-                ranking.rank(loser + "|" + recordCache.getWins(loser), true);
+                rankingData.rank(winner + "|" + recordCache.getWins(winner), true);
+                rankingData.rank(loser + "|" + recordCache.getWins(loser), true);
             } else {
-                ranking.rank(loser + "|" + recordCache.getWins(loser), true);
-                ranking.rank(winner + "|" + recordCache.getWins(winner), true);
+                rankingData.rank(loser + "|" + recordCache.getWins(loser), true);
+                rankingData.rank(winner + "|" + recordCache.getWins(winner), true);
             }
 
             int winnerOrder2 = 0;
@@ -185,86 +185,86 @@ public class SettleEnd {
             if (winnerOrder2 <= loserOrder2) {// winner本来就强过loser
                 // 等号则代表没有排行数据，winner优先
                 if (recordCache.getLoses(winner) != 0) {
-                    ranking.rank(
+                    rankingData.rank(
                             winner
                                     + "|"
                                     + ((double) recordCache.getWins(winner) / (double) recordCache
                                     .getLoses(winner)), false);
                 } else {
-                    ranking.rank(
+                    rankingData.rank(
                             winner + "|"
                                     + ((double) recordCache.getWins(winner)),
                             false);
                 }
 
                 if (recordCache.getLoses(loser) != 0) {
-                    ranking.rank(
+                    rankingData.rank(
                             loser
                                     + "|"
                                     + ((double) recordCache.getWins(loser) / (double) recordCache
                                     .getLoses(loser)), false);
                 } else {
-                    ranking.rank(
+                    rankingData.rank(
                             loser + "|" + ((double) recordCache.getWins(loser)),
                             false);
                 }
             } else {
                 if (recordCache.getLoses(loser) != 0) {
-                    ranking.rank(
+                    rankingData.rank(
                             loser
                                     + "|"
                                     + ((double) recordCache.getWins(loser) / (double) recordCache
                                     .getLoses(loser)), false);
                 } else {
-                    ranking.rank(
+                    rankingData.rank(
                             loser + "|" + ((double) recordCache.getWins(loser)),
                             false);
                 }
                 if (recordCache.getLoses(winner) != 0) {
-                    ranking.rank(
+                    rankingData.rank(
                             winner
                                     + "|"
                                     + ((double) recordCache.getWins(winner) / (double) recordCache
                                     .getLoses(winner)), false);
                 } else {
-                    ranking.rank(
+                    rankingData.rank(
                             winner + "|"
                                     + ((double) recordCache.getWins(winner)),
                             false);
                 }
             }
 
-            if (winnerRank != ranking.getWin(winner)
-                    && ranking.getWin(winner) != 0) {
+            if (winnerRank != rankingData.getWinRank(winner)
+                    && rankingData.getWinRank(winner) != 0) {
                 sm("&b胜场排名发生变更！&e{before}->{now}",
                         w,
                         "before now",
                         new String[]{"" + winnerRank,
-                                "" + ranking.getWin(winner)});
+                                "" + rankingData.getWinRank(winner)});
             }
-            if (loserRank != ranking.getWin(loser)
-                    && ranking.getWin(loser) != 0) {
+            if (loserRank != rankingData.getWinRank(loser)
+                    && rankingData.getWinRank(loser) != 0) {
                 sm("&b胜场排名发生变更！&e{before}->{now}",
                         l,
                         "before now",
                         new String[]{"" + loserRank,
-                                "" + ranking.getWin(loser)});
+                                "" + rankingData.getWinRank(loser)});
             }
-            if (winnerRank2 != ranking.getKD(winner)
-                    && ranking.getWin(winner) != 0) {
+            if (winnerRank2 != rankingData.getKDRank(winner)
+                    && rankingData.getWinRank(winner) != 0) {
                 sm("&bKD排名发生变更！&e{before}->{now}",
                         w,
                         "before now",
                         new String[]{"" + winnerRank2,
-                                "" + ranking.getKD(winner)});
+                                "" + rankingData.getKDRank(winner)});
             }
-            if (loserRank2 != ranking.getKD(loser)
-                    && ranking.getWin(loser) != 0) {
+            if (loserRank2 != rankingData.getKDRank(loser)
+                    && rankingData.getWinRank(loser) != 0) {
                 sm("&bKD排名发生变更！&e{before}->{now}",
                         l,
                         "before now",
                         new String[]{"" + loserRank2,
-                                "" + ranking.getKD(loser)});
+                                "" + rankingData.getKDRank(loser)});
             }
 
             boolean b1 = arena.isp1(winner);
@@ -383,7 +383,7 @@ public class SettleEnd {
                             displayName, loser}), startWay);
         }
 
-        getInstance().getHD().setIsNeedRefresh(true);
+        getInstance().getHologramManager().setIsNeedRefresh(true);
         recordCache
                 .add(loser, date, winner, server, time, loserDamage,
                         loserMaxDamage, loserResult, startWay, loserExpChange,

@@ -15,35 +15,35 @@ import com.valorin.Main;
 
 public class ClickableText {
 
-	public static void sendRequest(String sn, String rn) {
-		Player r = Bukkit.getPlayerExact(rn);
+	public static void sendRequest(String senderName, String receiverName) {
+		Player receiver = Bukkit.getPlayerExact(receiverName);
 
 		TextComponent txt4 = new TextComponent();
-		txt4.setText(gm("&c[x]&f&n点击拒绝&r", r));
-		txt4.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dt deny " + sn));
+		txt4.setText(gm("&c[x]&f&n点击拒绝&r", receiver));
+		txt4.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dantiao deny " + senderName));
 
 		TextComponent txt3 = new TextComponent();
 		txt3.setText(Dec.getStr(3));
 		txt3.addExtra(txt4);
 
 		TextComponent txt2 = new TextComponent();
-		txt2.setText(gm("&a[v]&f&n点击接受&r", r));
-		txt2.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dt accept "
-				+ sn));
+		txt2.setText(gm("&a[v]&f&n点击接受&r", receiver));
+		txt2.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dantiao accept "
+				+ senderName));
 		txt2.addExtra(txt3);
 
 		TextComponent txt = new TextComponent();
 		txt.setText(Dec.getStr(1));
 		txt.addExtra(txt2);
 
-		r.spigot().sendMessage(txt);
+		receiver.spigot().sendMessage(txt);
 	}
 
-	public static TextComponent sendInvitationToAll(String sn) {
+	public static TextComponent sendInvitationToAll(String senderName) {
 		TextComponent txt2 = new TextComponent();
 		txt2.setText(gm("&a[v]&f&n点击挑战他&r"));
-		txt2.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dt accept "
-				+ sn));
+		txt2.setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/dantiao accept "
+				+ senderName));
 
 		TextComponent txt = new TextComponent();
 		txt.setText(Dec.getStr(6));

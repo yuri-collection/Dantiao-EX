@@ -34,12 +34,12 @@
 #                                                             #
 ###############################################################
 #
-#>> Annotation above and text below.The author is a senior student from China and English translation is not 100% accurate because of my limited knowledge,please understand :D
+#>> Annotation above and text below.The author is a senior student from China so English translation is not 100% accurate because of my limited knowledge,please understand :D
 #>> 注释在上，正文在下。作者高中在读，水平有限，英文翻译不一定100%准确
 #
 # The version of this config.
 # 【请勿修改此项】本配置文件的版本号，用于插件检测并更新配置文件内容
-ConfigVersion: 9
+ConfigVersion: 10
 # Players with dt.admin permission will be noticed about new Dantiao version when logining
 # 是否在上线时接收更新检查信息（拥有dt.admin权限的玩家才能接收到）
 CheckVersion: true
@@ -137,6 +137,18 @@ Hologram:
   # The time interval in seconds for automatically refreshing hologram
   # 全息图刷新的时间间隔（单位为秒）
   RefreshInterval: 300
+# Skull Settings
+# 排行头颅设置
+Skull:
+  # The time interval in seconds for automatically refreshing skulls for ranking
+  # 排行头颅刷新的时间间隔（单位为秒）
+  RefreshInterval: 300
+# Sign Settings
+# 排行木牌设置
+Sign:
+  # The time interval in seconds for automatically refreshing signs for ranking
+  # 排行头颅刷新的时间间隔（单位为秒）
+  RefreshInterval: 300
 # Game Settings
 # 比赛设置
 Game:
@@ -178,6 +190,9 @@ Game:
     # Whether protect players from damage of projectile
     # 是否开启弹射物保护。开启时，玩家将不会受到任何场外玩家和怪物的远程伤害。但可能会导致一些模组武器无法造成远程伤害，纯净服务器推荐开启，模组服视实际情况而定。
     EnableProjectileProtection: true
+    # Whether the teleportation triggered by other plugin is allowed
+    # 是否允许比赛时玩家进行由其他插件触发的传送。如果你的服务器允许玩家在单挑竞技场使用一些由其他插件制造的传送道具，请将此项设置为true
+    IsTeleportationTriggeredByOtherPluginAllowed: false
     # Game time limit in seconds.If the timeout occurs,the winner will be decided according to the preset handling scheme in this configuration file.If there is no scheme,players on both sides will be judged to be in a draw after the game is over time
     # 比赛时间限制，单位为秒。若超时则会按本配置文件中的预设方案判定赢家，若无方案则判定平局
     TimeOut: 300

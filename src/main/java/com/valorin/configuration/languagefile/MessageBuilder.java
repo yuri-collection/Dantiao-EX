@@ -22,10 +22,10 @@ public class MessageBuilder {
 		if (Chinese.length() == 0) {
 			return "";
 		}
-		LanguageFileLoader lfl = getInstance().getLanguageFileLoader();
-		Map<File, List<String>> lang = lfl.getLang();
-		List<File> languagesList = lfl.getLanguagesList();
-		List<String> defaultLang = lfl.getDefaultLang();
+		LanguageFileLoader languageFileLoader = getInstance().getLanguageFileLoader();
+		Map<File, List<String>> lang = languageFileLoader.getLang();
+		List<File> languagesList = languageFileLoader.getLanguagesList();
+		List<String> defaultLang = languageFileLoader.getDefaultLang();
 
 		if (defaultLang.contains(Chinese)) {// 这条中文属于默认消息，通过验证
 			String finalMessage = ""; // 最终要输出的消息

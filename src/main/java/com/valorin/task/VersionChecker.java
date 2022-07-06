@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.valorin.Main;
-import com.valorin.event.CheckVersion;
+import com.valorin.event.EventCheckVersion;
 import com.valorin.network.Update;
 
 public class VersionChecker extends BukkitRunnable {
@@ -53,7 +53,7 @@ public class VersionChecker extends BukkitRunnable {
             update.setPassword(password);
 
             if (send) {
-                CheckVersion.sendUpdateInfo(update, receiver);
+                EventCheckVersion.sendUpdateInfo(update, receiver);
             }
         } catch (SocketTimeoutException exception) {
             update.setState(2);

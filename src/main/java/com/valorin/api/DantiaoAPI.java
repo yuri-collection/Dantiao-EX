@@ -3,7 +3,7 @@ package com.valorin.api;
 import com.valorin.caches.EnergyCache;
 import com.valorin.dan.CustomDan;
 import com.valorin.dan.DanHandler;
-import com.valorin.ranking.Ranking;
+import com.valorin.ranking.RankingData;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -149,8 +149,8 @@ public class DantiaoAPI {
      * @return 玩家的胜场数排名
      */
     public static int getPlayerWinRank(Player p) {
-        Ranking ranking = getInstance().getRanking();
-        return ranking.getWin(p.getName());
+        RankingData rankingData = getInstance().getRanking();
+        return rankingData.getWinRank(p.getName());
     }
 
     /**
@@ -160,8 +160,8 @@ public class DantiaoAPI {
      * @return 玩家的KD值排名
      */
     public static int getPlayerKDRank(Player p) {
-        Ranking ranking = getInstance().getRanking();
-        return ranking.getKD(p.getName());
+        RankingData rankingData = getInstance().getRanking();
+        return rankingData.getKDRank(p.getName());
     }
 
     /**

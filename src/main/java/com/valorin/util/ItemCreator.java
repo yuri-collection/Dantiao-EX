@@ -12,7 +12,7 @@ public class ItemCreator {
     private final ItemStack itemStack;
 
     /*
-     * material必填 displayname,lore,mark选填 但要同时存在 用于背包物品
+     * material必填 displayName,lore,mark选填 但要同时存在 用于背包物品
      */
     public ItemCreator(Material material, String displayName,
                        List<String> lore, String mark, boolean light) {
@@ -44,7 +44,7 @@ public class ItemCreator {
     }
 
     /*
-     * material必填 displayname,lore选填，无其他特殊要求 用于GUI物品
+     * material必填 displayName,lore选填，无其他特殊要求 用于GUI物品
      */
     public ItemCreator(Material material, String displayName,
                        List<String> lore, int s, boolean light) {

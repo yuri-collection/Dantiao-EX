@@ -126,7 +126,7 @@ public class ShopCache {
         Data.setCommandsForGood(num, commands);
     }
 
-    public void updateSalesVolumn(int num) {
+    public void updateSalesVolume(int num) {
         goodList.get(goodList.indexOf(get(num))).updateSalesVolume();
         Data.updateSalesVolumn(num);
     }

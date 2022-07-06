@@ -5,7 +5,7 @@ import com.valorin.caches.*;
 import com.valorin.dan.CustomDan;
 import com.valorin.dan.DanHandler;
 import com.valorin.data.encapsulation.Record;
-import com.valorin.ranking.Ranking;
+import com.valorin.ranking.RankingData;
 import com.valorin.request.RequestsHandler;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public class RegPAPI extends PlaceholderExpansion {
             return null;
         }
         CacheHandler cacheHandler = Main.getInstance().getCacheHandler();
-        Ranking ranking = Main.getInstance().getRanking();
+        RankingData rankingData = Main.getInstance().getRanking();
         ArenaInfoCache arenaInfoCache = cacheHandler.getArenaInfo();
         EnergyCache energyCache = cacheHandler.getEnergy();
         PointCache pointCache = cacheHandler.getPoint();
@@ -110,10 +110,10 @@ public class RegPAPI extends PlaceholderExpansion {
             }
         }
         if (i.equalsIgnoreCase("winrank")) {
-            return "" + ranking.getWin(playerName);
+            return "" + rankingData.getWinRank(playerName);
         }
         if (i.equalsIgnoreCase("kdrank")) {
-            return "" + ranking.getKD(playerName);
+            return "" + rankingData.getKDRank(playerName);
         }
         if (i.equalsIgnoreCase("isInvited")) {
             RequestsHandler request = getInstance().getRequestsHandler();
@@ -256,15 +256,15 @@ public class RegPAPI extends PlaceholderExpansion {
         if (i.startsWith("winrank")) {
             if (!i.replace("winrank", "").startsWith("value")) {
                 String numberString = i.replace("winrank", "");
-                int rank = -1;
+                int ranking = -1;
                 try {
-                    rank = Integer.parseInt(numberString);
+                    ranking = Integer.parseInt(numberString);
                 } catch (Exception ignored) {
                 }
-                if (rank == -1) {
+                if (ranking == -1) {
                     return gm("&7无数据", player);
                 } else {
-                    String rankingPlayerName = ranking.getPlayerByWin(rank - 1);
+                    String rankingPlayerName = rankingData.getPlayerByWinRank(ranking);
                     if (rankingPlayerName == null) {
                         return gm("&7无数据", player);
                     } else {
@@ -273,20 +273,20 @@ public class RegPAPI extends PlaceholderExpansion {
                 }
             } else {
                 String numberString = i.replace("winrankvalue", "");
-                int rank;
+                int ranking;
                 try {
-                    rank = Integer.parseInt(numberString);
+                    ranking = Integer.parseInt(numberString);
                 } catch (Exception e) {
-                    rank = -1;
+                    ranking = -1;
                 }
-                if (rank == -1) {
+                if (ranking == -1) {
                     return gm("&7无数据", player);
                 } else {
-                    String rankingPlayerName = ranking.getPlayerByWin(rank - 1);
+                    String rankingPlayerName = rankingData.getPlayerByWinRank(ranking);
                     if (rankingPlayerName == null) {
                         return gm("&7无数据", player);
                     } else {
-                        return "" + ranking.getWinValue(rankingPlayerName);
+                        return "" + rankingData.getWinValue(rankingPlayerName);
                     }
                 }
             }
@@ -294,15 +294,15 @@ public class RegPAPI extends PlaceholderExpansion {
         if (i.startsWith("kdrank")) {
             if (!i.replace("kdrank", "").startsWith("value")) {
                 String numberString = i.replace("kdrank", "");
-                int rank = -1;
+                int ranking = -1;
                 try {
-                    rank = Integer.parseInt(numberString);
+                    ranking = Integer.parseInt(numberString);
                 } catch (Exception ignored) {
                 }
-                if (rank == -1) {
+                if (ranking == -1) {
                     return gm("&7无数据", player);
                 } else {
-                    String rankingPlayerName = ranking.getPlayerByKD(rank - 1);
+                    String rankingPlayerName = rankingData.getPlayerByKDRank(ranking);
                     if (rankingPlayerName == null) {
                         return gm("&7无数据", player);
                     } else {
@@ -311,20 +311,20 @@ public class RegPAPI extends PlaceholderExpansion {
                 }
             } else {
                 String numberString = i.replace("kdrankvalue", "");
-                int rank;
+                int ranking;
                 try {
-                    rank = Integer.parseInt(numberString);
+                    ranking = Integer.parseInt(numberString);
                 } catch (Exception e) {
-                    rank = -1;
+                    ranking = -1;
                 }
-                if (rank == -1) {
+                if (ranking == -1) {
                     return gm("&7无数据", player);
                 } else {
-                    String rankingPlayerName = ranking.getPlayerByKD(rank - 1);
+                    String rankingPlayerName = rankingData.getPlayerByKDRank(ranking);
                     if (rankingPlayerName == null) {
                         return gm("&7无数据", player);
                     } else {
-                        return "" + ranking.getKDValue(rankingPlayerName);
+                        return "" + rankingData.getKDValue(rankingPlayerName);
                     }
                 }
             }

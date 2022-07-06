@@ -2,7 +2,9 @@ package com.valorin.data;
 
 import com.valorin.configuration.ConfigManager;
 import com.valorin.data.encapsulation.Good;
+import com.valorin.data.encapsulation.RankingSign;
 import com.valorin.data.encapsulation.Record;
+import com.valorin.data.encapsulation.RankingSkull;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -24,7 +26,7 @@ public class Data {
             energyB = false, languageFileB = false, pointB = false,
             pointShopB = false, recordB = false, seasonB = false;
 
-    public static void initalB(ConfigManager configManager) {
+    public static void initialB(ConfigManager configManager) {
         if (configManager.isUseMySQL()) {
             areaB = configManager.isAreaUseMySQL();
             blacklistB = configManager.isBlacklistUseMySQL();
@@ -304,6 +306,150 @@ public class Data {
         }
     }
 
+    public static List<RankingSkull> getRankingSkullList() { // 获取所有排行头颅
+        useDatabase = areaB;
+        if (useDatabase) {
+            return getInstance().getMySQL().getRankingSkull();
+        } else {
+            List<RankingSkull> rankingSkullList = new ArrayList<>();
+            if (!areasFile.exists()) {
+                return rankingSkullList;
+            }
+            ConfigurationSection section = areas
+                    .getConfigurationSection("RankingSkulls");
+            if (section == null) {
+                return rankingSkullList;
+            }
+            for (String key : section.getKeys(false)) {
+                String prefix = "RankingSkulls." + key + ".";
+                String worldName = areas.getString(prefix + "World");
+                World world = Bukkit.getWorld(worldName);
+                double x = areas.getInt(prefix + "X");
+                double y = areas.getInt(prefix + "Y");
+                double z = areas.getInt(prefix + "Z");
+                Location location = null;
+                if (world != null) {
+                    location = new Location(world, x, y, z);
+                }
+
+                String editName = areas.getString(prefix + "EditName");
+                String rankingType = areas.getString(prefix + "RankingType");
+                int ranking = areas.getInt(prefix + "Ranking");
+
+                RankingSkull rankingSkull = new RankingSkull(editName, rankingType, ranking, location);
+                rankingSkullList.add(rankingSkull);
+            }
+            return rankingSkullList;
+        }
+    }
+
+    public static void addRankingSkull(String editName, String rankingType, int ranking, Location location) { // 增加一个排行头颅
+        useDatabase = areaB;
+        new BukkitRunnable() {
+            public void run() {
+                if (useDatabase) {
+                    getInstance().getMySQL().addRankingSkull(editName, rankingType, ranking, location);
+                } else {
+                    String prefix = "RankingSkulls." + editName + ".";
+                    areas.set(prefix + "EditName", editName);
+                    areas.set(prefix + "Ranking", ranking);
+                    areas.set(prefix + "RankingType", rankingType);
+                    areas.set(prefix + "World", location.getWorld().getName());
+                    areas.set(prefix + "X", location.getX());
+                    areas.set(prefix + "Y", location.getY());
+                    areas.set(prefix + "Z", location.getZ());
+                    saveAreas();
+                }
+            }
+        }.runTaskAsynchronously(getInstance());
+    }
+
+    public static void removeRankingSkull(String editName) { // 删除一个排行头颅
+        useDatabase = areaB;
+        new BukkitRunnable() {
+            public void run() {
+                if (useDatabase) {
+                    getInstance().getMySQL().removeRankingSkull(editName);
+                } else {
+                    areas.set("RankingSkulls." + editName, null);
+                    saveAreas();
+                }
+            }
+        }.runTaskAsynchronously(getInstance());
+    }
+
+    public static List<RankingSign> getRankingSignList() { // 获取所有排行木牌
+        useDatabase = areaB;
+        if (useDatabase) {
+            return getInstance().getMySQL().getRankingSign();
+        } else {
+            List<RankingSign> rankingSignList = new ArrayList<>();
+            if (!areasFile.exists()) {
+                return rankingSignList;
+            }
+            ConfigurationSection section = areas
+                    .getConfigurationSection("RankingSigns");
+            if (section == null) {
+                return rankingSignList;
+            }
+            for (String key : section.getKeys(false)) {
+                String prefix = "RankingSigns." + key + ".";
+                String worldName = areas.getString(prefix + "World");
+                World world = Bukkit.getWorld(worldName);
+                double x = areas.getInt(prefix + "X");
+                double y = areas.getInt(prefix + "Y");
+                double z = areas.getInt(prefix + "Z");
+                Location location = null;
+                if (world != null) {
+                    location = new Location(world, x, y, z);
+                }
+
+                String editName = areas.getString(prefix + "EditName");
+                String rankingType = areas.getString(prefix + "RankingType");
+                int ranking = areas.getInt(prefix + "Ranking");
+
+                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location);
+                rankingSignList.add(rankingSign);
+            }
+            return rankingSignList;
+        }
+    }
+
+    public static void addRankingSign(String editName, String rankingType, int ranking, Location location) { // 增加一个排行木牌
+        useDatabase = areaB;
+        new BukkitRunnable() {
+            public void run() {
+                if (useDatabase) {
+                    getInstance().getMySQL().addRankingSign(editName, rankingType, ranking, location);
+                } else {
+                    String prefix = "RankingSigns." + editName + ".";
+                    areas.set(prefix + "EditName", editName);
+                    areas.set(prefix + "Ranking", ranking);
+                    areas.set(prefix + "RankingType", rankingType);
+                    areas.set(prefix + "World", location.getWorld().getName());
+                    areas.set(prefix + "X", location.getX());
+                    areas.set(prefix + "Y", location.getY());
+                    areas.set(prefix + "Z", location.getZ());
+                    saveAreas();
+                }
+            }
+        }.runTaskAsynchronously(getInstance());
+    }
+
+    public static void removeRankingSign(String editName) { // 删除一个排行木牌
+        useDatabase = areaB;
+        new BukkitRunnable() {
+            public void run() {
+                if (useDatabase) {
+                    getInstance().getMySQL().removeRankingSign(editName);
+                } else {
+                    areas.set("RankingSigns." + editName, null);
+                    saveAreas();
+                }
+            }
+        }.runTaskAsynchronously(getInstance());
+    }
+
     public static List<String> getBlacklist() { // 获取黑名单
         useDatabase = blacklistB;
         if (useDatabase) {
@@ -484,7 +630,7 @@ public class Data {
         new BukkitRunnable() {
             public void run() {
                 if (useDatabase) {
-                    getInstance().getMySQL().updateSalesVolumn(num);
+                    getInstance().getMySQL().updateSalesVolume(num);
                 } else {
                     int now = shop.getInt("n" + num + ".SalesVolume");
                     shop.set("n" + num + ".SalesVolume", now + 1);

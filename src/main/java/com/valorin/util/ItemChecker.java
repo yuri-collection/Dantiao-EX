@@ -1,45 +1,37 @@
 package com.valorin.util;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemChecker {
-    private boolean hasItem = false;
+import java.util.List;
 
-    public ItemChecker(Player p, String lore) {
-        Inventory inv = p.getInventory();
+public class ItemChecker {
+    public static boolean check(Player player, List<String> materialNameLimitedList, List<String> loreLimitedList) {
+        Inventory inv = player.getInventory();
         for (int slot = 0; slot < 40; slot++) {
-            if (inv.getItem(slot) != null) {
-                ItemStack itemStack = inv.getItem(slot);
+            ItemStack itemStack = inv.getItem(slot);
+            if (itemStack != null) {
+                String materialName = itemStack.getType().name();
+                for (String MaterialNameLimited : materialNameLimitedList) {
+                    if (materialName.equals(MaterialNameLimited)) {
+                        return true;
+                    }
+                }
                 if (itemStack.hasItemMeta()) {
-                    if (itemStack.getItemMeta().getLore() != null) {
-                        if (itemStack.getItemMeta().getLore()
-                                .contains(lore.replace("&", "§"))) {
-                            hasItem = true;
-                            break;
+                    List<String> loreList = itemStack.getItemMeta().getLore();
+                    if (loreList != null) {
+                        for (String loreLimited : loreLimitedList) {
+                            for (String lore : loreList) {
+                                if (lore.contains(loreLimited)) {
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-    }
-
-    public ItemChecker(Player p, Material material) {
-        Inventory inv = p.getInventory();
-        for (int slot = 0; slot < 40; slot++) {
-            if (inv.getItem(slot) != null) {
-                ItemStack itemStack = inv.getItem(slot);
-                if (itemStack.getType().equals(material)) {
-                    hasItem = true;
-                    break;
-                }
-            }
-        }
-    }
-
-    public boolean isHasItem() {
-        return hasItem;
+        return false;
     }
 }

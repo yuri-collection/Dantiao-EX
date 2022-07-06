@@ -8,7 +8,7 @@ import com.valorin.caches.EnergyCache;
 import com.valorin.configuration.ConfigManager;
 import com.valorin.data.encapsulation.ArenaInfo;
 import com.valorin.effect.WinFirework;
-import com.valorin.event.game.CompulsoryTeleport;
+import com.valorin.event.game.EventCompulsoryTeleport;
 import com.valorin.task.SettleEnd;
 import com.valorin.teleport.ToLobby;
 import com.valorin.teleport.ToLogLocation;
@@ -77,18 +77,18 @@ public class FinishGame {
                         }
                         if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
                             winner.setHealth(winner.getMaxHealth());
-                            CompulsoryTeleport.players.put(winnerName,
+                            EventCompulsoryTeleport.players.put(winnerName,
                                     arena.getLocation(arena.isp1(winnerName)));
-                            CompulsoryTeleport.back(winner);
+                            EventCompulsoryTeleport.back(winner);
                         }
                     } else {
-                        CompulsoryTeleport.players.put(winnerName,
+                        EventCompulsoryTeleport.players.put(winnerName,
                                 arena.getLocation(arena.isp1(winnerName)));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                CompulsoryTeleport.players.put(winnerName,
+                EventCompulsoryTeleport.players.put(winnerName,
                         arena.getLocation(arena.isp1(winnerName)));
             }
         }
@@ -105,18 +105,18 @@ public class FinishGame {
                         }
                         if (autoRespawnWay.equals(ConfigManager.AutoRespawnWay.SETHEALTH)) {
                             loser.setHealth(loser.getMaxHealth());
-                            CompulsoryTeleport.players.put(loserName,
+                            EventCompulsoryTeleport.players.put(loserName,
                                     arena.getLocation(arena.isp1(winnerName)));
-                            CompulsoryTeleport.back(loser);
+                            EventCompulsoryTeleport.back(loser);
                         }
                     } else {
-                        CompulsoryTeleport.players.put(loserName,
+                        EventCompulsoryTeleport.players.put(loserName,
                                 arena.getLocation(arena.isp1(winnerName)));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                CompulsoryTeleport.players.put(loserName,
+                EventCompulsoryTeleport.players.put(loserName,
                         arena.getLocation(arena.isp1(loserName)));
             }
         }
@@ -196,7 +196,9 @@ public class FinishGame {
             } else {
                 event = new ArenaFinishEvent(winner, loser, arena);
             }
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getScheduler().runTask(Main.getInstance(), () ->
+                    Bukkit.getServer().getPluginManager().callEvent(event)
+            );
 
             Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
                 try {

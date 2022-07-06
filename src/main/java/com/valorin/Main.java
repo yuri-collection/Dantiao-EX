@@ -11,11 +11,13 @@ import com.valorin.configuration.languagefile.SymbolLoader;
 import com.valorin.configuration.update.ConfigUpdate;
 import com.valorin.dan.DanHandler;
 import com.valorin.data.MySQL;
-import com.valorin.event.EventRegister;
+import com.valorin.event.TheEventRegister;
 import com.valorin.papi.RegPAPI;
 import com.valorin.queue.MatchingHandler;
-import com.valorin.ranking.HD;
-import com.valorin.ranking.Ranking;
+import com.valorin.ranking.hologram.HologramManager;
+import com.valorin.ranking.RankingData;
+import com.valorin.ranking.sign.SignManager;
+import com.valorin.ranking.skull.SkullManager;
 import com.valorin.request.RequestsHandler;
 import com.valorin.stats.Stats;
 import com.valorin.stats.data.SingleLineChartData;
@@ -43,8 +45,8 @@ public class Main extends JavaPlugin {
     private ArenaCreatorHandler arenaCreatorHandler;
     private Timetable timeTable;
     private RequestsHandler requestHandler;
-    private Ranking ranking;
-    private HD hd;
+    private RankingData rankingData;
+    private HologramManager hologramManager;
     private DanHandler danHandler;
     private SymbolLoader symbolLoader;
     private MatchingHandler matchingHandler;
@@ -57,7 +59,7 @@ public class Main extends JavaPlugin {
     private RegPAPI regPAPI;
     private String serverVersion;
     private Update update;
-    private int serverVersionType; // 0代表1.7及以下 1代表1.8~1.9 2代表1.10~1.16 3代表1.17及以上
+    private int serverVersionType; // 0代表1.7及以下 1代表1.8 2代表1.9 3代表1.10~1.16 4代表1.17及以上
 
     public static String getVersion() {
         return version;
@@ -92,12 +94,12 @@ public class Main extends JavaPlugin {
         return requestHandler;
     }
 
-    public Ranking getRanking() {
-        return ranking;
+    public RankingData getRanking() {
+        return rankingData;
     }
 
-    public HD getHD() {
-        return hd;
+    public HologramManager getHologramManager() {
+        return hologramManager;
     }
 
     public DanHandler getDanHandler() {
@@ -191,14 +193,16 @@ public class Main extends JavaPlugin {
                     arenaManager = new ArenaManager();
                     timeTable = new Timetable();
                     requestHandler = new RequestsHandler();
-                    ranking = new Ranking();
-                    hd = new HD();
+                    rankingData = new RankingData();
+                    hologramManager = new HologramManager();
                     danHandler = new DanHandler();
                     matchingHandler = new MatchingHandler();
                     update = new Update();
                     commandsHandler = new CommandHandler();
                     singleLineChartData = new SingleLineChartData();
-                    EventRegister.registerEvents();
+                    SkullManager.initialize();
+                    SignManager.initialize();
+                    TheEventRegister.registerEvents();
                     if (Bukkit.getPluginManager().isPluginEnabled(
                             "PlaceholderAPI")) {
                         if (!me.clip.placeholderapi.PlaceholderAPI
@@ -243,7 +247,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        hd.unload(0);
+        hologramManager.unload(0);
         languageFileLoader.close();
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             if (me.clip.placeholderapi.PlaceholderAPI

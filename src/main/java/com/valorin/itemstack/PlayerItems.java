@@ -42,7 +42,7 @@ public class PlayerItems {
 		return new ItemCreator(
 				Material.PAPER,
 				gm("&f&l[&b单挑&7-&b全服邀请函&f&l]", p),
-				gml("&6[right] &7输入&f&n/dt sendall&7即可在聊天框里发送单挑请求|&6[right] &7每次消耗1个本道具| ",
+				gml("&6[right] &7输入&f&n/dt sendall&7即可在聊天框里发送单挑请求|&6[right] &7每次消耗1个本道具|&r",
 						p), mark2, true).get();
 	}
 }

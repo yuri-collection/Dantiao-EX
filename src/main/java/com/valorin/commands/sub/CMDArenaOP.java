@@ -119,7 +119,7 @@ public class CMDArenaOP extends SubCommand implements AdminCommand {
             return true;
         }
         if (player == null) {
-            sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", player);
+            sm("&c[x]这条指令只能由服务器内的玩家执行！后台无法使用！", null);
             return true;
         }
         if (args[1].equalsIgnoreCase("mode")) {

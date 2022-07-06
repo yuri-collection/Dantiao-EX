@@ -20,8 +20,8 @@ public class CommandHandler {
 		commands.add(new CMDPlayerHelp());
 		commands.add(new CMDPoints());
 		commands.add(new CMDQuit());
-		commands.add(new CMDRankingOP());
-		commands.add(new CMDRankingPlayer());
+		commands.add(new CMDHologramRanking());
+		commands.add(new CMDRanking());
 		commands.add(new CMDReload());
 		commands.add(new CMDRequestAccept());
 		commands.add(new CMDRequestDeny());
@@ -40,6 +40,8 @@ public class CommandHandler {
 		commands.add(new CMDTransfer());
 		commands.add(new CMDSeason());
 		commands.add(new CMDCheckVersion());
+		commands.add(new CMDSkullRanking());
+		commands.add(new CMDSignRanking());
 		PluginCommand pluginCommand = Bukkit.getPluginCommand("dantiao");
 		pluginCommand.setExecutor(new CommandExecutor());
 	}

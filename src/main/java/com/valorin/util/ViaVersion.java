@@ -122,6 +122,53 @@ public class ViaVersion {
         }
     }
 
+    public static boolean isWallSignMaterial(Material material) {
+        String name = material.name();
+        if (Material.getMaterial("WALL_SIGN") != null) {
+            return name.equals("WALL_SIGN");
+        } else {
+            switch (name) {
+                case "ACACIA_WALL_SIGN":
+                case "BIRCH_WALL_SIGN":
+                case "CRIMSON_WALL_SIGN":
+                case "DARK_OAK_WALL_SIGN":
+                case "JUNGLE_WALL_SIGN":
+                case "OAK_WALL_SIGN":
+                case "WARPED_WALL_SIGN":
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isSignPostMaterial(Material material) {
+        String name = material.name();
+        if (Material.getMaterial("SIGN_POST") != null) {
+            return name.equals("SIGN_POST");
+        } else {
+            switch (name) {
+                case "ACACIA_SIGN":
+                case "BIRCH_SIGN":
+                case "CRIMSON_SIGN":
+                case "DARK_OAK_SIGN":
+                case "JUNGLE_SIGN":
+                case "OAK_SIGN":
+                case "WARPED_SIGN":
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isPlayerSkull(Material material) {
+        String name = material.name();
+        if (Material.getMaterial("SKULL") != null) {
+            return name.equals("SKULL");
+        } else {
+            return name.equals("PLAYER_HEAD") || name.equals("PLAYER_WALL_HEAD");
+        }
+    }
+
     public static boolean isHelmet(Material material) {
         boolean isHelmetPlate = false;
         switch (material.toString()) {
@@ -363,7 +410,7 @@ public class ViaVersion {
     private static Class<?> getNmsClass(String name)
             throws ClassNotFoundException {
         int serverVersionType = Main.getInstance().getServerVersionType();
-        if (serverVersionType == 3) {
+        if (serverVersionType == 4) {
             return Class.forName("net.minecraft.server." + name);
         } else {
             return Class.forName("net.minecraft.server."
@@ -378,7 +425,8 @@ public class ViaVersion {
     }
 
     public static void getAllClass() {
-        if (Main.getInstance().getServerVersionType() == 1) {
+        int serverVersionType = Main.getInstance().getServerVersionType();
+        if (serverVersionType == 1 || serverVersionType == 2) {
             try {
                 iChatBaseComponent = getNmsClass("IChatBaseComponent");
                 chatComponentText = getNmsClass("ChatComponentText");
@@ -397,7 +445,8 @@ public class ViaVersion {
             return;
         }
         try {
-            if (Main.getInstance().getServerVersionType() == 1) {
+            int serverVersionType = Main.getInstance().getServerVersionType();
+            if (serverVersionType == 1 || serverVersionType == 2) {
                 Enum<?>[] enumConstants = (Enum<?>[]) enumTitleAction
                         .getEnumConstants();
                 Object enumTITLE = null;
@@ -452,7 +501,7 @@ public class ViaVersion {
                         .invoke(playerConnection,
                                 packetPlayOutTitleTimeInstance);
             }
-            if (Main.getInstance().getServerVersionType() >= 2) {
+            if (serverVersionType >= 3) {
                 Class<?> clazz = Class.forName("org.bukkit.entity.Player");
                 Method method = clazz.getMethod("sendTitle", String.class,
                         String.class, int.class, int.class, int.class);

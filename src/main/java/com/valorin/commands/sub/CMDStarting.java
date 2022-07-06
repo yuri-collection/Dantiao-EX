@@ -29,7 +29,7 @@ public class CMDStarting extends SubCommand implements InServerCommand {
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
-		if (getInstance().getArenaManager().isPlayerBusy(player.getName())) {// 防止玩家用vv进行二次匹配
+		if (getInstance().getArenaManager().isPlayerBusy(player.getName())) {// 防止玩家用VexView进行二次匹配
 			return true;
 		}
 		List<String> blist = Main.getInstance().getCacheHandler().getBlacklist().get();

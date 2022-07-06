@@ -2,12 +2,10 @@ package com.valorin.data;
 
 import com.valorin.Main;
 import com.valorin.configuration.ConfigManager;
-import com.valorin.data.encapsulation.DataMedium;
-import com.valorin.data.encapsulation.Good;
+import com.valorin.data.encapsulation.*;
 import com.valorin.data.encapsulation.Record;
 import com.valorin.util.Debug;
 import com.valorin.util.Transform;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,7 +33,7 @@ public class MySQL {
         try {
             ConfigManager cm = Main.getInstance().getConfigManager();
             if (cm.isUseMySQL()) {
-                String url = cm.getMySQLURL() + "?charset=utf8";
+                String url = cm.getMySQLURL() + "?charset=utf8&useSSL=false";
                 String user = cm.getMySQLUser();
                 String password = cm.getMySQLPassword();
                 this.connection = DriverManager.getConnection(url, user,
@@ -48,6 +46,10 @@ public class MySQL {
                     statement.executeUpdate(MySQLCMD.CREATE_TABLE_HOLOGRAM
                             .commandToString());
                     statement.executeUpdate(MySQLCMD.CREATE_TABLE_LOBBY
+                            .commandToString());
+                    statement.executeUpdate(MySQLCMD.CREATE_TABLE_RANKINGSKULL
+                            .commandToString());
+                    statement.executeUpdate(MySQLCMD.CREATE_TABLE_RANKINGSIGN
                             .commandToString());
                     Debug.send("Area相关功能确认使用MySQL储存数据",
                             "The function of Area has confirmed to use MySQL to store data");
@@ -396,7 +398,7 @@ public class MySQL {
             ps.setInt(1, type);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                blob = rs.getBlob("type");
+                blob = rs.getBlob("location");
                 if (blob != null) {
                     DataMedium dataMedium = (DataMedium) (Transform
                             .serializeToObject(blob));
@@ -437,9 +439,16 @@ public class MySQL {
                     ps2.setBlob(1, Transform.serialize(dataMedium));
                     ps2.setInt(2, type);
                 }
-                ps2.executeUpdate();
-                ps2.close();
+            } else {
+                ps2 = connection
+                        .prepareStatement("insert into dantiao_hologram (type, location) values(?,?);");
+                DataMedium dataMedium = new DataMedium();
+                dataMedium.setLocation(location);
+                ps2.setInt(1, type);
+                ps2.setBlob(2, Transform.serialize(dataMedium));
             }
+            ps2.executeUpdate();
+            ps2.close();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -473,24 +482,138 @@ public class MySQL {
                 exist = true;
             }
             rs.close();
-            PreparedStatement ps2;
+            PreparedStatement ps;
             if (exist) {
                 if (location == null) {
-                    ps2 = connection
+                    ps = connection
                             .prepareStatement("delete from dantiao_lobby;");
                 } else {
-                    ps2 = connection
+                    ps = connection
                             .prepareStatement("update dantiao_lobby set location = ?;");
                     DataMedium dataMedium = new DataMedium();
                     dataMedium.setLocation(location);
-                    ps2.setBlob(1, Transform.serialize(dataMedium));
-                    ps2.executeUpdate();
-                    ps2.close();
+                    ps.setBlob(1, Transform.serialize(dataMedium));
                 }
-                ps2.executeUpdate();
-                ps2.close();
+            } else {
+                ps = connection
+                        .prepareStatement("insert into dantiao_lobby (location) values(?);");
+                DataMedium dataMedium = new DataMedium();
+                dataMedium.setLocation(location);
+                ps.setBlob(1, Transform.serialize(dataMedium));
             }
+            ps.executeUpdate();
+            ps.close();
         } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<RankingSkull> getRankingSkull() { // 获取所有排行头颅
+        List<RankingSkull> rankingSkullList = new ArrayList<>();
+        try {
+            Blob blob;
+            Location location = null;
+            ResultSet rs = getResultSet("select * from dantiao_rankingskull;");
+            while (rs.next()) {
+                String editName = rs.getString("name");
+                String rankingType = rs.getString("rankingtype");
+                int ranking = rs.getInt("ranking");
+                blob = rs.getBlob("location");
+                if (blob != null) {
+                    DataMedium dataMedium = (DataMedium) (Transform
+                            .serializeToObject(blob));
+                    location = dataMedium.getLocation();
+                }
+                RankingSkull rankingSkull = new RankingSkull(editName, rankingType, ranking, location);
+                rankingSkullList.add(rankingSkull);
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        return rankingSkullList;
+    }
+
+    public void addRankingSkull(String editName, String rankingType, int ranking, Location location) { // 新增一个排行头颅
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("insert into dantiao_rankingskull (name,rankingtype,ranking,location) value(?,?,?,?);");
+            ps.setString(1, editName);
+            ps.setString(2, rankingType);
+            ps.setInt(3, ranking);
+            DataMedium dataMedium = new DataMedium();
+            dataMedium.setLocation(location);
+            ps.setBlob(4, Transform.serialize(dataMedium));
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeRankingSkull(String editName) { // 删除一个排行头颅
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("delete from dantiao_rankingskull where `name` = ?;");
+            ps.setString(1, editName);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<RankingSign> getRankingSign() { // 获取所有排行木牌
+        List<RankingSign> rankingSignList = new ArrayList<>();
+        try {
+            Blob blob;
+            Location location = null;
+            ResultSet rs = getResultSet("select * from dantiao_rankingsign;");
+            while (rs.next()) {
+                String editName = rs.getString("name");
+                String rankingType = rs.getString("rankingtype");
+                int ranking = rs.getInt("ranking");
+                blob = rs.getBlob("location");
+                if (blob != null) {
+                    DataMedium dataMedium = (DataMedium) (Transform
+                            .serializeToObject(blob));
+                    location = dataMedium.getLocation();
+                }
+                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location);
+                rankingSignList.add(rankingSign);
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        return rankingSignList;
+    }
+
+    public void addRankingSign(String editName, String rankingType, int ranking, Location location) { // 新增一个排行木牌
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("insert into dantiao_rankingsign (name,rankingtype,ranking,location) value(?,?,?,?);");
+            ps.setString(1, editName);
+            ps.setString(2, rankingType);
+            ps.setInt(3, ranking);
+            DataMedium dataMedium = new DataMedium();
+            dataMedium.setLocation(location);
+            ps.setBlob(4, Transform.serialize(dataMedium));
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeRankingSign(String editName) { // 删除一个排行木牌
+        try {
+            PreparedStatement ps = connection
+                    .prepareStatement("delete from dantiao_rankingsign where `name` = ?;");
+            ps.setString(1, editName);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -715,7 +838,7 @@ public class MySQL {
                 double price = rs.getDouble("price");
                 String broadcast = rs.getString("broadcast");
                 String description = rs.getString("description");
-                int salesVolumn = rs.getInt("salesvolume");
+                int salesVolume = rs.getInt("salesvolume");
                 String dan = rs.getString("dan");
 
                 List<String> commands = new ArrayList<>();
@@ -731,7 +854,7 @@ public class MySQL {
                 }
 
                 Good good = new Good(num, itemStack, price, broadcast,
-                        description, salesVolumn, dan, commands);
+                        description, salesVolume, dan, commands);
                 goodList.add(good);
             }
             rs.close();
@@ -775,7 +898,7 @@ public class MySQL {
         }
     }
 
-    public void updateSalesVolumn(int num) { // 更新销量
+    public void updateSalesVolume(int num) { // 更新销量
         try {
             int now = 0;
             PreparedStatement ps = connection

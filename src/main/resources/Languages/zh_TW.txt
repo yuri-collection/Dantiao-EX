@@ -4,7 +4,7 @@
 &b&l/dt points(p) &f- &a查看單挑積分操作的相關幫助
 &b&l/dt blacklist(b) &f- &a查看黑名單操作的相關幫助
 &b&l/dt energy(e) &f- &a查看精力值操作的相關幫助
-&b&l/dt hd &f- &a查看單挑排行榜操作的相關幫助
+&b&l/dt hologramManager &f- &a查看單挑排行榜操作的相關幫助
 &b/dt stop <競技場名稱> &f- &a強制結束某個競技場的比賽
 &b/dt lobby set &f- &a設置服務器的單挑大廳傳送點
 &b/dt lobby delete &f- &a取消大廳傳送點
@@ -115,11 +115,11 @@
 &b對方向你認輸了！
 &c[x]你現在不在任何一場比賽中
 &3&lDan&b&l&oTiao &f&l>> &a管理員幫助：排行榜全息圖操作
-&b/dt hd win &f- &a創建/移動：全息圖-勝場排行榜
-&b/dt hd winremove &f- &a刪除：全息圖-勝場排行榜
-&b/dt hd kd &f- &a創建/移動：全息圖-KD值排行榜
-&b/dt hd kdremove &f- &a刪除：全息圖-KD值排行榜
-&b/dt hd refresh &f- &a強制刷新：所有全息圖
+&b/dt hologramManager win &f- &a創建/移動：全息圖-勝場排行榜
+&b/dt hologramManager winremove &f- &a刪除：全息圖-勝場排行榜
+&b/dt hologramManager kd &f- &a創建/移動：全息圖-KD值排行榜
+&b/dt hologramManager kdremove &f- &a刪除：全息圖-KD值排行榜
+&b/dt hologramManager refresh &f- &a強制刷新：所有全息圖
 &b移動全息圖...
 &b創建全息圖...
 &c[x]該全息圖本來就不存在
@@ -127,15 +127,15 @@
 &c[x]無任何全息圖！
 &a[v]全息圖刷新完畢！
 &6單挑排行榜信息 [right]
-&b勝場數排名：第&d{ranking}&b名
-&bKD比值排名：第&d{ranking}&b名
+&b勝場數排名：第&d{rankingData}&b名
+&bKD比值排名：第&d{rankingData}&b名
 &e查看其他人的？輸入 &f/dt rank win或kd &e查看全服排名
 &b[star1]單挑-勝場排行榜[star2]
-&b我的排名：&e{ranking} (勝利{amount}場)
+&b我的排名：&e{rankingData} (勝利{amount}場)
 &b我的排名：&e暫無
 &c該排行榜沒有數據
 &b[star1]單挑-KD比值排行榜[star2]
-&b我的排名：&e{ranking} (比值{kd})
+&b我的排名：&e{rankingData} (比值{kd})
 &a[v]記錄面板已打開，查看你的每一次精彩表現！
 &a輸入 &b/dt reload c &a重載配置config.yml
 &a輸入 &b/dt reload l &a重載所有語言文件
@@ -245,7 +245,7 @@
 &c[x]發生非法傳送，已製止
 &c[x]比賽時禁用指令！
 &f當前頁碼：{page}/{maxpage}
- |&9<左鍵下一頁/右鍵上一頁|
+ |&9<左鍵下一頁/右鍵上一頁>|&r
 &f<[ 全服匹配 &f]>
  |&e在線尋找對手|&f&l>> &a點擊開始
 &f<[ &7全服匹配 &f]>
@@ -255,7 +255,7 @@
 &c[x]敗北
 &6[=]平局
 &7&m未記錄&r
- |&b結果 &f[right] {result}|&b對手 &f[right] &e{opponent}|&b地圖 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗時 &f[right] &e{time}秒|&b經驗 &f[right] &e{exp}|&b類型 &f[right] &e{type}|&b傷害輸出  &f[right] &e{damage}|&b最大輸出  &f[right] &e{maxdamage}|&b對戰區服  &f[right] &e{server}| 
+ |&b結果 &f[right] {result}|&b對手 &f[right] &e{opponent}|&b地圖 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗時 &f[right] &e{time}秒|&b經驗 &f[right] &e{exp}|&b類型 &f[right] &e{type}|&b傷害輸出  &f[right] &e{damage}|&b最大輸出  &f[right] &e{maxdamage}|&b對戰區服  &f[right] &e{server}|&r
 &b商品Lore &f&l>>
 &7無
 &b商品信息 &f&l>>
@@ -360,7 +360,7 @@
 &a戰績展示太頻繁啦~請等會再展示
 &c[x]競技場創建方式錯誤！請將創建工具拿在手上後點擊空氣，以將你當前所處的位置作為傳送點！
 &f&l[&b單挑&7-&b全服邀請函&f&l]
-&6[right] &7輸入&f&n/dt sendall&7即可在聊天框裡發送單挑請求|&6[right] &7每次消耗一個本道具| 
+&6[right] &7輸入&f&n/dt sendall&7即可在聊天框裡發送單挑請求|&6[right] &7每次消耗一個本道具|&r
 &c[x]本操作需要消耗一個全服邀請函
 &a[v]已有{amount}個玩家收到了你的單挑請求，請等待接受
 &e玩家&7{player}&e向全服玩家下了單挑戰書
@@ -479,3 +479,54 @@
 &b比賽時間剩餘 &6{second} &b秒
 &c[x]請先按照文檔指引安裝MailBox插件，否則無法發送郵件
 &c[x]MailBox插件未加載
+&b&l/dt rankingskull（rsk）&f- &a查看頭顱排行榜操作的相關幫助
+&3&lDan&b&l&oTiao &f&l>> &a管理員幫助：頭顱排行榜操作
+&b/dt rankingskull（rsk）create <編輯名> <類型（win或kd）> <排名> &f- &a將指針所指的頭顱設定為某種排行榜的排行頭顱
+&b/dt rankingskull（rsk）remove <編輯名> &f- &a删除某個排行頭顱
+&b/dt rankingskull（rsk）list &f- &a查看所有排行頭顱及其座標資訊
+&b/dt rankingskull（rsk）refresh &f- &a手動重繪所有排行頭顱
+&7正確用法：/dt rsk remove <編輯名>
+&c[x]不存在的排行頭顱，請檢查輸入
+&a[v]排行頭顱删除完畢！
+&7沒有創建任何排行頭顱
+&6排行頭顱如下[right]
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &e頭顱方塊座標（{world}，{x}，{y}，{z}）
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &e頭顱方塊座標（{world}，{x}，{y}，{z}）&c[此頭顱已被其他方塊代替或已被其他管道破壞，無法更新]
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &c頭顱方塊座標無效（可能是其所在的世界已被删除）
+&6共計&f&l{amount} &6個排行頭顱
+&a[v]排行頭顱重繪成功
+&7正確用法：/dt rsk create <編輯名> <類型> <排名>|&7類型輸入win代表勝場數排行榜，輸入kd代表KD值排行榜（字母不分大小寫）
+&c[x]請將指針對準玩家頭顱方塊
+&c[x]類型請輸入英文win或kd|&7輸入win代表勝場數排行榜，輸入kd代表KD值排行榜（字母不分大小寫）
+&c[x]排行頭顱創建失敗，原因如下：
+&7排行頭顱的編輯名{editname}已存在
+&7這個位置設定了其他排行頭顱，你可以通過點擊它來查看其編輯名
+&a[v]排行頭顱創建完畢！
+&a這個排行頭顱的編輯名是{editname}，若要拆除，請先輸入/dt rsk remove {editname}
+&7排行頭顱已自動刷新… 成功重繪數：{successes}/{total}
+&b&l/dt rankingsign（rsi）&f- &a查看木牌排行榜操作的相關幫助
+&3&lDan&b&l&oTiao &f&l>> &a管理員幫助：木牌排行榜操作
+&b/dt rankingsign（rsi）create <編輯名> <類型（win或kd）> <排名> &f- &a將指針所指的木牌設定為某種排行榜的排行木牌
+&b/dt rankingsign（rsi）remove <編輯名> &f- &a删除某個排行木牌
+&b/dt rankingsign（rsi）list &f- &a查看所有排行木牌及其座標資訊
+&b/dt rankingsign（rsi）refresh &f- &a手動重繪所有排行木牌
+&7正確用法：/dt rsi remove <編輯名>
+&c[x]不存在的排行木牌，請檢查輸入
+&a[v]排行木牌删除完畢！
+&7沒有創建任何排行木牌
+&6排行木牌如下[right]
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &e木牌座標（{world}，{x}，{y}，{z}）
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &e木牌座標（{world}，{x}，{y}，{z}）&c[此木牌已被其他方塊代替或已被其他管道破壞，無法更新]
+&e編輯名：{editname} &f- &b對應第{ranking}名&f- &d類型：{type} &f- &c木牌座標無效（可能是其所在的世界已被删除）
+&6共計&f&l{amount} &6個排行木牌
+&a[v]排行木牌重繪成功
+&7正確用法：/dt rsi create <編輯名> <類型> <排名>|&7類型輸入win代表勝場數排行榜，輸入kd代表KD值排行榜（字母不分大小寫）
+&c[x]請將指針對準木牌方塊
+&c[x]木牌上的內容必須含有%p這個符號，其用於表示該排名對應的玩家名
+&c[x]排行木牌創建失敗，原因如下：
+&7排行木牌的編輯名{editname}已存在
+&7這個位置設定了其他排行木牌，你可以通過點擊它來查看其編輯名
+&a[v]排行木牌創建完畢！
+&7排行木牌已自動刷新… 成功重繪數：{successes}/{total}
+&a這個排行木牌的編輯名是{editname}，若要拆除，請先輸入/dt rsi remove {editname}
+虛位以待

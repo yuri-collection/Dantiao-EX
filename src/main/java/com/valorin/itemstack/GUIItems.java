@@ -35,7 +35,7 @@ public class GUIItems {
 		return new ItemCreator(ViaVersion.getMapMaterial(), gm(
 				"&f当前页码：{page}/{maxpage}", p, "page maxpage", new String[] {
 						"" + page, "" + maxpage }),
-				gml(" |&9<左键下一页/右键上一页| ", p), 0, true).get();
+				gml(" |&9<左键下一页/右键上一页>|&r", p), 0, true).get();
 	}
 
 	public static ItemStack getStart(String pn) {
@@ -156,7 +156,7 @@ public class GUIItems {
 		String result_string = gm(result, p);
 		try {
 			lore = gml(
-					" |&b结果 &f[right] {result}|&b对手 &f[right] &e{opponent}|&b地图 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗时 &f[right] &e{time}秒|&b经验 &f[right] &e{exp}|&b类型 &f[right] &e{type}|&b伤害输出  &f[right] &e{damage}|&b最大输出  &f[right] &e{maxdamage}|&b对战区服  &f[right] &e{server}| ",
+					" |&b结果 &f[right] {result}|&b对手 &f[right] &e{opponent}|&b地图 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗时 &f[right] &e{time}秒|&b经验 &f[right] &e{exp}|&b类型 &f[right] &e{type}|&b伤害输出  &f[right] &e{damage}|&b最大输出  &f[right] &e{maxdamage}|&b对战区服  &f[right] &e{server}|&r",
 					p,
 					"result opponent arena date time exp type damage maxdamage server",
 					new String[] { result_string, record.getOpponentName(),

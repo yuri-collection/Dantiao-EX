@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,6 +19,8 @@ import com.valorin.util.ViaVersion;
 
 public class ConfigManager {
 	public FileConfiguration config;
+
+	public List<String> loreLimitedList; //预处理：把所有&换成§
 
 	public ConfigManager() {
 		reload();
@@ -43,6 +46,12 @@ public class ConfigManager {
 						new FileInputStream(file))));
 			}
 			this.config = config;
+			List<String> rawLoreLimitedList = config.getStringList("Game.Start.ItemLimit.Lore");
+			List<String> loreLimitedList = new ArrayList<>();
+			for (String rawLoreLimited : rawLoreLimitedList) {
+				loreLimitedList.add(rawLoreLimited.replace("&","§"));
+			}
+			this.loreLimitedList = loreLimitedList;
 
 			FileConfiguration symbols = new YamlConfiguration();
 			File file2 = new File(getInstance().getDataFolder(), "symbols.yml");
@@ -60,7 +69,7 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 
-		Data.initalB(this);
+		Data.initialB(this);
 	}
 
 	public int getConfigVersion() {
@@ -200,7 +209,7 @@ public class ConfigManager {
 	}
 
 	public List<String> getItemLimitByLore() {
-		return config.getStringList("Game.Start.ItemLimit.Lore");
+		return loreLimitedList;
 	}
 
 	public int getBroadcastWinningStreakTimes() {
@@ -359,5 +368,17 @@ public class ConfigManager {
 
 	public List<String> getCommandWhitelist() {
 		return config.getStringList("Game.Process.CommandWhitelist");
+	}
+
+	public int getSkullRefreshInterval() {
+		return config.getInt("Skull.RefreshInterval");
+	}
+
+	public int getSignRefreshInterval() {
+		return config.getInt("Sign.RefreshInterval");
+	}
+
+	public boolean isTeleportationTriggeredByOtherPluginAllowed() {
+		return config.getBoolean("Game.Process.IsTeleportationTriggeredByOtherPluginAllowed");
 	}
 }

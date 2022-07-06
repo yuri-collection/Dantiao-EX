@@ -8,7 +8,6 @@ import com.valorin.request.RequestsHandler;
 import com.valorin.util.ItemChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -52,53 +51,23 @@ public class StartGame {
             }
         }
 
-        List<String> MaterialNameList = configManager.getItemLimitByMaterial();
-        if (MaterialNameList.size() != 0) {
-            for (String materialName : MaterialNameList) {
-                Material material = Material.getMaterial(materialName);
-                if (material != null) {
-                    ItemChecker ic1 = new ItemChecker(player1, material);
-                    if (ic1.isHasItem()) {
-                        sm("&c[x]你的背包里携带有违禁品！不予开赛", player1);
-                        sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player2, "player",
-                                new String[]{player1.getName()});
-                        player1.closeInventory();
-                        player2.closeInventory();
-                        return;
-                    }
-                    ItemChecker ic2 = new ItemChecker(player2, material);
-                    if (ic2.isHasItem()) {
-                        sm("&c[x]你的背包里携带有违禁品！不予开赛", player2);
-                        sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player1, "player",
-                                new String[]{player2.getName()});
-                        player1.closeInventory();
-                        player2.closeInventory();
-                        return;
-                    }
-                }
-            }
+        List<String> materialNameLimitedList = configManager.getItemLimitByMaterial();
+        List<String> loreLimitedList = configManager.getItemLimitByLore();
+        if (ItemChecker.check(player1, materialNameLimitedList, loreLimitedList)) {
+            sm("&c[x]你的背包里携带有违禁品！不予开赛", player1);
+            sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player2, "player",
+                    new String[]{player1.getName()});
+            player1.closeInventory();
+            player2.closeInventory();
+            return;
         }
-
-        List<String> loreList = configManager.getItemLimitByLore();
-        if (loreList.size() != 0) {
-            for (String lore : loreList) {
-                ItemChecker ic1 = new ItemChecker(player1, lore);
-                if (ic1.isHasItem()) {
-                    sm("&c[x]你的背包里携带有违禁品！不予开赛", player1);
-                    sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player2);
-                    player1.closeInventory();
-                    player2.closeInventory();
-                    return;
-                }
-                ItemChecker ic2 = new ItemChecker(player2, lore);
-                if (ic2.isHasItem()) {
-                    sm("&c[x]你的背包里携带有违禁品！不予开赛", player2);
-                    sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player1);
-                    player1.closeInventory();
-                    player2.closeInventory();
-                    return;
-                }
-            }
+        if (ItemChecker.check(player2, materialNameLimitedList, loreLimitedList)) {
+            sm("&c[x]你的背包里携带有违禁品！不予开赛", player2);
+            sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player1, "player",
+                    new String[]{player2.getName()});
+            player1.closeInventory();
+            player2.closeInventory();
+            return;
         }
 
         if (editName == null) { // 非指定竞技场，即随机

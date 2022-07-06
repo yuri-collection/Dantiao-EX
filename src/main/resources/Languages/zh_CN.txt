@@ -245,7 +245,7 @@
 &c[x]发生非法传送，已制止
 &c[x]比赛时禁用指令！
 &f当前页码：{page}/{maxpage}
- |&9<左键下一页/右键上一页| 
+ |&9<左键下一页/右键上一页>|&r
 &f<[ 全服匹配 &f]>
  |&e在线寻找对手|&f&l>> &a点击开始
 &f<[ &7全服匹配 &f]>
@@ -255,11 +255,11 @@
 &c[x]败北
 &6[=]平局
 &7&m未记录&r
- |&b结果 &f[right] {result}|&b对手 &f[right] &e{opponent}|&b地图 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗时 &f[right] &e{time}秒|&b经验 &f[right] &e{exp}|&b类型 &f[right] &e{type}|&b伤害输出  &f[right] &e{damage}|&b最大输出  &f[right] &e{maxdamage}|&b对战区服  &f[right] &e{server}| 
+ |&b结果 &f[right] {result}|&b对手 &f[right] &e{opponent}|&b地图 &f[right] &e{arena}|&b日期 &f[right] &e{date}|&b耗时 &f[right] &e{time}秒|&b经验 &f[right] &e{exp}|&b类型 &f[right] &e{type}|&b伤害输出  &f[right] &e{damage}|&b最大输出  &f[right] &e{maxdamage}|&b对战区服  &f[right] &e{server}|&r
 &b商品Lore &f&l>>
 &7无
 &b商品信息 &f&l>>
-&6备注： 
+&6备注：
 &6备注： &7无
 &6价格： &e{price}
 &6余额： &e{points}
@@ -360,7 +360,7 @@
 &a战绩展示太频繁啦~请等会再展示
 &c[x]竞技场创建方式错误！请将创建工具拿在手上后点击空气，以将你当前所处的位置作为传送点！
 &f&l[&b单挑&7-&b全服邀请函&f&l]
-&6[right] &7输入&f&n/dt sendall&7即可在聊天框里发送单挑请求|&6[right] &7每次消耗1个本道具| 
+&6[right] &7输入&f&n/dt sendall&7即可在聊天框里发送单挑请求|&6[right] &7每次消耗1个本道具|&r
 &c[x]本操作需要消耗一个全服邀请函
 &a[v]已有{amount}个玩家收到了你的单挑请求，请等待接受
 &e玩家&7{player}&e向全服玩家下了单挑战书
@@ -479,3 +479,54 @@
 &b比赛时间剩余 &6{second} &b秒
 &c[x]请先按照文档指引安装MailBox插件，否则无法发送邮件
 &c[x]MailBox插件未加载
+&b&l/dt rankingskull(rsk) &f- &a查看头颅排行榜操作的相关帮助
+&3&lDan&b&l&oTiao &f&l>> &a管理员帮助：头颅排行榜操作
+&b/dt rankingskull(rsk) create <编辑名> <类型(win或kd)> <排名> &f- &a将指针所指的头颅设置为某种排行榜的排行头颅
+&b/dt rankingskull(rsk) remove <编辑名> &f- &a删除某个排行头颅
+&b/dt rankingskull(rsk) list &f- &a查看所有排行头颅及其坐标信息
+&b/dt rankingskull(rsk) refresh &f- &a手动刷新所有排行头颅
+&7正确用法：/dt rsk remove <编辑名>
+&c[x]不存在的排行头颅，请检查输入
+&a[v]排行头颅删除完毕！
+&7没有创建任何排行头颅
+&6排行头颅如下 [right]
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &e头颅方块坐标({world},{x},{y},{z})
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &e头颅方块坐标({world},{x},{y},{z}) &c[此头颅已被其他方块代替或已被其他方式破坏，无法更新]
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &c头颅方块坐标无效(可能是其所在的世界已被删除)
+&6共计 &f&l{amount} &6个排行头颅
+&a[v]排行头颅刷新成功
+&7正确用法：/dt rsk create <编辑名> <类型> <排名>|&7类型输入win代表胜场数排行榜，输入kd代表KD值排行榜(字母不分大小写)
+&c[x]请将指针对准玩家头颅方块
+&c[x]类型请输入英文 win 或 kd|&7输入win代表胜场数排行榜，输入kd代表KD值排行榜(字母不分大小写)
+&c[x]排行头颅创建失败，原因如下：
+&7排行头颅的编辑名 {editname} 已存在
+&7这个位置设置了其他排行头颅，你可以通过点击它来查看其编辑名
+&a[v]排行头颅创建完毕！
+&a这个排行头颅的编辑名是 {editname}，若要拆除，请先输入/dt rsk remove {editname}
+&7排行头颅已自动刷新...成功刷新数:{successes}/{total}
+&b&l/dt rankingsign(rsi) &f- &a查看木牌排行榜操作的相关帮助
+&3&lDan&b&l&oTiao &f&l>> &a管理员帮助：木牌排行榜操作
+&b/dt rankingsign(rsi) create <编辑名> <类型(win或kd)> <排名> &f- &a将指针所指的木牌设置为某种排行榜的排行木牌
+&b/dt rankingsign(rsi) remove <编辑名> &f- &a删除某个排行木牌
+&b/dt rankingsign(rsi) list &f- &a查看所有排行木牌及其坐标信息
+&b/dt rankingsign(rsi) refresh &f- &a手动刷新所有排行木牌
+&7正确用法：/dt rsi remove <编辑名>
+&c[x]不存在的排行木牌，请检查输入
+&a[v]排行木牌删除完毕！
+&7没有创建任何排行木牌
+&6排行木牌如下 [right]
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &e木牌坐标({world},{x},{y},{z})
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &e木牌坐标({world},{x},{y},{z}) &c[此木牌已被其他方块代替或已被其他方式破坏，无法更新]
+&e编辑名:{editname} &f- &b对应第{ranking}名 &f- &d类型:{type} &f- &c木牌坐标无效(可能是其所在的世界已被删除)
+&6共计 &f&l{amount} &6个排行木牌
+&a[v]排行木牌刷新成功
+&7正确用法：/dt rsi create <编辑名> <类型> <排名>|&7类型输入win代表胜场数排行榜，输入kd代表KD值排行榜(字母不分大小写)
+&c[x]请将指针对准木牌方块
+&c[x]木牌上的内容必须含有 %p 这个符号，其用于表示该排名对应的玩家名
+&c[x]排行木牌创建失败，原因如下：
+&7排行木牌的编辑名 {editname} 已存在
+&7这个位置设置了其他排行木牌，你可以通过点击它来查看其编辑名
+&a[v]排行木牌创建完毕！
+&7排行木牌已自动刷新...成功刷新数:{successes}/{total}
+&a这个排行木牌的编辑名是 {editname}，若要拆除，请先输入/dt rsi remove {editname}
+虚位以待

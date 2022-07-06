@@ -107,23 +107,23 @@ public class CMDShop extends SubCommand implements InServerCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label,
                              String[] args) {
-        Player p = null;
+        Player player = null;
         if (sender instanceof Player) {
-            p = (Player) sender;
+            player = (Player) sender;
         }
         if (args.length == 1) {
             Inventory inv = Bukkit.createInventory(null, 54,
-                    gm("&0&l积分商城 &9&l[right]", p));
-            INVShop.loadInv(p.getName(), inv);
-            sm("&a[v]欢迎光临单挑积分商城！", p);
+                    gm("&0&l积分商城 &9&l[right]", player));
+            INVShop.loadInv(player.getName(), inv);
+            sm("&a[v]欢迎光临单挑积分商城！", player);
             return true;
         }
-        if (!p.hasPermission("dt.admin")) {
-            sm("&c[x]无权限！", p);
+        if (!player.hasPermission("dt.admin")) {
+            sm("&c[x]无权限！", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("help")) {
-            sendHelp(p);
+            sendHelp(player);
             return true;
         }
         if (args[1].equalsIgnoreCase("commands")) {
@@ -132,34 +132,34 @@ public class CMDShop extends SubCommand implements InServerCommand {
         ShopCache cache = Main.getInstance().getCacheHandler().getShop();
         if (args[1].equalsIgnoreCase("add")) {
             if (args.length != 3) {
-                sm("&7正确用法：/dt s add <价格>，注意请将要上架的物品拿在手上", p);
+                sm("&7正确用法：/dt s add <价格>，注意请将要上架的物品拿在手上", player);
                 return true;
             }
-            ItemStack now = ViaVersion.getItemInMainHand(p);
+            ItemStack now = ViaVersion.getItemInMainHand(player);
             if (now.equals(new ItemStack(Material.AIR))) {
-                sm("&c[x]请将要上架的物品拿在手中！", p);
+                sm("&c[x]请将要上架的物品拿在手中！", player);
                 return true;
             }
             if (!isInt(args[2])) {
-                sm("&c[x]请输入有效的阿拉伯数字！", p);
+                sm("&c[x]请输入有效的阿拉伯数字！", player);
                 return true;
             }
             int price = Integer.parseInt(args[2]);
             if (price <= 0) {
-                sm("&c[x]请输入大于零的阿拉伯数字！", p);
+                sm("&c[x]请输入大于零的阿拉伯数字！", player);
                 return true;
             }
-            cache.add(ViaVersion.getItemInMainHand(p), price);
-            sm("&a[v]商品上架成功！", p);
+            cache.add(ViaVersion.getItemInMainHand(player), price);
+            sm("&a[v]商品上架成功！", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("remove")) {
             if (args.length != 5) {
-                sm("&7正确用法：/dt s remove <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+                sm("&7正确用法：/dt s remove <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
                 return true;
             }
             if (!isInt(args[2], args[3], args[4])) {
-                sm("&c[x]请输入有效的阿拉伯数字！", p);
+                sm("&c[x]请输入有效的阿拉伯数字！", player);
                 return true;
             }
             int page = Integer.parseInt(args[2]);
@@ -167,106 +167,106 @@ public class CMDShop extends SubCommand implements InServerCommand {
             int column = Integer.parseInt(args[4]);
             int index = getNum(page, row, column);
             if (index >= cache.size()) {
-                sm("&c[x]不存在这个商品", p);
+                sm("&c[x]不存在这个商品", player);
                 return true;
             }
             cache.remove(cache.getNumByIndex(index));
-            sm("&a[v]商品下架完毕！", p);
+            sm("&a[v]商品下架完毕！", player);
             return true;
         }
         if (args[1].equalsIgnoreCase("des") || args[1].equalsIgnoreCase("bc") || args[1].equalsIgnoreCase("dan")) {
             if (args.length != 6) {
                 if (args[1].equalsIgnoreCase("des")) {
                     sm("&7正确用法：/dt s des <页数> <行> <列> <内容>，行和列不考虑GUI顶部和底部的玻璃板，支持颜色代码",
-                            p);
+                            player);
                 }
                 if (args[1].equalsIgnoreCase("bc")) {
                     sm("&7正确用法：/dt s bc <页数> <行> <列> <内容>，行和列不考虑GUI顶部和底部的玻璃板，支持颜色代码，可以用{player}代替玩家名称",
-                            p);
+                            player);
                 }
                 if (args[1].equalsIgnoreCase("dan")) {
                     sm("&7正确用法：/dt s dan <页数> <行> <列> <段位的编辑名>，行和列不考虑GUI顶部和底部的玻璃板",
-                            p);
+                            player);
                 }
                 return true;
             }
             if (!isInt(args[2], args[3], args[4])) {
-                sm("&c[x]请输入有效的阿拉伯数字！", p);
+                sm("&c[x]请输入有效的阿拉伯数字！", player);
                 return true;
             }
             int page = Integer.parseInt(args[2]);
             int row = Integer.parseInt(args[3]);
             int column = Integer.parseInt(args[4]);
-            if (isOutOfRange(page, row, column, args[2], args[3], args[4], p)) {
+            if (isOutOfRange(page, row, column, args[2], args[3], args[4], player)) {
                 return true;
             }
 
             int index = getNum(page, row, column);
             if (index >= cache.size()) {
-                sm("&c[x]不存在这个商品", p);
+                sm("&c[x]不存在这个商品", player);
                 return true;
             }
             if (args[1].equalsIgnoreCase("des")) {
                 String description = args[5];
                 cache.setDescription(cache.getNumByIndex(index), description);
-                sm("&a[v]备注设置完毕！", p);
+                sm("&a[v]备注设置完毕！", player);
             }
             if (args[1].equalsIgnoreCase("bc")) {
                 String broadcast = args[5];
                 cache.setBroadcast(cache.getNumByIndex(index), broadcast);
-                sm("&a[v]公告设置完毕！", p);
+                sm("&a[v]公告设置完毕！", player);
             }
             if (args[1].equalsIgnoreCase("dan")) {
                 String dan = args[5];
                 cache.setDan(cache.getNumByIndex(index), dan);
-                sm("&a[v]段位限制设置完毕！", p);
+                sm("&a[v]段位限制设置完毕！", player);
             }
             return true;
         }
         if (args[1].equalsIgnoreCase("rdes") || args[1].equalsIgnoreCase("rbc") || args[1].equalsIgnoreCase("rdan")) {
             if (args.length != 5) {
                 if (args[1].equalsIgnoreCase("rdes")) {
-                    sm("&7正确用法：/dt s rdes <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+                    sm("&7正确用法：/dt s rdes <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
                 }
                 if (args[1].equalsIgnoreCase("rbc")) {
-                    sm("&7正确用法：/dt s rbc <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+                    sm("&7正确用法：/dt s rbc <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
                 }
                 if (args[1].equalsIgnoreCase("rdan")) {
-                    sm("&7正确用法：/dt s rdan <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", p);
+                    sm("&7正确用法：/dt s rdan <页数> <行> <列>，行和列不考虑GUI顶部和底部的玻璃板", player);
                 }
                 return true;
             }
             if (!isInt(args[2], args[3], args[4])) {
-                sm("&c[x]请输入有效的阿拉伯数字！", p);
+                sm("&c[x]请输入有效的阿拉伯数字！", player);
                 return true;
             }
             int page = Integer.parseInt(args[2]);
             int row = Integer.parseInt(args[3]);
             int column = Integer.parseInt(args[4]);
-            if (isOutOfRange(page, row, column, args[2], args[3], args[4], p)) {
+            if (isOutOfRange(page, row, column, args[2], args[3], args[4], player)) {
                 return true;
             }
 
             int index = getNum(page, row, column);
             if (index >= cache.size()) {
-                sm("&c[x]不存在这个商品", p);
+                sm("&c[x]不存在这个商品", player);
                 return true;
             }
             if (args[1].equalsIgnoreCase("rdes")) {
                 cache.setDescription(cache.getNumByIndex(index), null);
-                sm("&a[v]备注删除完毕！", p);
+                sm("&a[v]备注删除完毕！", player);
             }
             if (args[1].equalsIgnoreCase("rbc")) {
                 cache.setBroadcast(cache.getNumByIndex(index), null);
-                sm("&a[v]公告删除完毕！", p);
+                sm("&a[v]公告删除完毕！", player);
             }
             if (args[1].equalsIgnoreCase("rdan")) {
                 cache.setDan(cache.getNumByIndex(index), null);
-                sm("&a[v]段位限制取消完毕！", p);
+                sm("&a[v]段位限制取消完毕！", player);
             }
             return true;
         }
-        sendHelp(p);
+        sendHelp(player);
         return true;
     }
 }
