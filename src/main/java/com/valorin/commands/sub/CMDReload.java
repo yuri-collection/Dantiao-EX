@@ -2,6 +2,7 @@ package com.valorin.commands.sub;
 
 import com.valorin.commands.SubCommand;
 import com.valorin.commands.way.AdminCommand;
+import com.valorin.ranking.sign.SignManager;
 import com.valorin.ranking.skull.SkullManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -45,6 +46,7 @@ public class CMDReload extends SubCommand implements AdminCommand {
                         () -> {
                             getInstance().getHologramManager().reload();
                             SkullManager.reload();
+                            SignManager.reload();
                             getInstance().getDanHandler().loadCustomDanFromConfig();
                             getInstance().reloadTimeTable();
                             long end = System.currentTimeMillis();

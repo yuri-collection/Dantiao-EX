@@ -177,7 +177,7 @@ public class DanHandler {
             this.threshold = customDans.get(0).getExp();
         }
         if (this.customDans.size() != 0) {
-            for (String playerName : new HashSet<>(Main.getInstance().getCacheHandler().getDan().keySet())) {
+            for (String playerName : Main.getInstance().getCacheHandler().getDan().keySet()) {
                 refreshPlayerDan(playerName);
             }
         }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -408,19 +409,21 @@ public class Data {
                 String rankingType = areas.getString(prefix + "RankingType");
                 int ranking = areas.getInt(prefix + "Ranking");
 
-                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location);
+                List<String> text = areas.getStringList(prefix + "Text");
+
+                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location, text);
                 rankingSignList.add(rankingSign);
             }
             return rankingSignList;
         }
     }
 
-    public static void addRankingSign(String editName, String rankingType, int ranking, Location location) { // 增加一个排行木牌
+    public static void addRankingSign(String editName, String rankingType, int ranking, Location location, List<String> text) { // 增加一个排行木牌
         useDatabase = areaB;
         new BukkitRunnable() {
             public void run() {
                 if (useDatabase) {
-                    getInstance().getMySQL().addRankingSign(editName, rankingType, ranking, location);
+                    getInstance().getMySQL().addRankingSign(editName, rankingType, ranking, location, text);
                 } else {
                     String prefix = "RankingSigns." + editName + ".";
                     areas.set(prefix + "EditName", editName);
@@ -430,6 +433,7 @@ public class Data {
                     areas.set(prefix + "X", location.getX());
                     areas.set(prefix + "Y", location.getY());
                     areas.set(prefix + "Z", location.getZ());
+                    areas.set(prefix + "Text", text);
                     saveAreas();
                 }
             }

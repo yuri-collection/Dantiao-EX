@@ -69,15 +69,15 @@ public class SignManager {
                 value = rankingData.getWinValue(playerName);
             }
             Sign sign = (Sign) signBlock.getState();
-            String[] lines = sign.getLines();
+            List<String> lines = rankingSign.getText();
             if (playerName != null) {
                 for (int i = 0; i < 4; i++) {
-                    String line = lines[i];
+                    String line = lines.get(i);
                     sign.setLine(i, line.replace("%p", playerName).replace("%r", "" + ranking).replace("%v", "" + value));
                 }
             } else {
                 for (int i = 0; i < 4; i++) {
-                    String line = lines[i];
+                    String line = lines.get(i);
                     sign.setLine(i, line.replace("%p", gm("虚位以待")).replace("%r", "-").replace("%v", "-"));
                 }
             }

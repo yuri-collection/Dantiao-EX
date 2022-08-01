@@ -58,9 +58,6 @@ public class CacheHandler {
                 if (taskId == -1) {
                     taskId = this.getTaskId();
                 } else {
-                    danCache.save(true);
-                    languageFileCache.save(true);
-                    pointCache.save(true);
                     energyCache.save(true);
                 }
             }
@@ -72,9 +69,6 @@ public class CacheHandler {
             Bukkit.getScheduler().cancelTask(taskId);
             taskId = -1;
 
-            danCache.save(false);
-            languageFileCache.save(false);
-            pointCache.save(false);
             energyCache.cancelTimer();
             energyCache.save(false);
         } catch (Exception e) {

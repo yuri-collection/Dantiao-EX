@@ -12,7 +12,6 @@ import java.util.*;
 
 public class DanCache {
     private final Map<String, Integer> map = new HashMap<>();
-    private final List<String> changeList = new ArrayList<>();
 
     public DanCache() {
         try {
@@ -52,25 +51,9 @@ public class DanCache {
         }
     }
 
-    public void unload(String name) {
-        map.remove(name);
-    }
-
-    public void save(boolean isAsynchronously) {
-        if (changeList.size() != 0) {
-            for (String name : changeList) {
-                Data.setDanExp(name, map.get(name), isAsynchronously);
-            }
-            changeList.clear();
-            Debug.send("段位经验数据已自动保存", "Dan EXP data saved automatically");
-        }
-    }
-
     public void set(String name, int exp) {
         map.put(name, exp);
         Main.getInstance().getDanHandler().refreshPlayerDan(name);
-        if (!changeList.contains(name)) {
-            changeList.add(name);
-        }
+        Data.setDanExp(name, exp, true);
     }
 }

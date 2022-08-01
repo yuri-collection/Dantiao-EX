@@ -2,8 +2,8 @@ package com.valorin.data;
 
 import com.valorin.Main;
 import com.valorin.configuration.ConfigManager;
-import com.valorin.data.encapsulation.*;
 import com.valorin.data.encapsulation.Record;
+import com.valorin.data.encapsulation.*;
 import com.valorin.util.Debug;
 import com.valorin.util.Transform;
 import org.bukkit.Location;
@@ -566,20 +566,31 @@ public class MySQL {
     public List<RankingSign> getRankingSign() { // 获取所有排行木牌
         List<RankingSign> rankingSignList = new ArrayList<>();
         try {
-            Blob blob;
+            Blob blob1, blob2;
             Location location = null;
+            List<String> text = new ArrayList<>();
             ResultSet rs = getResultSet("select * from dantiao_rankingsign;");
             while (rs.next()) {
                 String editName = rs.getString("name");
                 String rankingType = rs.getString("rankingtype");
                 int ranking = rs.getInt("ranking");
-                blob = rs.getBlob("location");
-                if (blob != null) {
+                blob1 = rs.getBlob("location");
+                if (blob1 != null) {
                     DataMedium dataMedium = (DataMedium) (Transform
-                            .serializeToObject(blob));
+                            .serializeToObject(blob1));
                     location = dataMedium.getLocation();
                 }
-                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location);
+                blob2 = rs.getBlob("origintext");
+                if (blob2 != null) {
+                    List<?> rawRanking = (List<?>) Transform
+                            .serializeToObject(blob2);
+                    for (Object o : rawRanking) {
+                        if (o instanceof String) {
+                            text.add((String) o);
+                        }
+                    }
+                }
+                RankingSign rankingSign = new RankingSign(editName, rankingType, ranking, location, text);
                 rankingSignList.add(rankingSign);
             }
             rs.close();
@@ -589,16 +600,17 @@ public class MySQL {
         return rankingSignList;
     }
 
-    public void addRankingSign(String editName, String rankingType, int ranking, Location location) { // 新增一个排行木牌
+    public void addRankingSign(String editName, String rankingType, int ranking, Location location, List<String> text) { // 新增一个排行木牌
         try {
             PreparedStatement ps = connection
-                    .prepareStatement("insert into dantiao_rankingsign (name,rankingtype,ranking,location) value(?,?,?,?);");
+                    .prepareStatement("insert into dantiao_rankingsign (name,rankingtype,ranking,location,origintext) value(?,?,?,?,?);");
             ps.setString(1, editName);
             ps.setString(2, rankingType);
             ps.setInt(3, ranking);
             DataMedium dataMedium = new DataMedium();
             dataMedium.setLocation(location);
             ps.setBlob(4, Transform.serialize(dataMedium));
+            ps.setBlob(5, Transform.serialize(text));
             ps.executeUpdate();
             ps.close();
         } catch (SQLException | IOException e) {

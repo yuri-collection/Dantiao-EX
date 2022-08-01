@@ -256,7 +256,7 @@ public class Arena {
                         ViaVersion.sendTitle(player2, gm("&a&l战斗开始", player2),
                                 gm("&2比赛将在 &a&l{time} &2秒后结束，请尽快击败对手！", player2, "time", new String[]{"" + timeout}), 20, 40,
                                 10);
-                        ArenaCommands.ExecuteArenaCommands(name, player1,
+                        ArenaCommands.executeArenaCommands(name, player1,
                                 player2);
                     }
                     ViaVersion.sendActionBar(player1, gm("&b比赛时间剩余 &6{second} &b秒", player1, "second", new String[]{"" + (timeout - time)}));

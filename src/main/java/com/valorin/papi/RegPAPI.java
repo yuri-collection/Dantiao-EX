@@ -103,7 +103,7 @@ public class RegPAPI extends PlaceholderExpansion {
             if (loses == 0) {
                 return "" + wins;
             } else {
-                BigDecimal bg = new BigDecimal((double) wins / (double) loses);
+                BigDecimal bg = BigDecimal.valueOf((double) wins / (double) loses);
                 double value = bg.setScale(2, BigDecimal.ROUND_HALF_UP)
                         .doubleValue();
                 return "" + value;

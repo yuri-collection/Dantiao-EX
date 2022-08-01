@@ -7,14 +7,11 @@ import com.valorin.util.ViaVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LanguageFileCache {
     private final Map<String, String> map = new HashMap<>();
-    private final List<String> changeList = new ArrayList<>();
 
     public LanguageFileCache() {
         try {
@@ -44,25 +41,8 @@ public class LanguageFileCache {
         }
     }
 
-    public void unload(String name) {
-        if (map.containsKey(name))
-            map.remove(name);
-    }
-
-    public void save(boolean isAsynchronously) {
-        if (changeList.size() != 0) {
-            for (String name : changeList) {
-                Data.setLanguageFile(name, map.get(name), isAsynchronously);
-            }
-            changeList.clear();
-            Debug.send("语言文件数据已自动保存", "Language File data saved automatically");
-        }
-    }
-
     public void set(String name, String language) {
         map.put(name, language);
-        if (!changeList.contains(name)) {
-            changeList.add(name);
-        }
+        Data.setLanguageFile(name, map.get(name), true);
     }
 }

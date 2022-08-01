@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -202,7 +203,7 @@ public class CMDSignRanking extends SubCommand implements AdminCommand {
                 }
                 return true;
             }
-            cache.addRankingSign(editName, rankingType, ranking, location);
+            cache.addRankingSign(editName, rankingType, ranking, location, Arrays.asList(lines));
             SignManager.refresh(false);
             sm("&a[v]排行木牌创建完毕！", player);
             return true;

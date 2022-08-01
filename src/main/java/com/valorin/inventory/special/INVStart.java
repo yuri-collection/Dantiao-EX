@@ -23,22 +23,22 @@ public class INVStart {
 
 	public static Map<String, ArenaSelect> arenaSelects = new HashMap<>();
 
-	public static void openInv(String opener_name) {
-		Player opener = Bukkit.getPlayerExact(opener_name);
-		StartInvHolder holder = new StartInvHolder(opener_name);
+	public static void openInv(String openerName) {
+		Player opener = Bukkit.getPlayerExact(openerName);
+		StartInvHolder holder = new StartInvHolder(openerName);
 		Inventory inventory = Bukkit.createInventory(holder, 27,
 				gm("&0&l全服匹配 &9&l[right]", opener));
 		holder.setInventory(inventory);
 
 		MatchingHandler mh = Main.getInstance().getMatchingHandler();
-		if (mh.isPlayerBusy(opener_name)) {
+		if (mh.isPlayerBusy(openerName)) {
 			ItemStack glass = ViaVersion.getGlassPane(15);
 			for (int i = 0; i < 27; i++) {
 				if (i != 13) {
 					holder.getInventory().setItem(i, glass);
 				}
 			}
-			Matching matching = mh.getMatchingOfPlayer(opener_name);
+			Matching matching = mh.getMatchingOfPlayer(openerName);
 			matching.setInventory(inventory);
 			matching.refreshItem();
 		} else {
@@ -48,10 +48,10 @@ public class INVStart {
 					inventory.setItem(i, glass);
 				}
 			}
-			inventory.setItem(13, GUIItems.getStart(opener_name));
+			inventory.setItem(13, GUIItems.getStart(openerName));
 
 			int size = Objects.requireNonNull(gml(" |&e在线寻找对手|&f&l>> &a点击开始", opener)).size() + 2;
-			arenaSelects.put(opener_name, new ArenaSelect(opener, Main
+			arenaSelects.put(openerName, new ArenaSelect(opener, Main
 					.getInstance().getCacheHandler().getArenaInfo()
 					.getArenaInfoList(), size, inventory));
 		}

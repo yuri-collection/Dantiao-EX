@@ -10,7 +10,7 @@ import java.util.List;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class ArenaCommands {
-    public static void ExecuteArenaCommands(String editName, Player p1,
+    public static void executeArenaCommands(String editName, Player p1,
                                             Player p2) {
         Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
             ArenaInfoCache cache = Main.getInstance().getCacheHandler().getArenaInfo();

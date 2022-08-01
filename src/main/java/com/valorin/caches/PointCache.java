@@ -8,14 +8,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PointCache {
     private final Map<String, Double> map = new HashMap<>();
-    private final List<String> changeList = new ArrayList<>();
 
     public PointCache() {
         try {
@@ -50,20 +47,8 @@ public class PointCache {
         }
     }
 
-    public void save(boolean isAsynchronously) {
-        if (changeList.size() != 0) {
-            for (String name : changeList) {
-                Data.setPoint(name, map.get(name), isAsynchronously);
-            }
-            changeList.clear();
-            Debug.send("竞技场积分数据已自动保存", "Points data saved automatically");
-        }
-    }
-
     public void set(String name, double points) {
         map.put(name, points);
-        if (!changeList.contains(name)) {
-            changeList.add(name);
-        }
+        Data.setPoint(name, map.get(name), true);
     }
 }

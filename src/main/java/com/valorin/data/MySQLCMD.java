@@ -85,7 +85,8 @@ public enum MySQLCMD {
             + "`name` TEXT,"
             + "`rankingtype` TEXT,"
             + "`ranking` INT,"
-            + "`location` LONGBLOB) DEFAULT CHARACTER SET = utf8;");
+            + "`location` LONGBLOB,"
+            + "`origintext` LONGBLOB) DEFAULT CHARACTER SET = utf8;");
 
     //result: 0为胜利 1为失败 2为平局
 

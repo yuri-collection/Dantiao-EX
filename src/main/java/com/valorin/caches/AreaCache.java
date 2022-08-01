@@ -98,10 +98,10 @@ public class AreaCache {
         return rankingSignList;
     }
 
-    public void addRankingSign(String editName, String rankingType, int ranking, Location location) {
-        rankingSignList.add(new RankingSign(editName, rankingType, ranking, location));
+    public void addRankingSign(String editName, String rankingType, int ranking, Location location, List<String> text) {
+        rankingSignList.add(new RankingSign(editName, rankingType, ranking, location, text));
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            Data.addRankingSign(editName, rankingType, ranking, location);
+            Data.addRankingSign(editName, rankingType, ranking, location, text);
         });
     }
 

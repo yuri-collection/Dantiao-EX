@@ -57,8 +57,7 @@ public class ShopCache {
     }
 
     public Good get(int num) {
-        for (int i = 0; i < goodList.size(); i++) {
-            Good good = goodList.get(i);
+        for (Good good : goodList) {
             if (good.getNum() == num) {
                 return good;
             }
