@@ -53,7 +53,8 @@ public class StartGame {
 
         List<String> materialNameLimitedList = configManager.getItemLimitByMaterial();
         List<String> loreLimitedList = configManager.getItemLimitByLore();
-        if (ItemChecker.check(player1, materialNameLimitedList, loreLimitedList)) {
+        List<String> displayNameLimitedList = configManager.getItemLimitByDisplayName();
+        if (ItemChecker.check(player1, materialNameLimitedList, displayNameLimitedList, loreLimitedList)) {
             sm("&c[x]你的背包里携带有违禁品！不予开赛", player1);
             sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player2, "player",
                     new String[]{player1.getName()});
@@ -61,7 +62,7 @@ public class StartGame {
             player2.closeInventory();
             return;
         }
-        if (ItemChecker.check(player2, materialNameLimitedList, loreLimitedList)) {
+        if (ItemChecker.check(player2, materialNameLimitedList, displayNameLimitedList, loreLimitedList)) {
             sm("&c[x]你的背包里携带有违禁品！不予开赛", player2);
             sm("&c[x]对手{player}的背包里携带有违禁品！不予开赛", player1, "player",
                     new String[]{player2.getName()});

@@ -34,44 +34,32 @@ public class EventCheckVersion implements Listener {
     }
 
     public static void sendUpdateInfo(Update update, CommandSender sender) {
-        if (update.getState() == 1) {
-            String version = update.getVersion();
-            String versionNow = Main.getVersion();
-            List<String> messageList = update.getContext();
+        if (update.getState() == Update.UpdateState.SUCCESS) {
+            int version = update.getVersion();
+            int versionNow = Integer.parseInt(Main.getVersion().replace("EX-",""));
+            List<String> context = update.getContext();
             if (!update.isNew()) {
                 sender.sendMessage("");
-                sender.sendMessage("§8§l[§bDantiao-EX§8§l]");
-                sender.sendMessage("§f- §a单挑插件拓展版发现最新版本：§dEX-" + version
-                        + "§a可替换现在的旧版本§c" + versionNow);
-                sender.sendMessage("§f- §aNew version §dEX-"
-                        + version
-                        + "§a now is released which can replace the old version §c"
-                        + versionNow);
-                if (messageList.size() != 0) {
-                    sender.sendMessage("§7更新内容 | Content:");
-                    for (String message : messageList) {
-                        sender.sendMessage("§f- " + message);
+                sender.sendMessage("§8§l[§b§lDantiao-EX§8§l]");
+                sender.sendMessage("§3单挑插件拓展版检测到有新版本！§7(本段消息仅管理员可见)");
+                sender.sendMessage("§f最新版本► §aEX-"+version);
+                sender.sendMessage("§f当前版本► §cEX-"+versionNow);
+                if (context.size() != 0) {
+                    sender.sendMessage("§d更新内容如下：");
+                    for (String message : context) {
+                        sender.sendMessage(message);
                     }
                 }
-                sender.sendMessage("");
-                String downloadUrl = update.getDownloadUrl();
-                String password = update.getPassword();
-                ClickableText.sendDownloadInfo(sender, downloadUrl, password);
             } else {
                 sender.sendMessage("");
-                sender.sendMessage("§8§l[§bDantiao-EX§8§l]");
-                sender.sendMessage("§f- §7单挑插件拓展版已更新到最新版本§a" + versionNow);
-                sender.sendMessage("§f- §7(本条消息仅管理员可见)");
-                sender.sendMessage("§f- §7Plugin is the lastest version §a"
-                        + versionNow);
-                sender.sendMessage("§f- §7(This message can only be seen by OPs)");
+                sender.sendMessage("§8§l[§b§lDantiao-EX§8§l] §7单挑插件拓展版已更新到最新版本§8(本条消息仅管理员可见)");
                 sender.sendMessage("");
             }
         }
-        if (update.getState() == 2) {
+        if (update.getState() == Update.UpdateState.FAILURE_TIMEOUT) {
             sm("&7版本更新内容因为超时而获取失败，建议输入/dt checkv手动获取", null);
         }
-        if (update.getState() == 3) {
+        if (update.getState() == Update.UpdateState.FAILURE_OTHER) {
             sm("&7版本更新内容因为某些未知原因（详见后台报错信息）而获取失败，建议输入/dt checkv手动获取", null);
         }
     }

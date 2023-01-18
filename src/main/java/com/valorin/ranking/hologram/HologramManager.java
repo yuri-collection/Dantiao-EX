@@ -118,7 +118,7 @@ public class HologramManager {
                         isNeedRefresh = false;
                     }
                 }
-            }.runTaskTimerAsynchronously(Main.getInstance(), interval, interval);
+            }.runTaskTimer(Main.getInstance(), interval, interval);
 
             isInitialized = true;
         }

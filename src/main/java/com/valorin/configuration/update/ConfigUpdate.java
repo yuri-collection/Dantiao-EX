@@ -99,12 +99,16 @@ public class ConfigUpdate {
                     Ver_9.execute();
                 case 9:
                     Ver_10.execute();
+                case 10:
+                    Ver_11.execute();
             }
         }
 
         console.sendMessage("§8§l[§bDantiao§8§l]");
-        console.sendMessage("§f- §aconfig.yml已完成自动升级");
-        console.sendMessage("§f- §aThe config.yml has updated successfully!");
+        console.sendMessage("§f- §a配置文件config.yml已完成自动升级！");
+        console.sendMessage("§f- §a如果你需要自动升级前的config.yml备份，请到Dantiao文件夹下的OldConfigs文件夹中查看");
+        console.sendMessage("§f- §aThe config.yml updated successfully!");
+        console.sendMessage("§f- §aYou can access the config.yml backup saved before the automatic update in the OldConfigs folder under the Dantiao folder");
     }
 
     public static void copyFile(File sourceFile, File targetFile)

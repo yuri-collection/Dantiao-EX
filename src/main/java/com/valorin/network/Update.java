@@ -5,17 +5,25 @@ import java.util.List;
 import com.valorin.Main;
 
 public class Update {
-    private String version;
+
+    public enum UpdateState {
+        NOCHANGE,
+        SUCCESS,
+        FAILURE_TIMEOUT,
+        FAILURE_OTHER
+    }
+
+    private int version;
     private List<String> context;
     private String downloadUrl;
     private String password;
-    private int state;// 0 未变更 1 成功 2 失败（超时） 3 失败（其他）
+    private UpdateState state;
 
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 
@@ -43,21 +51,16 @@ public class Update {
         this.password = password;
     }
 
-    public int getState() {
+    public UpdateState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(UpdateState state) {
         this.state = state;
     }
 
     public boolean isNew() {
         String versionNow = Main.getVersion();
-        if (Integer.parseInt(versionNow.replace("EX-", "")) < Integer
-                .parseInt(version)) {
-            return false;
-        } else {
-            return true;
-        }
+        return Integer.parseInt(versionNow.replace("EX-", "")) >= version;
     }
 }

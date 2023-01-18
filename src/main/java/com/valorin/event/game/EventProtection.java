@@ -4,6 +4,7 @@ import com.valorin.Main;
 import com.valorin.arenas.Arena;
 import com.valorin.arenas.ArenaManager;
 import com.valorin.util.ViaVersion;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,7 +45,7 @@ public class EventProtection implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void protection2(EntityDamageByEntityEvent e) { // 所有实体类型：弹射物保护
-        if (!(e.getEntity() instanceof Player)) { // 受击者是玩家
+        if (!(e.getEntity() instanceof Player)) { // 确认受击者是玩家
             return;
         }
         Player bearer = (Player) e.getEntity(); // 确认受击者
@@ -61,34 +62,25 @@ public class EventProtection implements Listener {
         }
 
         ProjectileSource shooter = null;
-        boolean isShoot = false;
         Entity projectileEntity = e.getDamager();
         if (projectileEntity instanceof Arrow) {
-            isShoot = true;
-            if (ViaVersion.getProjectileSource(projectileEntity, "Arrow") instanceof Player)
-                shooter = ViaVersion.getProjectileSource(projectileEntity, "Arrow");
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "Arrow");
         } else if (projectileEntity instanceof FishHook) {
-            isShoot = true;
-            if (ViaVersion.getProjectileSource(projectileEntity, "FishHook") instanceof Player)
-                shooter = ViaVersion.getProjectileSource(projectileEntity, "FishHook");
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "FishHook");
         } else if (projectileEntity instanceof Snowball) {
-            isShoot = true;
-            if (ViaVersion.getProjectileSource(projectileEntity, "Snowball") instanceof Player)
-                shooter = ViaVersion.getProjectileSource(projectileEntity, "Snowball");
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "Snowball");
         } else if (projectileEntity instanceof Fireball) {
-            isShoot = true;
-            if (ViaVersion.getProjectileSource(projectileEntity, "Fireball") instanceof Player)
-                shooter = ViaVersion.getProjectileSource(projectileEntity, "Fireball");
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "Fireball");
         } else if (projectileEntity.toString().equals("CraftSplashPotion")) {
-            isShoot = true;
-            if (ViaVersion.getProjectileSource(projectileEntity, "ThrownPotion") instanceof Player)
-                shooter = ViaVersion.getProjectileSource(projectileEntity, "ThrownPotion");
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "ThrownPotion");
+        } else if (projectileEntity.toString().equals("CraftTrident")) {
+            shooter = ViaVersion.getProjectileSource(projectileEntity, "Trident");
         }
-        if (!isShoot) { // 不是弹射物伤害，就跟这个事件无关了
+        if (shooter == null) { // 不是弹射物伤害，就跟这个事件无关了
             return;
         }
         if (!arenaManager.isPlayerBusy(bearerName)) { // 受击者是场外玩家，可能是场内玩家误伤观众
-            if (shooter != null) { // 确定射击者不为null，则一定为玩家
+            if (shooter instanceof Player) { // 确定射击者为玩家
                 Player shooterPlayer = (Player) shooter;
                 String shooterPlayerName = shooterPlayer.getName();
                 if (arenaManager.isPlayerBusy(shooterPlayerName)) { //确认射击玩家为场内玩家
@@ -97,15 +89,15 @@ public class EventProtection implements Listener {
                 }
             }
         } else { //受击者是场内玩家
-            if (shooter == null) { // 射击者为null，则一定为非玩家实体，比如说怪物，则取消事件以防止怪物射击场内玩家
+            if (!(shooter instanceof Player)) { // 射击者为非玩家实体时，比如说怪物，则取消事件以防止怪物射击场内玩家
                 e.setCancelled(true);
-            } else { // 确定射击者不为null，则射击者一定为玩家，接下来要讨论射击者是对手还是观众
+            } else { // 射击者为玩家时。接下来要讨论射击者是对手还是观众
                 Arena arena = arenaManager.getArena(arenaManager.getPlayerOfArena(bearerName));
                 String theOther = arena.getTheOtherPlayer(bearerName);
 
                 Player shooterPlayer = (Player) shooter;
                 if (shooterPlayer.getName().equals(theOther)) { //说明是对手发射
-                    if (arena.getStage() == 0) {
+                    if (arena.getStage() == 0) { // 阻止对手在倒计时期间的攻击行为
                         sm("&7战斗未开始...", shooterPlayer);
                         e.setCancelled(true);
                     }
@@ -119,9 +111,9 @@ public class EventProtection implements Listener {
         }
     }
 
+    /*
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void protection3(EntityDamageByEntityEvent e) // 非玩家实体：常规保护
-    {
+    public void protection3(EntityDamageByEntityEvent e) { // 非玩家实体：常规保护
         if (!(e.getEntity() instanceof Player)) { // 受击者若不是玩家，return
             return;
         }
@@ -152,6 +144,8 @@ public class EventProtection implements Listener {
             legal = false;
         } else if (projectileEntity.toString().equals("CraftSplashPotion")) {
             legal = false;
+        } else if (projectileEntity.toString().equals("CraftTrident")) {
+            legal = false;
         }
         if (!legal) {
             return;
@@ -160,4 +154,5 @@ public class EventProtection implements Listener {
             e.setCancelled(true);
         }
     }
+     */
 }

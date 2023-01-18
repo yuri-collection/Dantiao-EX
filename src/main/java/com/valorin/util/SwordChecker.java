@@ -1,5 +1,4 @@
 package com.valorin.util;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,13 +13,11 @@ public class SwordChecker {
         if (type.equals(Material.AIR)) {
             return false;
         }
-        if (type.equals(ViaVersion.getWoodenSwordMaterial())
+        return type.equals(ViaVersion.getWoodenSwordMaterial())
                 || type.equals(Material.STONE_SWORD)
                 || type.equals(ViaVersion.getGoldenSwordMaterial())
                 || type.equals(Material.IRON_SWORD)
-                || type.equals(Material.DIAMOND_SWORD)) {
-            return true;
-        }
-        return false;
+                || type.equals(Material.DIAMOND_SWORD)
+                || type.equals(Material.getMaterial("NETHERITE_SWORD"));
     }
 }

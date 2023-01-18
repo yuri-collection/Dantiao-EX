@@ -96,6 +96,7 @@ public class CMDHologramRanking extends SubCommand implements AdminCommand {
 			}
 			cache.setKDRanking(null);
 			hologramManager.unload(2);
+			sm("&a[v]全息图删除完毕", player);
 			return true;
 		}
 		if (args[1].equalsIgnoreCase("refresh")) {

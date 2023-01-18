@@ -39,7 +39,7 @@
 #
 # The version of this config.
 # 【请勿修改此项】本配置文件的版本号，用于插件检测并更新配置文件内容
-ConfigVersion: 10
+ConfigVersion: 11
 # Players with dt.admin permission will be noticed about new Dantiao version when logining
 # 是否在上线时接收更新检查信息（拥有dt.admin权限的玩家才能接收到）
 CheckVersion: true
@@ -180,6 +180,8 @@ Game:
       - SNOW_BALL
       Lore:
       - '&aTest lore'
+      DisplayName:
+      - '&aTest Display Name'
   Process:
     # Whether the player who isn't OP can open a chest in the game
     # 非OP玩家是否能在比赛中打开普通箱子

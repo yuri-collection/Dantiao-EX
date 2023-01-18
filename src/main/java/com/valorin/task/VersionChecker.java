@@ -1,19 +1,21 @@
 package com.valorin.task;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.valorin.Main;
 import com.valorin.event.EventCheckVersion;
 import com.valorin.network.Update;
+import com.valorin.network.Update.UpdateState;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VersionChecker extends BukkitRunnable {
     boolean send = false;
@@ -21,44 +23,37 @@ public class VersionChecker extends BukkitRunnable {
 
     public void run() {
         Update update = Main.getInstance().getUpdate();
-        String context;
         HttpURLConnection conn = null;
         try {
+            //"https://gitee.com/valorin/dantiao-ex/raw/master/src/main/java/com/valorin/task/version.txt"
             URL url = new URL(
-                    "https://valorin.coding.net/p/VersionChecker/d/VersionChecker/git/raw/master/Dantiao-EX");
+                    "https://gitee.com/valorin/dantiao-ex/raw/master/src/main/java/com/valorin/task/version.txt");
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             InputStream inStream = conn.getInputStream();
-            final StringBuilder builder = new StringBuilder(255);
-            int byteRead;
-            while ((byteRead = inStream.read()) != -1) {
-                builder.append((char) byteRead);
-            }
-            context = new String(builder.toString().getBytes(StandardCharsets.ISO_8859_1),
-                    StandardCharsets.UTF_8);
-            update.setState(1);
-            String version = context.split("\\[change]")[0];
-            String[] messageStringArray = (context.split("\\[change]")[1])
-                    .split("\\[next]");
-            String downloadUrl = context.split("\\[change]")[2];
-            String password = context.split("\\[change]")[3];
-
-            List<String> messageList = new ArrayList<>();
-            for (String message : messageStringArray) {
-                messageList.add(message.replace("&", "§"));
+            InputStreamReader isr = new InputStreamReader(inStream);
+            BufferedReader br = new BufferedReader(isr);
+            List<String> context = new ArrayList<>();
+            String str;int i = 0;
+            int version = 0;
+            while ((str = br.readLine()) != null) {
+                if (i == 0)
+                    version = Integer.parseInt(str);
+                else
+                    context.add(str);
+                i++;
             }
             update.setVersion(version);
-            update.setContext(messageList);
-            update.setDownloadUrl(downloadUrl);
-            update.setPassword(password);
+            update.setContext(context);
+            update.setState(Update.UpdateState.SUCCESS);
 
             if (send) {
                 EventCheckVersion.sendUpdateInfo(update, receiver);
             }
         } catch (SocketTimeoutException exception) {
-            update.setState(2);
+            update.setState(UpdateState.FAILURE_TIMEOUT);
         } catch (Exception exception) {
-            update.setState(3);
+            update.setState(UpdateState.FAILURE_OTHER);
         }
         if (conn != null) {
             conn.disconnect();

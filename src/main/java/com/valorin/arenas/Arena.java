@@ -261,7 +261,7 @@ public class Arena {
                     }
                     ViaVersion.sendActionBar(player1, gm("&b比赛时间剩余 &6{second} &b秒", player1, "second", new String[]{"" + (timeout - time)}));
                     ViaVersion.sendActionBar(player2, gm("&b比赛时间剩余 &6{second} &b秒", player1, "second", new String[]{"" + (timeout - time)}));
-                    if (time == timeout) {
+                    if (time >= timeout) {
                         if (configManager.isTimeOutHandlingSchemeEnabled()) {
                             ConfigManager.TimeOutHandlingScheme scheme = configManager.getTimeOutHandlingScheme();
                             if (scheme.equals(ConfigManager.TimeOutHandlingScheme.COMPARE_HEALTH_VALUE)) {
@@ -305,6 +305,7 @@ public class Arena {
                         } else {
                             Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, true));
                         }
+                        cancel();
                     }
                 } else {
                     sm("&7比赛开始倒计时 &b{time}s", player1, "time",
@@ -343,7 +344,9 @@ public class Arena {
     }
 
     public void finish() {// 结束这个竞技场的比赛
-        timer.cancel();
+        if (!timer.isCancelled()) {
+            timer.cancel();
+        }
         enable = false;
         p1 = null;
         p2 = null;
