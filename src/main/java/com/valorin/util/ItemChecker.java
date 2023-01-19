@@ -30,9 +30,11 @@ public class ItemChecker {
                 }
             }
             String displayName = itemStack.getItemMeta().getDisplayName();
-            for (String displayNameLimited : displayNameLimitedList) {
-                if (displayName.contains(displayNameLimited))
-                    return true;
+            if (displayName != null) {
+                for (String displayNameLimited : displayNameLimitedList) {
+                    if (displayName.contains(displayNameLimited))
+                        return true;
+                }
             }
         }
         return false;
