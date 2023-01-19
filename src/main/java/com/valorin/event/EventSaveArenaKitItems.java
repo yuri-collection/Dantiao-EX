@@ -23,6 +23,9 @@ public class EventSaveArenaKitItems implements Listener {
         if (inv == null) {
             return;
         }
+        if (e.getView() == null) {
+            return;
+        }
         try {
             String editName = e.getView().getTitle().split("\\:")[0];
             String title = e.getView().getTitle().split("\\:")[1];

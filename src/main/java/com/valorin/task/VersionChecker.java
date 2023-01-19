@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,16 +26,16 @@ public class VersionChecker extends BukkitRunnable {
         Update update = Main.getInstance().getUpdate();
         HttpURLConnection conn = null;
         try {
-            //"https://gitee.com/valorin/dantiao-ex/raw/master/src/main/java/com/valorin/task/version.txt"
             URL url = new URL(
                     "https://gitee.com/valorin/dantiao-ex/raw/master/src/main/java/com/valorin/task/version.txt");
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             InputStream inStream = conn.getInputStream();
-            InputStreamReader isr = new InputStreamReader(inStream);
+            InputStreamReader isr = new InputStreamReader(inStream, StandardCharsets.UTF_8);
             BufferedReader br = new BufferedReader(isr);
             List<String> context = new ArrayList<>();
-            String str;int i = 0;
+            String str;
+            int i = 0;
             int version = 0;
             while ((str = br.readLine()) != null) {
                 if (i == 0)

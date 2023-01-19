@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ public class Arena {
     private boolean enable = false;
 
     private BukkitTask timer;
+    private int taskId;
     private int time;
     private int countDown;
     private int timeout;
@@ -341,11 +343,18 @@ public class Arena {
                 }
             }
         }.runTaskTimerAsynchronously(Main.getInstance(), 20, 20);
+        this.taskId = timer.getTaskId();
     }
 
     public void finish() {// 结束这个竞技场的比赛
-        if (!timer.isCancelled()) {
-            timer.cancel();
+        try {
+            if (!timer.isCancelled()) {
+                timer.cancel();
+            }
+        } catch (NoSuchMethodError error) {
+            if (Bukkit.getScheduler().isCurrentlyRunning(taskId)) {
+                timer.cancel();
+            }
         }
         enable = false;
         p1 = null;

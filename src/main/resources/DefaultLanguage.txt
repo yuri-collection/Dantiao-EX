@@ -530,3 +530,4 @@
 &7排行木牌已自动刷新...成功刷新数:{successes}/{total}
 &a这个排行木牌的编辑名是 {editname}，若要拆除，请先输入/dt rsi remove {editname}
 虚位以待
+&c[x]玩家{player}正在单挑竞技场比赛中，现在不能传送到TA身旁

@@ -8,28 +8,28 @@ import org.bukkit.inventory.ItemStack;
 import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class ItemGiver {
-    private final boolean isreceive;
+    private final boolean hasReceived;
     private int freeSlot;
 
     public ItemGiver(Player p, ItemStack item) {
         if (isFree(p)) {
             p.getInventory().setItem(freeSlot, item);
-            isreceive = true;
+            hasReceived = true;
             sm("&a[v]物品已发送", p);
         } else {
-            isreceive = false;
+            hasReceived = false;
             sm("&c[x]背包满了，无法获取物品，请先为你的背包留出空位！", p);
         }
     }
 
-    public boolean getIsReceive() {
-        return isreceive;
+    public boolean getHasReceived() {
+        return hasReceived;
     }
 
     public boolean isFree(Player p) {
         Inventory inv = p.getInventory();
         for (int i = 0; i < 36; i++) {
-            if (inv.getItem(i) == null || inv.getItem(i).equals(Material.AIR)) {
+            if (inv.getItem(i) == null || inv.getItem(i).getType().equals(Material.AIR)) {
                 freeSlot = i;
                 return true;
             }

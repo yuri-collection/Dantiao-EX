@@ -52,7 +52,7 @@ public class EventCheckVersion implements Listener {
                 }
             } else {
                 sender.sendMessage("");
-                sender.sendMessage("§8§l[§b§lDantiao-EX§8§l] §7单挑插件拓展版已更新到最新版本§8(本条消息仅管理员可见)");
+                sender.sendMessage("§8§l[§b§lDantiao-EX§8§l] §7单挑插件拓展版已更新到最新版本：§aEX-"+versionNow+" §8(本条消息仅管理员可见)");
                 sender.sendMessage("");
             }
         }

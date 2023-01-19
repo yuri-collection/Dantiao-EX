@@ -530,3 +530,4 @@
 &7排行木牌已自動刷新… 成功重繪數：{successes}/{total}
 &a這個排行木牌的編輯名是{editname}，若要拆除，請先輸入/dt rsi remove {editname}
 虛位以待
+&c[x]玩家{player}正在單挑競技場比賽中，現在不能傳送到TA身旁

@@ -530,3 +530,4 @@ Kit Setting
 &7The signs for ranking refreshed!Success:{successes}/{total}
 &aThis sign for ranking's edit name is {editname}.If you want to break it,please type /dt rsi remove {editname}
 No player
+&c[x]Player {player} is having a duel now!The teleportation to {player} is stopped

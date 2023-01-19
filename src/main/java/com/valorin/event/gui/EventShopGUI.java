@@ -169,7 +169,7 @@ public class EventShopGUI implements Listener {
                 }
 
                 ItemGiver ig = new ItemGiver(p, item);
-                if (ig.getIsReceive()) {
+                if (ig.getHasReceived()) {
                     pointCache.set(pn, points - price);
                     sml("&7========================================|&a[v]恭喜购买成功，现在你获得了这个道具|&7========================================",
                             p);

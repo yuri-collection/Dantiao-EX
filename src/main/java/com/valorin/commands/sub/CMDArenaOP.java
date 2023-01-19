@@ -129,7 +129,7 @@ public class CMDArenaOP extends SubCommand implements AdminCommand {
                 sm("&a[v]已退出竞技场创建模式", player);
             } else {
                 ItemGiver ig = new ItemGiver(player, PlayerItems.getCreator(player));
-                if (!ig.getIsReceive()) {
+                if (!ig.getHasReceived()) {
                     return true;
                 }
                 acs.addAC(player.getName());
