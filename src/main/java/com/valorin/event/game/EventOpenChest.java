@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EventOpenChest implements Listener {
@@ -36,9 +37,13 @@ public class EventOpenChest implements Listener {
             if (e.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
                 if (!Main.getInstance().getConfigManager().isOpeningEnderChestAllowed()) {
                     e.setCancelled(true);
-                    return;
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void test(InventoryCloseEvent e) {
+
     }
 }

@@ -13,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.math.BigDecimal;
@@ -184,7 +183,7 @@ public class Arena {
             } catch (Exception ignored) {
             }
 
-            if (arenaInfo.getKit() != null) { //检测是否设有kit
+            if (arenaInfo.getKit() != null) { //检测kit中是否有物品
                 for (ItemStack kitItem : arenaInfo.getKit()) {
                     Material material = kitItem.getType();
                     if (ViaVersion.isHelmet(material)) {
@@ -267,17 +266,17 @@ public class Arena {
                         if (configManager.isTimeOutHandlingSchemeEnabled()) {
                             ConfigManager.TimeOutHandlingScheme scheme = configManager.getTimeOutHandlingScheme();
                             if (scheme.equals(ConfigManager.TimeOutHandlingScheme.COMPARE_HEALTH_VALUE)) {
-                                double player1HealthValue = player1.getHealth();
-                                double player2HealthValue = player2.getHealth();
+                                double player1HealthValue = BigDecimal.valueOf(player1.getHealth()).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                double player2HealthValue = BigDecimal.valueOf(player2.getHealth()).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 if (player1HealthValue != player2HealthValue) {
                                     if (player1HealthValue > player2HealthValue) {
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player1, "winner winner_health_value loser loser_health_value", new String[]{p1, "" + player1HealthValue, p2, "" + player2HealthValue});
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player2, "winner winner_health_value loser loser_health_value", new String[]{p1, "" + player1HealthValue, p2, "" + player2HealthValue});
-                                        FinishGame.normalEnd(name, p1, p2, false);
+                                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, false));
                                     } else {
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player1, "winner winner_health_value loser loser_health_value", new String[]{p2, "" + player2HealthValue, p1, "" + player1HealthValue});
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量为 &b{winner_health_value} &3点，多于玩家 &b{loser} &3的 &b{loser_health_value} &3点。血量多的一方判为胜者", player2, "winner winner_health_value loser loser_health_value", new String[]{p2, "" + player2HealthValue, p1, "" + player1HealthValue});
-                                        FinishGame.normalEnd(name, p2, p1, false);
+                                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p2, p1, false));
                                     }
                                 } else {
                                     sm("&3比赛超时，双方血量值相当，判为平局！", player1, player2);
@@ -288,16 +287,16 @@ public class Arena {
                                 double player1HealthPercentage = player1.getHealth() / player1.getMaxHealth();
                                 double player2HealthPercentage = player2.getHealth() / player2.getMaxHealth();
                                 if (player1HealthPercentage != player2HealthPercentage) {
-                                    double player1HealthPercentageShowed = new BigDecimal(player1HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
-                                    double player2HealthPercentageShowed = new BigDecimal(player2HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
+                                    double player1HealthPercentageShowed = BigDecimal.valueOf(player1HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
+                                    double player2HealthPercentageShowed = BigDecimal.valueOf(player2HealthPercentage * 100).setScale(2, BigDecimal.ROUND_UP).doubleValue();
                                     if (player1HealthPercentage > player2HealthPercentage) {
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player1, "winner winner_health_percentage loser loser_health_percentage", new String[]{p1, "" + player1HealthPercentageShowed, p2, "" + player2HealthPercentageShowed});
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player2, "winner winner_health_percentage loser loser_health_percentage", new String[]{p1, "" + player1HealthPercentageShowed, p2, "" + player2HealthPercentageShowed});
-                                        FinishGame.normalEnd(name, p1, p2, false);
+                                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p1, p2, false));
                                     } else {
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player1, "winner winner_health_percentage loser loser_health_percentage", new String[]{p2, "" + player2HealthPercentageShowed, p1, "" + player1HealthPercentageShowed});
                                         sm("&3比赛超时，玩家 &b{winner} &3的血量百分比为 &b{winner_health_percentage}% &3，高于玩家 &b{loser} &3的 &b{loser_health_percentage}% &3。血量百分比高的一方判为胜者", player2, "winner winner_health_percentage loser loser_health_percentage", new String[]{p2, "" + player2HealthPercentageShowed, p1, "" + player1HealthPercentageShowed});
-                                        FinishGame.normalEnd(name, p2, p1, false);
+                                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> FinishGame.normalEnd(name, p2, p1, false));
                                     }
                                 } else {
                                     sm("&3比赛超时，双方血量百分比相当，判为平局！", player1, player2);

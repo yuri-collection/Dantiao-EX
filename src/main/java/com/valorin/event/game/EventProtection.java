@@ -16,7 +16,7 @@ import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class EventProtection implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void protection(EntityDamageByEntityEvent e) { // 玩家：常规保护
+    public void routineProtection(EntityDamageByEntityEvent e) { // 玩家：常规保护
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) { // 判断互打双方都是玩家
             Player bearer = (Player) e.getEntity(); // 确定受击者
             Player attacker = (Player) e.getDamager(); // 确定攻击者
@@ -44,7 +44,7 @@ public class EventProtection implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void protection2(EntityDamageByEntityEvent e) { // 所有实体类型：弹射物保护
+    public void projectileProtection(EntityDamageByEntityEvent e) { // 所有实体类型：弹射物保护
         if (!(e.getEntity() instanceof Player)) { // 确认受击者是玩家
             return;
         }

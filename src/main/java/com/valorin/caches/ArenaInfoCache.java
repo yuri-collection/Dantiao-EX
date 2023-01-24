@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaInfoCache {
-    private List<ArenaInfo> arenaInfoList = new ArrayList<>();
+    private final List<ArenaInfo> arenaInfoList = new ArrayList<>();
 
     public ArenaInfoCache() {
         try {

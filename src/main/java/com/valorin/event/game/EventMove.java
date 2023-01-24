@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class EventMove implements Listener {
     @EventHandler
-    public void onMoveInStageI(PlayerMoveEvent e) {// 阶段一：禁止移动！
+    public void onMoveInGameOfStageOfPreparing(PlayerMoveEvent e) {// 准备阶段禁止移动，但可以转动视野
         Player player = e.getPlayer();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();

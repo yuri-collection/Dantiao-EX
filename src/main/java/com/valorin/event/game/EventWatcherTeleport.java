@@ -12,7 +12,7 @@ import static com.valorin.configuration.languagefile.MessageSender.sm;
 
 public class EventWatcherTeleport implements Listener {
     @EventHandler
-    public void onLeaveGameWorld(PlayerTeleportEvent e) {// 观战者在观赛过程中自己打指令(或其他方法)发生了传送
+    public void onChangeWorldWhileWatchingGame(PlayerTeleportEvent e) {// 观战者在观赛过程中自己打指令(或其他方法)发生了传送
         Player player = e.getPlayer();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();

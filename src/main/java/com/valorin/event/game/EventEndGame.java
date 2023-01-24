@@ -17,7 +17,7 @@ import static com.valorin.configuration.languagefile.MessageSender.sm;
 public class EventEndGame implements Listener {
     // 一方选手死亡，无论因素，判定“非平局结束比赛”
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDTDeath(PlayerDeathEvent e) {
+    public void onDeathInGame(PlayerDeathEvent e) {
         Player player = e.getEntity();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();
@@ -31,7 +31,7 @@ public class EventEndGame implements Listener {
 
     // 一方玩家下线，无论因素，判定“非平局结束比赛”
     @EventHandler
-    public void onDTLeaveGame(PlayerQuitEvent e) {
+    public void onLeaveServerInGame(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();

@@ -112,11 +112,11 @@ public class MatchingHandler {
         Matching matching = getArenaMatching(arenaEditName);
         if (matching != null) {
             if (matching.isEnable()) {
-                String waiter = matching.getWaiter();
-                if (waiter != null) {
+                String waiterName = matching.getWaiter();
+                if (waiterName != null) {
                     matching.disable(false);
                     StartGame.start(Bukkit.getPlayerExact(playerName),
-                            Bukkit.getPlayerExact(waiter), arenaEditName, null,
+                            Bukkit.getPlayerExact(waiterName), arenaEditName, null,
                             1);
                 }
             } else {
@@ -146,9 +146,7 @@ public class MatchingHandler {
     }
 
     public void removeBusyPlayer(String playerName) {
-        if (busyPlayers.contains(playerName)) {
-            busyPlayers.remove(playerName);
-        }
+        busyPlayers.remove(playerName);
     }
 
     public boolean isPlayerBusy(String playerName) {

@@ -35,6 +35,7 @@ public class CMDAdminHelp extends SubCommand implements AdminCommand {
 		sm("&b&l/dt rankingsign(rsi) &f- &a查看木牌排行榜操作的相关帮助", player, false);
 		sm("&b&l/dt hd &f- &a查看单挑排行榜操作的相关帮助", player, false);
 		sm("&b&l/dt exp &f- &a查看段位经验操作的相关帮助", player, false);
+		sm("&b&l/dt test &f- &a查看测试操作的相关帮助", player, false);
 		sm("&b/dt stop <竞技场名称> &f- &a强制结束某个竞技场的比赛", player, false);
 		sm("&b/dt lobby(l) set &f- &a设置服务器的单挑大厅传送点", player, false);
 		sm("&b/dt lobby(l) delete &f- &a取消大厅传送点", player, false);

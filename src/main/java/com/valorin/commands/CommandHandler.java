@@ -42,6 +42,7 @@ public class CommandHandler {
 		commands.add(new CMDCheckVersion());
 		commands.add(new CMDSkullRanking());
 		commands.add(new CMDSignRanking());
+		commands.add(new CMDTest());
 		PluginCommand pluginCommand = Bukkit.getPluginCommand("dantiao");
 		pluginCommand.setExecutor(new CommandExecutor());
 	}

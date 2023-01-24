@@ -17,11 +17,11 @@ import static com.valorin.dan.ExpChange.changeExp;
 import static com.valorin.util.SyncBroadcast.bc;
 
 public class SettleEnd {
-    public static void settle(Arena arena, Player w, Player l, boolean isDraw) {
+    public static void settle(Arena arena, Player winner, Player loser, boolean isDraw) {
         int time = arena.getTime();
         int startWay = arena.getStartWay();
-        String winner = w.getName();
-        String loser = l.getName();
+        String winnerName = winner.getName();
+        String loserName = loser.getName();
 
         double player1Damage = arena.getDamage(true);
         double player1MaxDamage = arena.getMaxDamage(true);
@@ -29,7 +29,7 @@ public class SettleEnd {
         double player2MaxDamage = arena.getMaxDamage(false);
 
         double winnerDamage, winnerMaxDamage, loserDamage, loserMaxDamage;
-        if (arena.isp1(winner)) {
+        if (arena.isp1(winnerName)) {
             winnerDamage = player1Damage;
             winnerMaxDamage = player1MaxDamage;
             loserDamage = player2Damage;
@@ -84,21 +84,21 @@ public class SettleEnd {
             winnerResult = 0;
 
             if (pointsAwarded != 0) {
-                double now = pointCache.get(winner);
-                pointCache.set(winner, now + pointsAwarded);
-                sm("&b做的不错！奖励你 &d{points} &b点单挑积分", w, "points",
+                double now = pointCache.get(winnerName);
+                pointCache.set(winnerName, now + pointsAwarded);
+                sm("&b做的不错！奖励你 &d{points} &b点单挑积分", winner, "points",
                         new String[]{"" + pointsAwarded});
             }
             if (pointsDeducted != 0) {
-                double now = pointCache.get(loser);
+                double now = pointCache.get(loserName);
                 double nowShowed;
                 double pointsDeductedShowed = pointsDeducted;
                 if (now > 0) {
                     if (now - pointsDeducted >= 0) {
-                        pointCache.set(loser, now - pointsDeducted);
+                        pointCache.set(loserName, now - pointsDeducted);
                         nowShowed = now - pointsDeducted;
                     } else {
-                        pointCache.set(loser, 0);
+                        pointCache.set(loserName, 0);
                         nowShowed = 0;
                         pointsDeductedShowed = now;
                     }
@@ -106,15 +106,15 @@ public class SettleEnd {
                     nowShowed = 0;
                     pointsDeductedShowed = 0;
                 }
-                sm("&7你被扣除了 &d{points} &7点单挑积分，现在还剩 &6{now} &7点", l, "points now",
+                sm("&7你被扣除了 &d{points} &7点单挑积分，现在还剩 &6{now} &7点", loser, "points now",
                         new String[]{"" + pointsDeductedShowed, "" + nowShowed});
             }
 
-            recordCache.addWins(winner);
-            recordCache.addLoses(loser);
+            recordCache.addWins(winnerName);
+            recordCache.addLoses(loserName);
         } else {
-            recordCache.addDraws(winner);
-            recordCache.addDraws(loser);
+            recordCache.addDraws(winnerName);
+            recordCache.addDraws(loserName);
         }
 
         ArenaInfoCache arenaInfoCache = getInstance().getCacheHandler()
@@ -130,17 +130,17 @@ public class SettleEnd {
                     .getRanking();
             RankingData rankingData = getInstance().getRanking();
 
-            int winnerRank = rankingData.getWinRank(winner);
-            int loserRank = rankingData.getWinRank(loser);
+            int winnerRank = rankingData.getWinRank(winnerName);
+            int loserRank = rankingData.getWinRank(loserName);
 
-            int winnerRank2 = rankingData.getKDRank(winner);
-            int loserRank2 = rankingData.getKDRank(loser);
+            int winnerRank2 = rankingData.getKDRank(winnerName);
+            int loserRank2 = rankingData.getKDRank(loserName);
 
             int winnerOrder = 0;
             if (rankingCache.getWin() != null) {
                 for (int i = 0; i < rankingCache.getWin().size(); i++) {
                     if (rankingCache.getWin().get(i).split("\\|")[0]
-                            .equals(winner)) {
+                            .equals(winnerName)) {
                         winnerOrder = i;
                     }
                 }
@@ -149,7 +149,7 @@ public class SettleEnd {
             if (rankingCache.getWin() != null) {
                 for (int i = 0; i < rankingCache.getWin().size(); i++) {
                     if (rankingCache.getWin().get(i).split("\\|")[0]
-                            .equals(loser)) {
+                            .equals(loserName)) {
                         loserOrder = i;
                     }
                 }
@@ -157,18 +157,18 @@ public class SettleEnd {
 
             if (winnerOrder <= loserOrder) {// winner本来就强过loser
                 // 等号则代表没有排行数据，winner优先
-                rankingData.rank(winner + "|" + recordCache.getWins(winner), true);
-                rankingData.rank(loser + "|" + recordCache.getWins(loser), true);
+                rankingData.rank(winnerName + "|" + recordCache.getWins(winnerName), true);
+                rankingData.rank(loserName + "|" + recordCache.getWins(loserName), true);
             } else {
-                rankingData.rank(loser + "|" + recordCache.getWins(loser), true);
-                rankingData.rank(winner + "|" + recordCache.getWins(winner), true);
+                rankingData.rank(loserName + "|" + recordCache.getWins(loserName), true);
+                rankingData.rank(winnerName + "|" + recordCache.getWins(winnerName), true);
             }
 
             int winnerOrder2 = 0;
             if (rankingCache.getKD() != null) {
                 for (int i = 0; i < rankingCache.getKD().size(); i++) {
                     if (rankingCache.getKD().get(i).split("\\|")[0]
-                            .equals(winner)) {
+                            .equals(winnerName)) {
                         winnerOrder2 = i;
                     }
                 }
@@ -177,97 +177,97 @@ public class SettleEnd {
             if (rankingCache.getKD() != null) {
                 for (int i = 0; i < rankingCache.getKD().size(); i++) {
                     if (rankingCache.getKD().get(i).split("\\|")[0]
-                            .equals(loser)) {
+                            .equals(loserName)) {
                         loserOrder2 = i;
                     }
                 }
             }
             if (winnerOrder2 <= loserOrder2) {// winner本来就强过loser
                 // 等号则代表没有排行数据，winner优先
-                if (recordCache.getLoses(winner) != 0) {
+                if (recordCache.getLoses(winnerName) != 0) {
                     rankingData.rank(
-                            winner
+                            winnerName
                                     + "|"
-                                    + ((double) recordCache.getWins(winner) / (double) recordCache
-                                    .getLoses(winner)), false);
+                                    + ((double) recordCache.getWins(winnerName) / (double) recordCache
+                                    .getLoses(winnerName)), false);
                 } else {
                     rankingData.rank(
-                            winner + "|"
-                                    + ((double) recordCache.getWins(winner)),
+                            winnerName + "|"
+                                    + ((double) recordCache.getWins(winnerName)),
                             false);
                 }
 
-                if (recordCache.getLoses(loser) != 0) {
+                if (recordCache.getLoses(loserName) != 0) {
                     rankingData.rank(
-                            loser
+                            loserName
                                     + "|"
-                                    + ((double) recordCache.getWins(loser) / (double) recordCache
-                                    .getLoses(loser)), false);
+                                    + ((double) recordCache.getWins(loserName) / (double) recordCache
+                                    .getLoses(loserName)), false);
                 } else {
                     rankingData.rank(
-                            loser + "|" + ((double) recordCache.getWins(loser)),
+                            loserName + "|" + ((double) recordCache.getWins(loserName)),
                             false);
                 }
             } else {
-                if (recordCache.getLoses(loser) != 0) {
+                if (recordCache.getLoses(loserName) != 0) {
                     rankingData.rank(
-                            loser
+                            loserName
                                     + "|"
-                                    + ((double) recordCache.getWins(loser) / (double) recordCache
-                                    .getLoses(loser)), false);
+                                    + ((double) recordCache.getWins(loserName) / (double) recordCache
+                                    .getLoses(loserName)), false);
                 } else {
                     rankingData.rank(
-                            loser + "|" + ((double) recordCache.getWins(loser)),
+                            loserName + "|" + ((double) recordCache.getWins(loserName)),
                             false);
                 }
-                if (recordCache.getLoses(winner) != 0) {
+                if (recordCache.getLoses(winnerName) != 0) {
                     rankingData.rank(
-                            winner
+                            winnerName
                                     + "|"
-                                    + ((double) recordCache.getWins(winner) / (double) recordCache
-                                    .getLoses(winner)), false);
+                                    + ((double) recordCache.getWins(winnerName) / (double) recordCache
+                                    .getLoses(winnerName)), false);
                 } else {
                     rankingData.rank(
-                            winner + "|"
-                                    + ((double) recordCache.getWins(winner)),
+                            winnerName + "|"
+                                    + ((double) recordCache.getWins(winnerName)),
                             false);
                 }
             }
 
-            if (winnerRank != rankingData.getWinRank(winner)
-                    && rankingData.getWinRank(winner) != 0) {
+            if (winnerRank != rankingData.getWinRank(winnerName)
+                    && rankingData.getWinRank(winnerName) != 0) {
                 sm("&b胜场排名发生变更！&e{before}->{now}",
-                        w,
+                        winner,
                         "before now",
                         new String[]{"" + winnerRank,
-                                "" + rankingData.getWinRank(winner)});
+                                "" + rankingData.getWinRank(winnerName)});
             }
-            if (loserRank != rankingData.getWinRank(loser)
-                    && rankingData.getWinRank(loser) != 0) {
+            if (loserRank != rankingData.getWinRank(loserName)
+                    && rankingData.getWinRank(loserName) != 0) {
                 sm("&b胜场排名发生变更！&e{before}->{now}",
-                        l,
+                        loser,
                         "before now",
                         new String[]{"" + loserRank,
-                                "" + rankingData.getWinRank(loser)});
+                                "" + rankingData.getWinRank(loserName)});
             }
-            if (winnerRank2 != rankingData.getKDRank(winner)
-                    && rankingData.getWinRank(winner) != 0) {
+            if (winnerRank2 != rankingData.getKDRank(winnerName)
+                    && rankingData.getWinRank(winnerName) != 0) {
                 sm("&bKD排名发生变更！&e{before}->{now}",
-                        w,
+                        winner,
                         "before now",
                         new String[]{"" + winnerRank2,
-                                "" + rankingData.getKDRank(winner)});
+                                "" + rankingData.getKDRank(winnerName)});
             }
-            if (loserRank2 != rankingData.getKDRank(loser)
-                    && rankingData.getWinRank(loser) != 0) {
+            if (loserRank2 != rankingData.getKDRank(loserName)
+                    && rankingData.getWinRank(loserName) != 0) {
                 sm("&bKD排名发生变更！&e{before}->{now}",
-                        l,
+                        loser,
                         "before now",
                         new String[]{"" + loserRank2,
-                                "" + rankingData.getKDRank(loser)});
+                                "" + rankingData.getKDRank(loserName)});
             }
 
-            boolean b1 = arena.isp1(winner);
+            boolean b1 = arena.isp1(winnerName);
             int winnerExp;
             int loserExp;
             winnerExp = Math.min(arena.getExp(b1), maxExpAwarded);
@@ -278,8 +278,8 @@ public class SettleEnd {
 
             boolean protection;
             int protectionExp = configManager.getProtectionExp();
-            int winnerExpNow = danCache.get(winner);
-            int loserExpNow = danCache.get(loser);
+            int winnerExpNow = danCache.get(winnerName);
+            int loserExpNow = danCache.get(loserName);
             if (protectionExp == 0) { // 有保护措施
                 protection = false;
             } else {
@@ -292,19 +292,19 @@ public class SettleEnd {
             if (protection) {
                 loserExpShow = 0;
                 winnerExpShow = 0;
-                sm("&c双方段位差距过大，段位经验不会变更", w, l);
+                sm("&c双方段位差距过大，段位经验不会变更", winner, loser);
             } else {
-                changeExp(w, winnerExpNow + winnerExp);
+                changeExp(winner, winnerExpNow + winnerExp);
                 winnerExpChange = winnerExp;
                 winnerExpShow = winnerExp;
                 loserExpShow = loserExp;
                 if (loserExpNow - loserExp > dh.getThreshold()) {
-                    changeExp(l, loserExpNow - loserExp); // 正常扣除经验
+                    changeExp(loser, loserExpNow - loserExp); // 正常扣除经验
                     loserExpChange = -loserExp;
                 } else {
                     if (loserExpNow > dh.getThreshold()) {
                         loserExpShow = loserExpNow - dh.getThreshold();
-                        changeExp(l, dh.getThreshold()); // 设置为保底经验
+                        changeExp(loser, dh.getThreshold()); // 设置为保底经验
                         loserExpChange = -(loserExpNow - dh.getThreshold());
                     } else {
                         loserExpShow = 0; // 不扣经验
@@ -313,28 +313,28 @@ public class SettleEnd {
             }
 
             sml("&7============================================================| |                       &b比赛结束！|        &7恭喜获得了胜利，期待你下一次更加精彩得表现！|                  &7同时获得了 &a{exp} &7经验| |&7============================================================",
-                    w, "exp", new String[]{"" + winnerExpShow});
+                    winner, "exp", new String[]{"" + winnerExpShow});
             sml("&7============================================================| |                     &b比赛结束！|           &7你没有获胜，不要灰心，再接再厉！|                &7同时损失了 &c{exp} &7经验| |&7============================================================",
-                    l, "exp", new String[]{"" + loserExpShow});
+                    loser, "exp", new String[]{"" + loserExpShow});
             if (displayName == null) {
                 displayName = arena.getName();
             } else {
                 displayName = displayName.replace("&", "§");
             }
             bc(gm("&b[战报]: &7玩家 &e{winner} &7在单挑赛场&r{arenaname}&r&7上以 &6{time}秒 &7击败玩家 &e{loser}",
-                    null, "winner arenaname time loser", new String[]{winner,
-                            displayName, arena.getTime() + "", loser}),
+                    null, "winner arenaname time loser", new String[]{winnerName,
+                            displayName, arena.getTime() + "", loserName}),
                     startWay);
 
-            dh.refreshPlayerDan(winner);
-            dh.refreshPlayerDan(loser);
-            if (arena.getDan(arena.isp1(winner)) != null) {
-                CustomDan danBefore = arena.getDan(arena.isp1(winner));
+            dh.refreshPlayerDan(winnerName);
+            dh.refreshPlayerDan(loserName);
+            if (arena.getDan(arena.isp1(winnerName)) != null) {
+                CustomDan danBefore = arena.getDan(arena.isp1(winnerName));
                 CustomDan danNow = dh.getDanByExp(winnerExpNow + winnerExpShow);
                 if (!danBefore.equals(danNow)) {
                     bc(gm("&a[恭喜]: &7玩家 &e{player} &7的单挑段位成功升到了&r{dan}", null,
                             "player dan",
-                            new String[]{winner, danNow.getDisplayName()}),
+                            new String[]{winnerName, danNow.getDisplayName()}),
                             startWay);
                 }
             } else {
@@ -342,53 +342,53 @@ public class SettleEnd {
                 if (danNow != null) {
                     bc(gm("&a[恭喜]: &7玩家 &e{player} &7突破了无段位的身份，首次获得了段位：&r{dan}&7！祝TA在单挑战斗的路上越走越远！",
                             null, "player dan",
-                            new String[]{winner, danNow.getDisplayName()}),
+                            new String[]{winnerName, danNow.getDisplayName()}),
                             startWay);
                 }
             }
 
             // 连胜
-            int winTime = recordCache.getWinningStreakTimes(winner);
-            int maxWinTime = recordCache.getMaxWinningStreakTimes(winner);
-            recordCache.addWinningStreakTimes(winner);
+            int winTime = recordCache.getWinningStreakTimes(winnerName);
+            int maxWinTime = recordCache.getMaxWinningStreakTimes(winnerName);
+            recordCache.addWinningStreakTimes(winnerName);
             if (winTime + 1 > maxWinTime) {
-                recordCache.addMaxWinningStreakTimes(winner);
+                recordCache.addMaxWinningStreakTimes(winnerName);
             }
-            recordCache.clearWinningStreakTimes(loser);
+            recordCache.clearWinningStreakTimes(loserName);
             int reportTimes = configManager.getBroadcastWinningStreakTimes();
             if (reportTimes == 0) {
                 reportTimes = 3;
             }
             if (winTime + 1 >= reportTimes) {
                 bc(gm("&a[恭喜]: &7玩家 &e{player} &7在竞技场上完成了 &b{times} &7连胜！",
-                        null, "player times", new String[]{winner,
+                        null, "player times", new String[]{winnerName,
                                 (winTime + 1) + ""}), startWay);
             }
         } else { // 平局
-            changeExp(w, danCache.get(winner) + drawExpAwarded);
-            changeExp(l, danCache.get(loser) + drawExpAwarded);
+            changeExp(winner, danCache.get(winnerName) + drawExpAwarded);
+            changeExp(loser, danCache.get(loserName) + drawExpAwarded);
             winnerExpChange = drawExpAwarded;
             loserExpChange = winnerExpChange;
             sml("&7============================================================| |                    &b比赛结束！|          &7比赛超时！未决出胜负，判定为平局！|          &7同时获得了 &a{exp} &7经验| |&7============================================================",
-                    w, "exp", new String[]{"" + drawExpAwarded});
+                    winner, "exp", new String[]{"" + drawExpAwarded});
             sml("&7============================================================| |                    &b比赛结束！|          &7比赛超时！未决出胜负，判定为平局！|          &7同时获得了 &a{exp} &7经验| |&7============================================================",
-                    l, "exp", new String[]{"" + drawExpAwarded});
+                    loser, "exp", new String[]{"" + drawExpAwarded});
             if (displayName == null) {
                 displayName = editName;
             } else {
                 displayName = displayName.replace("&", "§");
             }
             bc(gm("&b[战报]: &7玩家 &e{p1} &7与 &e{p2} &7在单挑赛场&r{arenaname}&r&7上打成平手，实为精妙！",
-                    null, "p1 arenaname p2", new String[]{winner,
-                            displayName, loser}), startWay);
+                    null, "p1 arenaname p2", new String[]{winnerName,
+                            displayName, loserName}), startWay);
         }
 
         getInstance().getHologramManager().setIsNeedRefresh(true);
         recordCache
-                .add(loser, date, winner, server, time, loserDamage,
+                .add(loserName, date, winnerName, server, time, loserDamage,
                         loserMaxDamage, loserResult, startWay, loserExpChange,
                         editName);
-        recordCache.add(winner, date, loser, server, time, winnerDamage,
+        recordCache.add(winnerName, date, loserName, server, time, winnerDamage,
                 winnerMaxDamage, winnerResult, startWay, winnerExpChange,
                 editName);
         recordCache.refreshServerTotalGameTimes();

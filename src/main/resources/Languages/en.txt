@@ -531,3 +531,7 @@ Kit Setting
 &aThis sign for ranking's edit name is {editname}.If you want to break it,please type /dt rsi remove {editname}
 No player
 &c[x]Player {player} is having a duel now!The teleportation to {player} is stopped
+&b&l/dt test &f- &aView the help of test
+&3&lDan&b&l&oTiao &f&l>> &aAdmin help:Test
+&b/dt test itemtype &f- &aView the original name of the item in your hand
+&bOriginal Name:&f{name}

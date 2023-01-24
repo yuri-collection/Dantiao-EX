@@ -1,5 +1,6 @@
 package com.valorin.data;
 
+import com.valorin.Main;
 import com.valorin.configuration.ConfigManager;
 import com.valorin.data.encapsulation.Good;
 import com.valorin.data.encapsulation.RankingSign;
@@ -1116,15 +1117,17 @@ public class Data {
         useDatabase = areaB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setArenaKit(editName, itemStacks);
-                } else {
-                    areas.set("Arenas." + editName + ".KitItem", null);
-                    for (int i = 0; i < itemStacks.size(); i++) {
-                        areas.set("Arenas." + editName + ".KitItem." + i,
-                                itemStacks.get(i));
+                synchronized ("setArenaKit") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setArenaKit(editName, itemStacks);
+                    } else {
+                        areas.set("Arenas." + editName + ".KitItem", null);
+                        for (int i = 0; i < itemStacks.size(); i++) {
+                            areas.set("Arenas." + editName + ".KitItem." + i,
+                                    itemStacks.get(i));
+                        }
+                        saveAreas();
                     }
-                    saveAreas();
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -1159,8 +1162,8 @@ public class Data {
 
     public static void setArenaKitEnable(String editName, boolean enable) { // 设置某竞技场的KitPVP模式是否开启
         useDatabase = areaB;
-        new BukkitRunnable() {
-            public void run() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            synchronized ("setArenaKitEnable") {
                 if (useDatabase) {
                     getInstance().getMySQL()
                             .setArenaKitEnable(editName, enable);
@@ -1169,7 +1172,7 @@ public class Data {
                     saveAreas();
                 }
             }
-        }.runTaskAsynchronously(getInstance());
+        });
     }
 
     public interface Action {

@@ -9,8 +9,9 @@ import java.util.List;
 public class ItemChecker {
     public static boolean check(Player player, List<String> materialNameLimitedList, List<String> displayNameLimitedList, List<String> loreLimitedList) {
         Inventory inv = player.getInventory();
-        for (int slot = 0; slot < 40; slot++) {
-            ItemStack itemStack = inv.getItem(slot);
+        for (int slot = -1; slot < 40; slot++) {
+            //-1代表光标上的物品，防止玩家把物品藏在光标上逃避检测
+            ItemStack itemStack = slot == -1 ? player.getItemOnCursor() : inv.getItem(slot);
             if (itemStack == null)
                 continue;
             String materialName = itemStack.getType().name();

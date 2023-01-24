@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class EventDropItemInKitPVPMode implements Listener {
     @EventHandler
-    public void onPickUpItem(PlayerDropItemEvent e) {
+    public void onDropItemInGameOfKitMode(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();

@@ -178,6 +178,7 @@ public class ViaVersion {
             case "DIAMOND_HELMET":
             case "GOLD_HELMET":
             case "GOLDEN_HELMET":
+            case "NETHERITE_HELMET":
                 isHelmetPlate = true;
                 break;
         }
@@ -193,6 +194,7 @@ public class ViaVersion {
             case "DIAMOND_CHESTPLATE":
             case "GOLD_CHESTPLATE":
             case "GOLDEN_CHESTPLATE":
+            case "NETHERITE_CHESTPLATE":
                 isChestPlate = true;
                 break;
         }
@@ -208,6 +210,7 @@ public class ViaVersion {
             case "DIAMOND_LEGGINGS":
             case "GOLD_LEGGINGS":
             case "GOLDEN_LEGGINGS":
+            case "NETHERITE_LEGGINGS":
                 isLeggings = true;
                 break;
         }
@@ -223,6 +226,7 @@ public class ViaVersion {
             case "DIAMOND_BOOTS":
             case "GOLD_BOOTS":
             case "GOLDEN_BOOTS":
+            case "NETHERITE_BOOTS":
                 isBoots = true;
                 break;
         }

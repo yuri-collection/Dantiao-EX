@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EventInteract implements Listener {
     @EventHandler
-    public void interact(PlayerInteractEvent e) {
+    public void onInteractInGameOfStageOfPreparing(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();

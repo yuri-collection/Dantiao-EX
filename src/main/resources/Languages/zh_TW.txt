@@ -531,3 +531,7 @@
 &a這個排行木牌的編輯名是{editname}，若要拆除，請先輸入/dt rsi remove {editname}
 虛位以待
 &c[x]玩家{player}正在單挑競技場比賽中，現在不能傳送到TA身旁
+&b&l/dt test &f- &a查看測試操作的相關幫助
+&3&lDan&b&l&oTiao &f&l>> &a管理員幫助：測試操作
+&b/dt test itemtype &f- &a查看手上物品種類的英文名
+&b物品英文名：&f{name}

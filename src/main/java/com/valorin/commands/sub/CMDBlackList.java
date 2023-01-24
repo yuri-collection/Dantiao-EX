@@ -106,5 +106,4 @@ public class CMDBlackList extends SubCommand implements AdminCommand {
 		sendHelp(player);
 		return true;
 	}
-
 }
