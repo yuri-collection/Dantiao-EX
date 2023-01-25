@@ -535,3 +535,9 @@ No player
 &3&lDan&b&l&oTiao &f&l>> &aAdmin help:Test
 &b/dt test itemtype &f- &aView the original name of the item in your hand
 &bOriginal Name:&f{name}
+&b/dt stopall &f- &aStop all games Forcibly.
+&3Attempting to stop all the arenas...
+&7{number}.Arena {editname}:&aStopped successfully!
+&7{number}.Arena {editname}:No Game
+&bAll arena stopped!({success}/{total})
+&aStopped the game in arena &2{editname} &abecause of reloading

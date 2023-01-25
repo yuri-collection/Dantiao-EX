@@ -1,7 +1,10 @@
 package com.valorin.commands.sub;
 
+import com.valorin.arenas.ArenaManager;
+import com.valorin.arenas.FinishGame;
 import com.valorin.commands.SubCommand;
 import com.valorin.commands.way.AdminCommand;
+import com.valorin.data.Data;
 import com.valorin.ranking.sign.SignManager;
 import com.valorin.ranking.skull.SkullManager;
 import org.bukkit.command.Command;
@@ -35,6 +38,12 @@ public class CMDReload extends SubCommand implements AdminCommand {
             }
         }
         if (args[1].equalsIgnoreCase("c")) {
+            for (String editName : Data.getArenas()) {
+                if (ArenaManager.busyArenasName.contains(editName)) {
+                    FinishGame.compulsoryEnd(editName, player);
+                    sm("&a由于重载，强制结束了竞技场 &2{editname} &a上正在进行的比赛",player,"editname",new String[]{editName});
+                }
+            }
             try {
                 long start = System.currentTimeMillis();
                 getInstance().getConfigManager().reload();

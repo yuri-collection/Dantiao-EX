@@ -535,3 +535,9 @@
 &3&lDan&b&l&oTiao &f&l>> &a管理员帮助：测试操作
 &b/dt test itemtype &f- &a查看手上物品种类的英文名
 &b物品英文名：&f{name}
+&b/dt stopall &f- &a强制结束所有竞技场的比赛
+&3正在尝试停止所有竞技场的比赛...
+&7{number}.竞技场{editname}:&a已停止
+&7{number}.竞技场{editname}:没有进行中的比赛
+&b已对全部 &e{total} &b个竞技场进行关闭操作，其中 &6{success} &b个竞技场的比赛已终止
+&a由于重载，强制结束了竞技场 &2{editname} &a上正在进行的比赛
