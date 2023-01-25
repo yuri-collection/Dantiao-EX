@@ -9,7 +9,9 @@ import com.valorin.request.RequestsHandler;
 import com.valorin.util.ItemChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Random;
@@ -98,12 +100,14 @@ public class StartGame {
         if (Main.getInstance().getCacheHandler()
                 .getArenaInfo().get(arenaEditName).isKitMode()) {
             //KitPVP模式下要先弹出光标上的物品
-            if (player1.getItemOnCursor() != null) {
-                player1.getWorld().dropItem(player1.getLocation(), player1.getItemOnCursor());
+            ItemStack player1CursorItem = player1.getItemOnCursor();
+            if (player1CursorItem != null && !player1CursorItem.getType().equals(Material.AIR)) {
+                player1.getWorld().dropItem(player1.getLocation(), player1CursorItem);
                 player1.setItemOnCursor(null);
             }
-            if (player2.getItemOnCursor() != null) {
-                player2.getWorld().dropItem(player2.getLocation(), player2.getItemOnCursor());
+            ItemStack player2CursorItem = player2.getItemOnCursor();
+            if (player2CursorItem != null && !player2CursorItem.getType().equals(Material.AIR)) {
+                player2.getWorld().dropItem(player2.getLocation(), player2CursorItem);
                 player2.setItemOnCursor(null);
             }
         } else {

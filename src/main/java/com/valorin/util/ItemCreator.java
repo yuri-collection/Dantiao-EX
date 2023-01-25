@@ -14,26 +14,28 @@ public class ItemCreator {
     /*
      * material必填 displayName,lore,mark选填 但要同时存在 用于背包物品
      */
-    public ItemCreator(Material material, String displayName,
-                       List<String> lore, String mark, boolean light) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta im;
-        if (displayName != null && mark != null) {
-            im = itemStack.getItemMeta();
+    public ItemCreator(Material material, int amount, short s, String displayName,
+                       List<String> lore, String mark, Enchantment enchantment, boolean hideFlag) {
+        ItemStack itemStack = new ItemStack(material, amount, s);
+        ItemMeta im = itemStack.getItemMeta();
+        if (displayName != null) {
             im.setDisplayName(displayName);
             itemStack.setItemMeta(im);
         }
-        if (lore != null && mark != null) {
-            im = itemStack.getItemMeta();
+        if (lore != null) {
             List<String> list = new ArrayList<>();
-            list.add(mark);
+            if (mark != null) {
+                list.add(mark);
+            }
             list.addAll(lore);
             im.setLore(list);
             itemStack.setItemMeta(im);
         }
-        if (light) {
-            im = itemStack.getItemMeta();
-            im.addEnchant(Enchantment.LUCK, 1, true);
+        if (enchantment != null) {
+            im.addEnchant(enchantment, 1, true);
+            itemStack.setItemMeta(im);
+        }
+        if (hideFlag) {
             if (ViaVersion.isHasItemFlagMethod()) {
                 im.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
                 im.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
@@ -43,33 +45,6 @@ public class ItemCreator {
         this.itemStack = itemStack;
     }
 
-    /*
-     * material必填 displayName,lore选填，无其他特殊要求 用于GUI物品
-     */
-    public ItemCreator(Material material, String displayName,
-                       List<String> lore, int s, boolean light) {
-        ItemStack itemStack = new ItemStack(material, 1, (short) s);
-        ItemMeta im = itemStack.getItemMeta();
-        if (im != null) {
-            if (displayName != null) {
-                im.setDisplayName(displayName);
-                itemStack.setItemMeta(im);
-            }
-            if (lore != null) {
-                im.setLore(lore);
-                itemStack.setItemMeta(im);
-            }
-            if (light) {
-                im.addEnchant(Enchantment.LUCK, 1, true);
-                if (ViaVersion.isHasItemFlagMethod()) {
-                    im.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
-                    im.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
-                }
-                itemStack.setItemMeta(im);
-            }
-        }
-        this.itemStack = itemStack;
-    }
 
     public ItemStack get() {
         return itemStack;

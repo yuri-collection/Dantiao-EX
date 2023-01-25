@@ -47,7 +47,7 @@ public class SendPersonMail_2 {
                         new String[]{dan.getDisplayName().replace("&", "§"),
                                 points + ""}));
                 List<String> commands = new ArrayList<>();
-                commands.add("dt point add " + playerName + " " + points);
+                commands.add("dantiao point add " + playerName + " " + points);
                 methodSetCommandDescription.invoke(fm, commandDescriptions);
                 methodSetCommandList.invoke(fm, commands);
             }
