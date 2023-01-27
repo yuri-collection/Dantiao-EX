@@ -27,7 +27,7 @@ public class StartGame {
      * player1：选手1号 player2：选手2号 arenaName：指定竞技场，null则为随机 starter：强制开启比赛的管理员，null则为正常情况的开赛
      */
     public static void start(Player player1, Player player2, String arenaEditName, Player starter, int startWay) {
-        if (player1 == null || player2 == null) {// 玩家遁地了？！
+        if (player1 == null || player2 == null) {
             sm("&c[x]警告：开赛时发生异常，不予开赛！", starter);
             return;
         }

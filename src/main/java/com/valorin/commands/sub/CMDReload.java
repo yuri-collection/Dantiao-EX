@@ -40,8 +40,7 @@ public class CMDReload extends SubCommand implements AdminCommand {
         if (args[1].equalsIgnoreCase("c")) {
             for (String editName : Data.getArenas()) {
                 if (ArenaManager.busyArenasName.contains(editName)) {
-                    FinishGame.compulsoryEnd(editName, player);
-                    sm("&a由于重载，强制结束了竞技场 &2{editname} &a上正在进行的比赛",player,"editname",new String[]{editName});
+                    FinishGame.compulsoryEnd(editName, player, FinishGame.CompulsoryEndCause.RELOAD_CONFIG);
                 }
             }
             try {

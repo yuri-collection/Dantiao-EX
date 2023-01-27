@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.valorin.configuration.languagefile.MessageSender.gm;
+import static com.valorin.configuration.languagefile.MessageSender.sm;
 
+import com.valorin.caches.AreaCache;
+import com.valorin.util.TeleportUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -27,7 +31,16 @@ public class ToLobby {
         final int[] countDown = {Main.getInstance().getConfigManager()
                 .getTeleportCountDown()};
         if (isNow || countDown[0] == 0) {
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> Bukkit.dispatchCommand(player, "dantiao lobby"));
+            try {
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> Bukkit.dispatchCommand(player, "dantiao lobby"));
+            } catch (IllegalPluginAccessException exception) {
+                //如果是关服前传送，就不需要注册新任务
+                AreaCache cache = Main.getInstance().getCacheHandler().getArea();
+                if (cache.getLobby() != null) {
+                    TeleportUtil.deal(player, cache.getLobby());
+                    sm("&b传送至单挑大厅...", player);
+                }
+            }
             return;
         }
 

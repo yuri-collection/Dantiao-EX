@@ -13,6 +13,7 @@ import com.valorin.task.SettleEnd;
 import com.valorin.teleport.ToLobby;
 import com.valorin.teleport.ToLogLocation;
 import com.valorin.util.Debug;
+import com.valorin.util.ItemTaker;
 import com.valorin.util.ViaVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,9 +43,9 @@ public class FinishGame {
         ArenaInfo arenaInfo = getInstance().getCacheHandler().getArenaInfo().get(name);
         if (arenaInfo.isKitMode()) {
             winner.closeInventory();
-            winner.getInventory().clear();
+            ItemTaker.cleanInventory(winner);
             loser.closeInventory();
-            loser.getInventory().clear();
+            ItemTaker.cleanInventory(loser);
 
             for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(winnerName)).size(); i++) {
                 winner.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(winnerName)).get(i));
@@ -217,7 +218,7 @@ public class FinishGame {
         }
     }
 
-    public static void compulsoryEnd(String name, Player finisher) {// 强制结束，不予记录
+    public static void compulsoryEnd(String name, Player finisher, CompulsoryEndCause cause) {// 强制结束，不予记录
         Arena arena = getInstance().getArenaManager().getArena(name);
         if (arena == null) {
             sm("&c[x]不存在的竞技场，请检查输入", finisher);
@@ -235,8 +236,8 @@ public class FinishGame {
 
         ArenaInfo arenaInfo = getInstance().getCacheHandler().getArenaInfo().get(name);
         if (arenaInfo.isKitMode()) {
-            player1.getInventory().clear();
-            player2.getInventory().clear();
+            ItemTaker.cleanInventory(player1);
+            ItemTaker.cleanInventory(player2);
 
             for (int i = 0; i < arena.getPlayerInventoryItems(arena.isp1(playerName1)).size(); i++) {
                 player1.getInventory().setItem(i, arena.getPlayerInventoryItems(arena.isp1(playerName1)).get(i));
@@ -288,8 +289,30 @@ public class FinishGame {
         }// 回到原处
 
         arena.finish();
-        sm("&b&l比赛被管理员强制结束！本局比赛不会被记录！", player1, player2);
-        sm("&a[v]已强制停止", finisher);
         busyArenasName.remove(arena.getName());
+
+        switch (cause) {
+            case COMMAND_STOP:
+                sm("&a[v]已强制停止", finisher);
+                sm("&b&l比赛被管理员强制结束！本局比赛不会被记录！", player1, player2);
+                break;
+            case COMMAND_STOP_ALL:
+                sm("&b&l比赛被管理员强制结束！本局比赛不会被记录！", player1, player2);
+                break;
+            case RELOAD_CONFIG:
+                sm("&a由于重载，强制结束了竞技场 &2{editname} &a上正在进行的比赛", finisher, "editname", new String[]{arena.getName()});
+                sm("&b&l比赛因为插件配置文件的重载而强制结束！本局比赛不会被记录！", player1, player2);
+                break;
+            case RELOAD_PLUGIN:
+                sm("&a由于插件停止运行，强制结束了竞技场 &2{editname} &a上正在进行的比赛", finisher, "editname", new String[]{arena.getName()});
+                sm("&b&l比赛因为插件停止运行而强制结束！本局比赛不会被记录！", player1, player2);
+        }
+    }
+
+    public enum CompulsoryEndCause {
+        COMMAND_STOP,
+        COMMAND_STOP_ALL,
+        RELOAD_CONFIG,
+        RELOAD_PLUGIN
     }
 }

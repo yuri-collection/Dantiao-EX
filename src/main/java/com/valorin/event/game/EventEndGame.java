@@ -22,6 +22,9 @@ public class EventEndGame implements Listener {
         String playerName = player.getName();
         ArenaManager arenaManager = Main.getInstance().getArenaManager();
         if (arenaManager.isPlayerBusy(playerName)) {// 属于比赛玩家，对方取胜
+            e.setKeepLevel(true);
+            e.setKeepInventory(true);
+            e.getDrops().clear();
             String arenaName = arenaManager.getPlayerOfArena(playerName);
             Arena arena = arenaManager.getArena(arenaName);
             String winner = arena.getTheOtherPlayer(playerName);

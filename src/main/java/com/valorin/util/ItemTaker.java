@@ -45,4 +45,16 @@ public class ItemTaker {
 
         p.getInventory().setItem(slot, newItem);
     }
+
+    public static void cleanInventory(Player player) {
+        player.getInventory().clear();
+        ItemStack air = new ItemStack(Material.AIR, 1);
+        try { //对于1.7版本及以下的服务器clear()不会清空装备栏，所以要在此重复清空一次
+            player.getInventory().setItem(36, air);
+            player.getInventory().setItem(37, air);
+            player.getInventory().setItem(38, air);
+            player.getInventory().setItem(39, air);
+        } catch (Exception ignored) {
+        }
+    }
 }

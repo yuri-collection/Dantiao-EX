@@ -33,7 +33,7 @@ public class CMDStopAll extends SubCommand implements AdminCommand {
         int number = 1, stop = 0;
         for (String editName : Data.getArenas()) {
             if (ArenaManager.busyArenasName.contains(editName)) {
-                FinishGame.compulsoryEnd(editName, player);
+                FinishGame.compulsoryEnd(editName, player, FinishGame.CompulsoryEndCause.COMMAND_STOP_ALL);
                 sm("&7{number}.竞技场{editname}:&a已停止", player, "number editname", new String[]{"" + number, editName}, false);
                 stop++;
             } else {

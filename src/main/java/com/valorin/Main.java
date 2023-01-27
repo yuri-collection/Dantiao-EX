@@ -2,6 +2,7 @@ package com.valorin;
 
 import com.valorin.arenas.ArenaCreatorHandler;
 import com.valorin.arenas.ArenaManager;
+import com.valorin.arenas.FinishGame;
 import com.valorin.caches.CacheHandler;
 import com.valorin.commands.CommandHandler;
 import com.valorin.configuration.ConfigManager;
@@ -10,6 +11,7 @@ import com.valorin.configuration.languagefile.LanguageFileLoader;
 import com.valorin.configuration.languagefile.SymbolLoader;
 import com.valorin.configuration.update.ConfigUpdate;
 import com.valorin.dan.DanHandler;
+import com.valorin.data.Data;
 import com.valorin.data.MySQL;
 import com.valorin.event.TheEventRegister;
 import com.valorin.papi.RegPAPI;
@@ -247,6 +249,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (String editName : Data.getArenas()) {
+            if (ArenaManager.busyArenasName.contains(editName)) {
+                FinishGame.compulsoryEnd(editName, null, FinishGame.CompulsoryEndCause.RELOAD_PLUGIN);
+            }
+        }
         hologramManager.unload(0);
         languageFileLoader.close();
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {

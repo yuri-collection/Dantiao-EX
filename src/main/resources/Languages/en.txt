@@ -541,3 +541,5 @@ No player
 &7{number}.Arena {editname}:No Game
 &bAll arena stopped!({success}/{total})
 &aStopped the game in arena &2{editname} &abecause of reloading
+&b&lThe game stopped due to the reloading of configuration and it will not be recorded in your game record panel.
+&b&lThe game stopped due to the disabling of plugin and it will not be recorded in your game record panel.

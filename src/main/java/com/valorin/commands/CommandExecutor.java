@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.valorin.arenas.Arena;
+import com.valorin.arenas.ArenaManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -98,7 +100,7 @@ public class CommandExecutor implements TabExecutor {
 						.collect(Collectors.toList());
 			}
 
-			if (args[0].equalsIgnoreCase("changelang")) {
+			if (args[0].equalsIgnoreCase("changelang") || args[0].equalsIgnoreCase("cl")) {
 				if (!(sender instanceof Player)) {
 					return new ArrayList<>();
 				}
@@ -109,6 +111,17 @@ public class CommandExecutor implements TabExecutor {
 					fileNameList.add(file.getName().replace(".txt", ""));
 				}
 				return fileNameList;
+			}
+			if (args[0].equalsIgnoreCase("stop") || args[0].equalsIgnoreCase("watch") || args[0].equalsIgnoreCase("w")) {
+				if (!(sender instanceof Player)) {
+					return new ArrayList<>();
+				}
+				List<Arena> arenaList = ArenaManager.arenas;
+				List<String> arenaNameList = new ArrayList<>();
+				for (Arena arena : arenaList) {
+					arenaNameList.add(arena.getName());
+				}
+				return arenaNameList;
 			}
 
 			if (!sender.hasPermission("dt.admin")) {

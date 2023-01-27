@@ -68,7 +68,8 @@ public class SimilarityComparer {
                     "sendall",
                     "transfer",
                     "rankingskull",
-                    "rankingsign"};
+                    "rankingsign",
+                    "stopall"};
 
     public static String getMostSimilarSubCommand(String enter) {
         String mostSimilarSubCommand = null;

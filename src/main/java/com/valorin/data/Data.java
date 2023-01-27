@@ -619,27 +619,31 @@ public class Data {
         useDatabase = pointShopB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setDescriptionForGood(num,
-                            description);
-                } else {
-                    shop.set("n" + num + ".Description", description);
-                    saveShop();
+                synchronized ("setDescriptionForGood") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setDescriptionForGood(num,
+                                description);
+                    } else {
+                        shop.set("n" + num + ".Description", description);
+                        saveShop();
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
     }
 
-    public static void updateSalesVolumn(int num) { // 更新销量
+    public static void updateSalesVolume(int num) { // 更新销量
         useDatabase = pointShopB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().updateSalesVolume(num);
-                } else {
-                    int now = shop.getInt("n" + num + ".SalesVolume");
-                    shop.set("n" + num + ".SalesVolume", now + 1);
-                    saveShop();
+                synchronized ("updateSalesVolume") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().updateSalesVolume(num);
+                    } else {
+                        int now = shop.getInt("n" + num + ".SalesVolume");
+                        shop.set("n" + num + ".SalesVolume", now + 1);
+                        saveShop();
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -649,11 +653,13 @@ public class Data {
         useDatabase = pointShopB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().updateHistoryGood();
-                } else {
-                    shop.set("Num", shop.getInt("Num") + 1);
-                    saveShop();
+                synchronized ("updateHistoryGood") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().updateHistoryGood();
+                    } else {
+                        shop.set("Num", shop.getInt("Num") + 1);
+                        saveShop();
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -663,12 +669,14 @@ public class Data {
         useDatabase = pointShopB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().addGood(num, item, price);
-                } else {
-                    shop.set("n" + num + ".Item", item);
-                    shop.set("n" + num + ".Price", price);
-                    saveShop();
+                synchronized ("addGood") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().addGood(num, item, price);
+                    } else {
+                        shop.set("n" + num + ".Item", item);
+                        shop.set("n" + num + ".Price", price);
+                        saveShop();
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -678,11 +686,13 @@ public class Data {
         useDatabase = pointShopB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().removeGood(num);
-                } else {
-                    shop.set("n" + num, null);
-                    saveShop();
+                synchronized ("removeGood") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().removeGood(num);
+                    } else {
+                        shop.set("n" + num, null);
+                        saveShop();
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -710,15 +720,17 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setRanking(type, list);
-                } else {
-                    if (type == 0) {
-                        ranking.set("Win", list);
+                synchronized ("setRanking") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setRanking(type, list);
                     } else {
-                        ranking.set("KD", list);
+                        if (type == 0) {
+                            ranking.set("Win", list);
+                        } else {
+                            ranking.set("KD", list);
+                        }
+                        saveRanking();
                     }
-                    saveRanking();
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -773,10 +785,12 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setWins(name, value);
-                } else {
-                    records.set(name + ".Win", value);
+                synchronized ("setWins") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setWins(name, value);
+                    } else {
+                        records.set(name + ".Win", value);
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -786,10 +800,12 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setLoses(name, value);
-                } else {
-                    records.set(name + ".Lose", value);
+                synchronized ("setLoses") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setLoses(name, value);
+                    } else {
+                        records.set(name + ".Lose", value);
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -799,10 +815,12 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setDraws(name, value);
-                } else {
-                    records.set(name + ".Draw", value);
+                synchronized ("setDraws") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setDraws(name, value);
+                    } else {
+                        records.set(name + ".Draw", value);
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -812,10 +830,12 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setWinningStreakTimes(name, value);
-                } else {
-                    records.set(name + ".Winning-Streak-Times", value);
+                synchronized ("setWinningStreakTimes") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setWinningStreakTimes(name, value);
+                    } else {
+                        records.set(name + ".Winning-Streak-Times", value);
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -825,11 +845,13 @@ public class Data {
         useDatabase = recordB;
         new BukkitRunnable() {
             public void run() {
-                if (useDatabase) {
-                    getInstance().getMySQL().setMaxWinningStreakTimes(name,
-                            value);
-                } else {
-                    records.set(name + ".Max-Winning-Streak-Times", value);
+                synchronized ("setMaxWinningStreakTimes") {
+                    if (useDatabase) {
+                        getInstance().getMySQL().setMaxWinningStreakTimes(name,
+                                value);
+                    } else {
+                        records.set(name + ".Max-Winning-Streak-Times", value);
+                    }
                 }
             }
         }.runTaskAsynchronously(getInstance());
@@ -839,42 +861,44 @@ public class Data {
                                  String server, int time, double damage, double maxDamage,
                                  int result, int startWay, int expChange, String arenaEditName) { // 新增一条记录
         useDatabase = recordB;
-        if (useDatabase) {
-            getInstance().getMySQL().addRecord(name, date, opponent, server,
-                    time, damage, maxDamage, result, startWay, expChange,
-                    arenaEditName);
-        } else {
-            int logWins = records.getInt(name + ".Win");
-            int logLoses = records.getInt(name + ".Lose");
-            int logDraws = records.getInt(name + ".Draw");
-            int logGameTimes = logWins + logLoses + logDraws;
-            records.set(name + ".Record." + logGameTimes + ".player", opponent);
-            records.set(name + ".Record." + logGameTimes + ".time", time);
-            records.set(name + ".Record." + logGameTimes + ".date", date);
-            records.set(name + ".Record." + logGameTimes + ".damage", damage);
-            records.set(name + ".Record." + logGameTimes + ".maxdamage",
-                    maxDamage);
-            if (result == 0) { // 胜利
-                records.set(name + ".Record." + logGameTimes + ".isWin", true);
-                records.set(name + ".Record." + logGameTimes + ".isDraw", false);
+        synchronized ("addRecord") {
+            if (useDatabase) {
+                getInstance().getMySQL().addRecord(name, date, opponent, server,
+                        time, damage, maxDamage, result, startWay, expChange,
+                        arenaEditName);
+            } else {
+                int logWins = records.getInt(name + ".Win");
+                int logLoses = records.getInt(name + ".Lose");
+                int logDraws = records.getInt(name + ".Draw");
+                int logGameTimes = logWins + logLoses + logDraws;
+                records.set(name + ".Record." + logGameTimes + ".player", opponent);
+                records.set(name + ".Record." + logGameTimes + ".time", time);
+                records.set(name + ".Record." + logGameTimes + ".date", date);
+                records.set(name + ".Record." + logGameTimes + ".damage", damage);
+                records.set(name + ".Record." + logGameTimes + ".maxdamage",
+                        maxDamage);
+                if (result == 0) { // 胜利
+                    records.set(name + ".Record." + logGameTimes + ".isWin", true);
+                    records.set(name + ".Record." + logGameTimes + ".isDraw", false);
+                }
+                if (result == 1) { // 失败
+                    records.set(name + ".Record." + logGameTimes + ".isWin", false);
+                    records.set(name + ".Record." + logGameTimes + ".isDraw", false);
+                }
+                if (result == 2) {
+                    records.set(name + ".Record." + logGameTimes + ".isWin", false);
+                    records.set(name + ".Record." + logGameTimes + ".isDraw", true);
+                }
+                records.set(name + ".Record." + logGameTimes + ".startWay",
+                        startWay);
+                records.set(name + ".Record." + logGameTimes + ".expChange",
+                        expChange);
+                records.set(name + ".Record." + logGameTimes + ".arenaEditName",
+                        arenaEditName);
+                records.set(name + ".Record." + logGameTimes + ".server",
+                        server);
+                saveRecords();
             }
-            if (result == 1) { // 失败
-                records.set(name + ".Record." + logGameTimes + ".isWin", false);
-                records.set(name + ".Record." + logGameTimes + ".isDraw", false);
-            }
-            if (result == 2) {
-                records.set(name + ".Record." + logGameTimes + ".isWin", false);
-                records.set(name + ".Record." + logGameTimes + ".isDraw", true);
-            }
-            records.set(name + ".Record." + logGameTimes + ".startWay",
-                    startWay);
-            records.set(name + ".Record." + logGameTimes + ".expChange",
-                    expChange);
-            records.set(name + ".Record." + logGameTimes + ".arenaEditName",
-                    arenaEditName);
-            records.set(name + ".Record." + logGameTimes + ".server",
-                    server);
-            saveRecords();
         }
     }
 
@@ -954,11 +978,13 @@ public class Data {
         useDatabase = energyB;
 
         Action action = () -> {
-            if (useDatabase) {
-                getInstance().getMySQL().setEnergy(name, energy);
-            } else {
-                playerData.set(name + ".Energy", energy);
-                savePlayerData();
+            synchronized ("setEnergy") {
+                if (useDatabase) {
+                    getInstance().getMySQL().setEnergy(name, energy);
+                } else {
+                    playerData.set(name + ".Energy", energy);
+                    savePlayerData();
+                }
             }
         };
         if (isAsyn) {

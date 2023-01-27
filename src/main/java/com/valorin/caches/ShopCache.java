@@ -127,6 +127,6 @@ public class ShopCache {
 
     public void updateSalesVolume(int num) {
         goodList.get(goodList.indexOf(get(num))).updateSalesVolume();
-        Data.updateSalesVolumn(num);
+        Data.updateSalesVolume(num);
     }
 }

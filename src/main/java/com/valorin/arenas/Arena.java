@@ -4,6 +4,7 @@ import com.valorin.Main;
 import com.valorin.configuration.ConfigManager;
 import com.valorin.dan.CustomDan;
 import com.valorin.data.encapsulation.ArenaInfo;
+import com.valorin.util.ItemTaker;
 import com.valorin.util.ViaVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -167,21 +168,8 @@ public class Arena {
                 player2OffHandItem = ViaVersion.getItemInOffHand(player2);
             }
 
-            player1.getInventory().clear();
-            player2.getInventory().clear();
-
-            try { //对于1.7版本及以下的服务器clear()不会清空装备栏，所以要在此重复清空一次
-                player1.getInventory().setItem(36, air);
-                player1.getInventory().setItem(37, air);
-                player1.getInventory().setItem(38, air);
-                player1.getInventory().setItem(39, air);
-
-                player2.getInventory().setItem(36, air);
-                player2.getInventory().setItem(37, air);
-                player2.getInventory().setItem(38, air);
-                player2.getInventory().setItem(39, air);
-            } catch (Exception ignored) {
-            }
+            ItemTaker.cleanInventory(player1);
+            ItemTaker.cleanInventory(player2);
 
             if (arenaInfo.getKit() != null) { //检测kit中是否有物品
                 for (ItemStack kitItem : arenaInfo.getKit()) {

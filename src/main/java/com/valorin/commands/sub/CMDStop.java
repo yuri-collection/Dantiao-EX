@@ -26,7 +26,7 @@ public class CMDStop extends SubCommand implements AdminCommand {
             sm("&7正确格式：/dt stop <竞技场名称>", player);
             return true;
         }
-        FinishGame.compulsoryEnd(args[1], player);
+        FinishGame.compulsoryEnd(args[1], player, FinishGame.CompulsoryEndCause.COMMAND_STOP);
         return true;
     }
 
